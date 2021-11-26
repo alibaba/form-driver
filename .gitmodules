@@ -1,0 +1,3 @@
+[submodule "demo/src/ut_autoTest/ut_case"]
+	path = demo/src/ut_autoTest/ut_case
+	url = git@gitlab.alibaba-inc.com:hupandaxue/M3UT.git

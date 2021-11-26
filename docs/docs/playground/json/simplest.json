@@ -1,0 +1,28 @@
+{
+  "name": "root",
+  "type": "object",
+  "objectFields": [
+    {
+      "type": "string",
+      "name": "simplestname",
+      "label": "字符串",
+      "placeholder": "请输入",
+      "required": true
+    },
+    {
+      "type": "enum",
+      "name": "simplestname2",
+      "label": "单选",
+      "option": [
+        {
+          "value": "a",
+          "label": "选项1"
+        },
+        {
+          "value": "b",
+          "label": "选项2"
+        }
+      ] 
+    }
+  ]
+}

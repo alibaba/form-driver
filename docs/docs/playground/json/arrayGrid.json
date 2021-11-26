@@ -1,0 +1,38 @@
+{
+  "name": "root",
+  "type": "object",
+  "objectFields": [
+    {
+      "name": "arrayGridname",
+      "type": "array",
+      "label": "拜访列表",
+      "editor": "AArrayGrid",
+      "arrayMember": {
+        "type": "object",
+        "objectFields": [
+          {
+            "type": "string",
+            "name": "arrayGridstringname",
+            "label": "拜访人",
+            "placeholder": "请输入"
+          },
+          {
+            "type": "enum",
+            "name": "arrayGridselectname",
+            "label": "拜访类型",
+            "option": [
+              {
+                "value": "a",
+                "label": "类型A"
+              },
+              {
+                "value": "b",
+                "label": "类型B"
+              }
+            ] 
+          }
+        ]
+      }
+    }
+  ]
+}

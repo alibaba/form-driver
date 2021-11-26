@@ -1,0 +1,31 @@
+{
+  "name": "root",
+  "type": "object",
+  "objectFields": [
+    {
+      "type": "string",
+      "name": "stringname",
+      "label": "单行输入",
+      "placeholder": "请输入"
+    },
+    {
+      "type": "string",
+      "name": "stringname2",
+      "label": "多行输入",
+      "stringLines": 3,
+      "placeholder": "请输入"
+    },
+    {
+      "type": "int",
+      "name": "stringname3",
+      "label": "整数输入",
+      "placeholder": "请输入整数"
+    },
+    {
+      "type": "float",
+      "name": "stringname4",
+      "label": "数字输入",
+      "placeholder": "请输入数字"
+    }
+  ]
+}

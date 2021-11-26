@@ -1,0 +1,68 @@
+{
+  "name": "root",
+  "type": "object",
+  "objectFields": [
+    {
+      "type": "enum",
+      "name": "selectname",
+      "label": "点击单选",
+      "editor": "ARadio",
+      "option": [
+        {
+          "value": "a",
+          "label": "选项1"
+        },
+        {
+          "value": "b",
+          "label": "选项2"
+        }
+      ] 
+    },
+    {
+      "type": "enum",
+      "name": "selectname2",
+      "label": "下拉单选",
+      "option": [
+        {
+          "value": "a",
+          "label": "选项1"
+        },
+        {
+          "value": "b",
+          "label": "选项2"
+        }
+      ] 
+    },
+    {
+      "type": "set",
+      "name": "selectname3",
+      "label": "点击多选",
+      "option": [
+        {
+          "value": "a",
+          "label": "选项1"
+        },
+        {
+          "value": "b",
+          "label": "选项2"
+        }
+      ] 
+    },
+    {
+      "type": "set",
+      "name": "selectname4",
+      "label": "下拉多选",
+      "editor": "ASetSelector",
+      "option": [
+        {
+          "value": "a",
+          "label": "选项1"
+        },
+        {
+          "value": "b",
+          "label": "选项2"
+        }
+      ]
+    }
+  ]
+}

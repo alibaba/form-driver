@@ -1,0 +1,44 @@
+{
+  "name": "m3-docs",
+  "scripts": {
+    "i": "tnpm install",
+    "ri": "rm -rf node_modules && npm run i",
+    "start": "dumi dev",
+    "build": "dumi build",
+    "upload": "hp upload ./dist m3/ --free",
+    "pub": "npm run build && npm run upload",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\""
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "devDependencies": {
+    "antd": "^4.16.5",
+    "babel-plugin-import": "^1.13.0",
+    "dumi": "^1.0.13",
+    "lint-staged": "^10.0.7",
+    "prettier": "^2.2.1",
+    "yorkie": "^2.0.0"
+  },
+  "dependencies": {
+    "@ali/m3": "^0.3.23",
+    "monaco-editor-webpack-plugin": "4.0.0",
+    "react-monaco-editor": "0.43.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ]
+}

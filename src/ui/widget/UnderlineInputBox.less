@@ -1,0 +1,47 @@
+.paperInputBox {
+  border-style: none none solid none;
+  border-bottom: 1px solid #d9d9d9;
+  background: white;
+  border-radius: 0;
+  font-size: 16px;
+}
+
+.paperInputBox:disabled {
+  border-bottom: 1px dotted #f0f0f0;
+  color: #d9d9d9;
+  background: white;
+}
+
+.antMiddleInputBox {
+  font-size: 16px;
+
+  /** 以下都是ant的 */
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background-color: #fff;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  -webkit-font-feature-settings: 'tnum';
+  font-feature-settings: 'tnum', "tnum";
+  position: relative;
+  display: inline-block;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.antMiddleInputBox:disabled {
+  border: 1px dotted #f0f0f0;
+  color: #d9d9d9;
+  background: white;
+}
+
+.antMiddleInputBox::placeholder {
+  color: #d9d9d9;
+}

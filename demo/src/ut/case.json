@@ -1,0 +1,233 @@
+[
+  {"name":"debug","schema":{"name":"intOption","type":"object","objectFields":[{"label":"标题","name":"label","type":"string"},{"label":"是否必填","layoutHint":"h","name":"required","type":"enum","editor":"ARadio","enumFields":[{"label":"是","value":true},{"label":"否","value":false}]},{"label":"最小","name":"min","type":"int"},{"label":"最大","name":"max","type":"int"}]},"database":{"editor":"AIntBox","min":"-4","max":"297","name":"t_97C5C469","id":4290,"label":"年龄","type":"int","required":true}},
+  {"name":"vl单选","schema":{"name":"quest","type":"object","objectFields":[{"label":"数据是null","name":"nodata","type":"vl","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是undefined","name":"undef","type":"vl","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是array","name":"array","type":"vl","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是boolean","name":"boolean","type":"vl","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是number","name":"number","type":"vl","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是{}","name":"blank","type":"vl","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"有效初始数据","name":"good","type":"vl","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}}]},"database":{"nodata":null,"array":[],"boolean":true,"number":12345,"blank":{},"good":{"value":609762,"label":"mawenxun"}}},
+  {"name":"ACheckBox",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {
+          "label":"选项是html","name":"html","type":"set","editor":"ACheckBox","setFields":[
+            {"value":1,"html":"<div style='width: 80vw; margin-bottom: 15px;'><div style='border-bottom: 1px solid gray;'>由使命愿景驱动的产业大布局</div> <div style='text-align: right;font-size: 10px;'><span style='float: left;'>马云/曾鸣/邵晓锋/王坚(阿里巴巴)</span><span style=''>【使命/愿景/战略】</span></div></div>"},
+            {"value":2,"html":"<div style='width: 80vw; margin-bottom: 15px;'><div style='border-bottom: 1px solid gray;'>CEO的修为：使命愿景是人性的最高境界</div> <div style='text-align: right;font-size: 10px;'><span style='float: left;'>马云/曾鸣/邵晓锋/王坚(阿里巴巴)</span><span style=''>【使命/愿景/战略】</span></div></div>"},
+            {"value":3,"html":"<div style='width: 80vw; margin-bottom: 15px;'><div style='border-bottom: 1px solid gray;'>用终局思维“畅构”未来</div> <div style='text-align: right;font-size: 10px;'><span style='float: left;'>曾鸣(前阿里巴巴)</span><span style=''>【使命/愿景/战略】</span></div></div>"}]
+        },
+        {"label":"值不在option中","name":"badata1","type":"set","editor":"ACheckBox","option":"A B C"},
+        {"label":"互斥","name":"exc1","type":"set","editor":"ACheckBox","option":[{"value":"A","exclusive":"1"}, {"value":"B","exclusive":"1"}, {"value":"C","exclusive":"2"}]},
+        {"label":"互斥又开放","name":"exc2","type":"set","editor":"ACheckBox","option":[{"value":"A","exclusive":"1"}, {"value":"B","exclusive":"1"}, {"value":"C","exclusive":"2"}], "openOption":{"type":"string"} }
+      ]
+    },
+    "database":{"badata1": ["A", "E", "F"]}
+  },
+  {"name":"ARemoteSelector 多选","schema":{"name":"quest","type":"object","objectFields":[{"label":"数据是null","popoverDesc":"editor空，readable为空","name":"nodata","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是undefined","popoverDesc":"editor空，readable为空","name":"undef","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是array","popoverDesc":"editor空，readable为空","name":"array","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是boolean","popoverDesc":"editor空，readable为错标","name":"boolean","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是number","popoverDesc":"editor空，readable为错标","name":"number","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"数据是{}","popoverDesc":"editor空，readable为错标","name":"blank","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"单条数据","popoverDesc":"editor空，readable为错标","name":"single","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}},{"label":"有效初始数据","popoverDesc":"editor有值，readable有值","name":"good","type":"array","editor":"ARemoteSelector","remote":{"url":"academy/hom/new_user/queryByAccountOrName?orgIds=6&kw=${q}","dataPath":"data","valuePath":"id","labelExpr":"name"}}]},"database":{"nodata":null,"array":[],"boolean":true,"number":12345,"blank":{},"single":{"value":609762,"label":"mawenxun"},"good":[{"value":609762,"label":"mawenxun"},{"value":1,"label":"data2"}]}},
+  {"name":"layoutHint","schema":{"name":"quest","type":"object","objectFields":[{"label":"checkbox垂直","name":"c1","type":"set","layoutHint":"v","setFields":"选项a 选项b 选项c"},{"label":"checkbox水平","name":"c2","type":"set","layoutHint":"h","setFields":"选项a 选项b 选项c"},{"label":"checkbox默认垂直","name":"c3","type":"set","setFields":"选项a 选项b 选项c"},{"label":"radio垂直","name":"r1","type":"enum","editor":"ARadio","layoutHint":"v","enumFields":"选项a 选项b 选项c"},{"label":"radio水平","name":"r2","type":"enum","editor":"ARadio","layoutHint":"h","enumFields":"选项a 选项b 选项c"},{"label":"radio默认垂直","name":"r3","type":"enum","editor":"ARadio","enumFields":"选项a 选项b 选项c"},{"label":"array垂直(TODO)","name":"a1","type":"array","editor":"ArrayViewer","layoutHint":"v","arrayMember":{"type":"vl","morph":"readable"}},{"label":"array水平(TODO)","name":"a2","type":"array","editor":"ArrayViewer","layoutHint":"h","arrayMember":{"type":"vl"},"morph":"readable"},{"label":"array默认垂直(TODO)","name":"a3","type":"array","editor":"ArrayViewer","arrayMember":{"type":"vl"},"morph":"readable"}]},"database":{"a1":[{"label":"选1","value":1},{"label":"选2","value":2},{"label":"选3","value":1}],"a2":[{"label":"选1","value":1},{"label":"选2","value":2},{"label":"选3","value":1}],"a3":[{"label":"选1","value":1},{"label":"选2","value":2},{"label":"选3","value":1}]}},
+  {"name":"A","schema":{"name":"quest","type":"object","objectFields":[{"label":"跳到百度","name":"a1","type":"string","editor":"A","a":{"urlExpr":"'http://' + value","labelExpr":"'跳到【' + value + '】'"}}]},"database":{"a1":"www.baidu.com","a2":[{"label":"选1","value":1},{"label":"选2","value":2},{"label":"选3","value":1}],"a3":[{"label":"选1","value":1},{"label":"选2","value":2},{"label":"选3","value":1}]}},
+  {"name":"开放选项",
+    "schema":{"name":"quest","type":"object",
+      "objectFields":[
+        {"label":"ACheckBox无默认值","name":"c1","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox数据是非开放选项","name":"c1no","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox数据是开放选项","name":"c1o","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox数据是null","name":"c1null","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox数据是[null]","name":"c1null1","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox日期型开放选项","name":"c1date","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"yearMonthDay"}},
+        {"label":"ACheckBox数据是['inv1', null, 'inv2']","name":"c2inv","type":"set","editor":"ACheckBox","option":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox数据是['选项a', null, 'inv2']","name":"cvinv","type":"set","editor":"ACheckBox","option":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox数据是['选项a', '选项a']","name":"cdup","type":"set","editor":"ACheckBox","option":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ACheckBox地址开放选项","popoverDesc":"TODO：折行了","name":"c1addr","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"cnAddress"}},
+        {"label":"ACheckBox嵌套enum","name":"c1enum","type":"set","editor":"ACheckBox","setFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"enum","enumFields":"子选项a 子选项b 子选项c","editor":"ARadio","layoutHint":"h"}},
+        {"label":"ARadio无默认值","name":"r1","type":"enum","editor":"ARadio","enumFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ARadio数据是非开放选项","name":"r1no","type":"enum","editor":"ARadio","enumFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ARadio数据是开放选项","name":"r1o","type":"enum","editor":"ARadio","enumFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}},
+        {"label":"ARadio数据是null","name":"r1null","type":"enum","editor":"ARadio","enumFields":"选项a 选项b 选项c","openOption":{"label":"其他","type":"string"}}
+      ]
+    },"database":{"c1no":["选项a"],"c1o":["自己填的"],"c1null":null,"c1null1":[null],"r1no":"自己填的","r1o":"选项a","r1null":null, "c2inv":["inv1", null, "inv2"], "cvinv":["选项a", null, "inv2"],"cdup":["选项a","选项a"]}
+  },
+  {"name":"tel/cnPhone/email类型",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"简单email","name":"email","type":"email","required":true},
+        {"label":"简单Tel","name":"tel","type":"tel","required":true},
+        {"label":"简单cnPhone","name":"cnPhone","type":"cnPhone","required":true}
+      ]
+    },"database":{}},
+
+  {"name":"int",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"baddata1 数据是[]   ","name":"baddata1","type":"int","required":true},
+        {"label":"bd1 数据是[],默认值4 ","name":"bd1",     "type":"int","required":true, "defaultValue":4, "popoverDesc":"初始应该是4"},
+        {"label":"baddata2 数据是{}   ","name":"baddata2","type":"int","required":true},
+        {"label":"baddata3 数据是'abc'","name":"baddata3","type":"int","required":true},
+        {"label":"strdata  数据是'123'","name":"strdata","type":"int","required":true},
+        {"label":"max=10   数据是123",  "name":"max",    "type":"int","required":true, "max": 123, "popoverDesc":"TODO：初始行为暂时未定，上下调时max无效"},
+        {"label":"min=10   数据是3",    "name":"min",    "type":"int","required":true, "min": 3,   "popoverDesc":"TODO：初始行为暂时未定，上下调时min无效"},
+        {"label":"nodata 无数据","name":"nodata","type":"int","required":true},
+        {"label":"a 非必填","name":"a","type":"int"}
+      ]
+    },"database":{"baddata1": [], "baddata2": {}, "baddata3": "abc", "strdata": "123", "max": 10, "min": 10, "bd1":[]}},
+  {"name":"min/max","schema":{"name":"quest","type":"object","objectFields":[{"label":"string+required+[1,10]","name":"c1","type":"string","required":true,"min":1,"max":10},{"label":"int+required+[1,10]","name":"c2","type":"int","required":true,"min":1,"max":10},{"label":"ArrayView  string[]+required+[1,10]","name":"c3","type":"array","arrayMember":{"type":"string","label":"标题"},"required":true,"min":2,"max":4},{"label":"AArrayGrid string[]+required+[1,10]","name":"c4","type":"array","editor":"AArrayGrid","arrayMember":{"type":"string","label":"标题"},"required":true,"min":2,"max":4},{"label":"string+required+[2,-]","name":"c5","type":"string","required":true,"min":2},{"label":"int+required+[2,-]","name":"c6","type":"int","required":true,"min":2},{"label":"string+required+[-,5]","name":"c7","type":"string","required":true,"max":5},{"label":"int+required+[-,5]","name":"c8","type":"int","required":true,"max":5}]},"database":{}},
+  {"name":"DateRange","schema":{"name":"quest","type":"object","objectFields":[{"label":"日期","name":"c1","type":"dateRange","required":true},{"label":"日期+时间","name":"c2","type":"dateRange","required":true,"dateRange":{"showTime":true}}]},"database":{}},
+  {"name":"ACnAddress","schema":{"name":"quest","type":"object","objectFields":[{"label":"日期","name":"c1","type":"cnAddress","required":true}]},"database":{}},
+  {"name":"kvSet",
+    "schema":
+      {
+        "name":"quest","type":"object",
+        "objectFields":[
+          {"label":"openOption默认 水平","name":"kvset1","type":"kvSet","layoutHint":"h","required":true,"setFields":[{"label":"1","value":"1"},{"label":"2","value":"2"},{"label":"2","value":"3"}]},
+          {"label":"openOption默认 垂直","name":"kvset2","type":"kvSet","layoutHint":"v","required":true,"setFields":[{"label":"1. 是，具体部门是：","value":"1"},{"label":"2. 否，我的部门是：","value":"2"}]},
+          {"label":"openOption默认 垂直 max=1","name":"kvset3","type":"kvSet","layoutHint":"v","required":true,"max":1,"setFields":[{"label":"添点啥吧","value":"1"},{"label":"写点东西","value":"2"},{"label":"3","value":"3"},{"label":"4","value":"4"}]},
+          {"label":"openOption默认 垂直 max=2","name":"kvset4","type":"kvSet","layoutHint":"v","required":true,"max":2,"setFields":[{"label":"添点啥吧","value":"1"},{"label":"写点东西","value":"2"},{"label":"3","value":"3"},{"label":"4","value":"4"}]}
+        ]
+      },
+      "database":{}
+  },
+  {
+    "name":"ARate",
+    "schema":{
+      "name":"quest","type":"object","objectFields":[
+        {"type":"int","editor":"ARate","name":"name","label":"姓名","required":true},
+        {"type":"int","editor":"NPS","name":"p1","label":"最多5","required":true,"max":5},
+        {"type":"int","editor":"NPS","name":"p2","label":"2-5","required":true,"min":2, "max":5},
+        {"type":"int","editor":"NPS","name":"p3","label":"您向朋友或同事推荐本堂课程的可能性有多大?","required":true},
+
+        {"type":"int","editor":"NPS","name":"p4","label":"请给Luke打分","required":true, "props":{"leftTip":"短期目标与中长期目标对立冲突", "rightTip":"对公司的中长期目标及战略意图非常理解，能翻译成团队目标，与短期目标有机结合"}},
+        {"type":"int","editor":"NPS","name":"p5","label":"请给Cid打分","required":true, "props":{"leftTip":"短期目标与中长期目标对立冲突", "rightTip":"对公司的中长期目标及战略意图非常理解，能翻译成团队目标，与短期目标有机结合"}}
+      ]
+    }
+  },
+  {"name":"字段showIf",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"t1","name":"t1","type":"set","editor":"ACheckBox", "required":true, "option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"C"}]},
+        {"label":"t0 t1选c出现","name":"t0","type":"array","required":true, "arrayMember":{"type":"string"}, "showIf":"is(t1, 3)"},
+        {"label":"t2 t1选c出现","name":"t2","required":true,"type":"enum","editor":"ARadio","option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"C"}], "showIf":"is(t1, 3)"},
+        {"label":"t3 t1选a或b出现","name":"t3","required":true,"type":"enum","editor":"ARadio","option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"C"}], "showIf":"is(t1, [1,2])"},
+        {"label":"t4","name":"t4","type":"enum","required":true,"editor":"ASelector","option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"C"}]},
+        {"label":"t5","name":"t5","type":"set","required":true,"editor":"ASetSelector","option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"C"}]}
+      ]
+    },
+    "database":{}
+  },
+  {"name":"选项showIf",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"t1","name":"t1","type":"set","editor":"ACheckBox", "required":true, "option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"C"}]},
+        {"label":"t2 t1选C出现new选项","name":"t2","required":true,"type":"enum","editor":"ARadio","option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"NEW", "showIf":"is(t1, 3)"}]}
+      ]
+    },
+    "database":{}
+  },
+  {"name":"数据中带有不在option中的值",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"t11 ACheckBox部分初始值无效","name":"t11","required":true,"type":"set","editor":"ACheckBox","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+        {"label":"t12 ACheckBox初始值都无效","name":"t12","required":true,"type":"set","editor":"ACheckBox","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+        {"label":"t13 ACheckBox无初始值","name":"t13","required":true,"type":"set","editor":"ACheckBox","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+
+        {"label":"t21 ASetSelector部分初始值无效","name":"t21","required":true,"type":"set","editor":"ASetSelector","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+        {"label":"t22 ASetSelector初始值都无效","name":"t22","required":true,"type":"set","editor":"ASetSelector","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+        {"label":"t23 ASetSelector无初始值","name":"t23","required":true,"type":"set","editor":"ASetSelector","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+
+        {"label":"t31 ARadio值无效","name":"t31","required":true,"type":"enum","editor":"ARadio","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+        {"label":"t32 ARadio无初始值","name":"t32","required":true,"type":"enum","editor":"ARadio","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+
+        {"label":"t41 ASelector值无效","name":"t41","required":true,"type":"enum","editor":"ASelector","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]},
+        {"label":"t41 ASelector无初始值","name":"t42","required":true,"type":"enum","editor":"ASelector","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]}
+      ]
+    },
+    "database":{
+      "t11": ["A", "D"], "t12": ["E", "F"], 
+      "t21": ["A", "D"], "t22": ["E", "F"], 
+      "t31": "D", 
+      "t41": "D"
+    }
+  },
+  {
+    "name":"cascade",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"级联类型","name":"cascade","required":true,"type":"cascade","placeholder":"请输入类型",
+          "option":[{"label":"jiangsu","value":"jiangsu","children":[{"label":"nanjing","value":"nanjiong, chi","children":[{"label":"nanjing","value":"zhong hua men"}]}]}]}
+      ]
+    },
+    "database":{"cascade":["1"]}
+  },
+  {
+    "name":"object",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"obj1 对象数据是1", "name": "obj1", "type": "object", "objectFields": [{"name":"s1", "type":"string"}, {"name":"s2", "type":"string"}]},
+        {"label":"obj2 对象数据是{s1:1, s2:1}", "name": "obj2", "type": "object", "objectFields": [{"name":"s1", "type":"string"}, {"name":"s2", "type":"string"}]},
+        {"label":"t1","name":"t1","required":true,"type":"enum","option":[{"value":"A","label":"A"},{"value":"B","label":"B"}]}
+      ]
+    },
+    "database":{"obj1":1, "obj2":{"s1":1, "s2":1}}
+  },
+  {"name":"动画效果防抖","schema":{"name":"quest","type":"object",
+    "uispec":{"layout":"horizontal","type":"flowForm"},
+    "objectFields":[
+      {"label":"问卷类型","name":"formType","required":true,"placeholder":"请选择","type":"enum","defaultValue":1,"option":[{"label":"报名问卷","value":1},{"label":"课评问卷","value":2}]},
+      {"label":"问卷名字，无动画","name":"name1","showIf":"formType==1","defaultValue":"【可报名无问卷】报名问卷","type":"string","required":true},
+      {"label":"问卷名字，无动画","name":"name2","showIf":"formType==2","defaultValue":"【可报名无问卷】课评问卷","type":"string","required":true},
+      {"label":"开始时间","name":"startTime","type":"datetime","dataFormat":"x","required":true},{"label":"截止时间","name":"endTime","type":"datetime","dataFormat":"x","required":true},
+      {"label":"t1","name":"t1","type":"set","editor":"ACheckBox", "required":true, "option":[{"value":1,"label":"A"},{"value":2,"label":"B"},{"value":3,"label":"C"}]},
+      {"label":"t0 t1选c出现，有动画","name":"t0","type":"array","required":true, "arrayMember":{"type":"string"}, "showIf":"is(t1, 3)"}
+    ]},
+    "database":{}
+  },
+  {"name":"postfix",
+    "schema":{
+      "name":"quest","type":"object",
+      "objectFields":[
+        {"label":"多少钱一个？","name":"money","type":"string","required":true, "postfix": "元"}
+      ]
+    },"database":{}},
+  {"name":"ks1",
+      "schema":{
+        "name": "quest", "type": "object",
+        "objectFields":[
+          {
+            "openOption": {
+              "type": "string",
+              "label": "其他，欢迎补充"
+            },
+            "name": "envolve",
+            "option": [
+              {
+                "label": "A. 可以分享自身案例或经验",
+                "value": "A"
+              },
+              {
+                "label": "B. 可以担任hold场主持人",
+                "value": "B"
+              },
+              {
+                "label": "C. 可以引荐老师资源",
+                "value": "C"
+              },
+              {
+                "label": "D. 介绍值得游学的企业",
+                "value": "D"
+              },
+              {
+                "label": "F. 暂无意愿",
+                "value": "F",
+                "exclusive": "a"
+              }
+            ],
+            "label": "5. 我是否愿意参与湖畔后续的学习共建：",
+            "type": "set",
+            "required": true
+          }
+        ]
+      
+    },"database":{}
+  }
+]

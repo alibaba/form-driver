@@ -1,0 +1,36 @@
+{
+  "name": "root",
+  "type": "object",
+  "objectFields": [
+    {
+      "editor": "ADatetimePicker",
+      "type": "datetime",
+      "label": "时间选择",
+      "name": "datename"
+    },
+    {
+      "editor": "ADatetimePicker",
+      "type": "year",
+      "label": "年选择",
+      "name": "datename2"
+    },
+    {
+      "editor": "ADatetimePicker",
+      "type": "yearMonth",
+      "label": "年月选择",
+      "name": "datename3"
+    },
+    {
+      "editor": "ADatetimePicker",
+      "type": "yearMonthDay",
+      "label": "年月日选择",
+      "name": "datename4"
+    },
+    {
+      "editor": "ARangePicker",
+      "type": "dateRange",
+      "label": "日期范围",
+      "name": "datename5"
+    }
+  ]
+}

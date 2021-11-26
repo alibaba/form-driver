@@ -1,0 +1,128 @@
+
+.MEditor {
+  /* max-width:900px; */
+  /* margin:auto; */
+  --MViewerBorder: 1px solid #d9d9d9; /** TODO 在这里扩展吧 */
+}
+
+.MEditor .submitBar {
+  background: white;
+  box-shadow: 0 0 10px #d0cfcf;
+  padding: 25px;
+  margin: 25px 0 25px 0;
+
+  text-align: center;
+}
+
+.MEditor .AForm_removeBtn:focus, .MEditor .AForm_removeBtn:hover {
+  color: #40a9ff;
+}
+
+.MEditor .AForm_removeBtn_disabled {
+  color: lightgray;
+}
+
+
+
+.MEditor_p {
+  max-width:900px;
+  margin:auto;
+  --MViewerBorder: 1px solid #d9d9d9; /** TODO 在这里扩展吧 */
+}
+
+.MEditor_p .submitBar {
+  background: white;
+  box-shadow: 0 0 10px #d0cfcf;
+  padding: 15px;
+  margin: 25px 0 25px 0;
+
+  text-align: center;
+}
+
+.MEditor_p .AForm_removeBtn:focus, .MEditor .AForm_removeBtn:hover {
+  color: #40a9ff;
+}
+
+.MEditor_p .AForm_removeBtn_disabled {
+  color: lightgray;
+}
+
+/** 回填字段的样式，例如日期选择/gb2260选项下，带下划线的，显示被选中值的一行字 */
+.MEditor_p .backfill {
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.MEditor_p .backfill_empty {
+  border-bottom: 1px solid #d9d9d9;
+  color: gray;
+}
+
+.MEditor_p input, .MEditor_p textarea {
+  font-size: 16px; /** ios上，字小于16px的输入框，输入时页面会放大，这个体验及其糟糕，只能通过改大字体解决 */
+}
+
+table.M3_table {
+  border: var(--MViewerBorder);
+  border-spacing: 0;
+}
+table.M3_table tr,table.M3_table th {border-bottom: var(--MViewerBorder);}
+table.M3_table td,table.M3_table th{
+  border-right: var(--MViewerBorder);
+  border-bottom: var(--MViewerBorder);
+  padding: 5px 0 5px 0;
+  .ant-select-selector {
+    border: none !important;
+  }
+}
+table.M3_table th {
+  font-weight: normal;
+  text-align: center;
+}
+table.M3_table tr td:last-child{ border-right: 0 }
+table.M3_table tr:last-child td{ border-bottom: 0 }
+
+  /** antd 样式调整 */
+.MEditor {
+  /** 减少字段之间的垂直距离，表单紧凑些 */
+  .ant-row {
+    margin-bottom: 10px;
+  }
+
+  /** ant表单项的间距太大了，浪费空间 */
+  .ant-form-item, .ant-form-item- {
+    margin-bottom: 0px !important;
+  }
+
+}
+
+.MEditor_p, .MEditor {
+  .wrap {
+    word-break: break-all;
+    white-space: pre-line;
+  }
+
+  /** 选项文字折行展示 */
+  .ant-radio-wrapper, .ant-checkbox-wrapper{
+    white-space: normal; 
+
+    span {
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+
+  .am-calendar {
+    .content {  /** TODO：antd mobile的日历缩回去的时候有bug，动画不正常，这里把动画禁掉，以后如果升级antd mobile了可以试试去掉 */
+      animation-duration: 0s;
+      -webkit-animation-duration: 0s;
+    }
+  }
+}
+
+/** antd的Tabs不能100%高，加上FullHeightTab这个class就可以了 */
+.FullHeightTab .ant-tabs-content{
+  height: 100%
+}
+.FullHeightTab .ant-tabs {
+  height: 100%
+}
