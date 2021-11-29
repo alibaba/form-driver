@@ -12,7 +12,7 @@
     "clean": "rimraf lib dist es coverage types",
     "build": "rollup -c",
     "b": "npm run clean && npm run build",
-    "i": "tnpm install && tnpm install @ali/m3 @ali/m3-plugin-richtext @ali/m3-plugin-hp-org",
+    "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
     "pub": "npm run b && npm version patch && npm publish && git push",
     "patch": "npm version patch && npm publish && git push",
@@ -25,7 +25,8 @@
     "docs:start": "cd docs && dumi dev",
     "docs:build": "cd docs && dumi build",
     "docs:upload": "cd docs && hp upload ./dist m3/ --free",
-    "docs:pub": "cd docs && npm run build && npm run upload"
+    "docs:pub": "cd docs && npm run build && npm run upload",
+    "update": "git add . && git commit -m 'update' && git push"
   },
   "keywords": [
     "m3",
