@@ -38,8 +38,4 @@ NPS打分 | int | NPS
 
 ## 官方插件
 
-[富文本](http://gitlab.alibaba-inc.com/hupanopen/m3-plugin-richtext)
-
-[文件上传](http://gitlab.alibaba-inc.com/hupanopen/m3-plugin-hp-ossfile)
-
-[湖畔组织的下拉选择框](http://gitlab.alibaba-inc.com/hupanopen/m3-plugin-hp-org)
+[富文本](http://gitlab.alibaba-inc.com/hupanopen/form-driver-plugin-richtext)

@@ -20,18 +20,18 @@ export class AArrayGrid extends BaseViewer {
   element() {
     const schema = this.props.schema;
 
-    if(!schema.arrayMember) {
+    if (!schema.arrayMember) {
       return MUtil.error("arrayMember未定义", schema);
     }
 
     const members = schema.arrayMember.objectFields  // 成员是复杂结构
-      || [{name:undefined, ...schema.arrayMember}]; // 成员是简单结构
+      || [{ name: undefined, ...schema.arrayMember }]; // 成员是简单结构
     // if(!members) {
     //   return MUtil.error("AArrayGrid只适用于对象数组", schema);
     // }
 
     let data = super.getValue();
-    if(!_.isArray(data)){ // 只接受数组
+    if (!_.isArray(data)) { // 只接受数组
       data = [];
     }
 
@@ -40,70 +40,80 @@ export class AArrayGrid extends BaseViewer {
     //let headTh = [<td key=":操作栏" width="40px" align="center" style={{backgroundImage: "linear-gradient(to bottom left, transparent calc(50% - 1px), #d3d3d3, transparent calc(50% + 1px))"}}></td>]
 
     let rows = [];
-    for(let idx = 0; idx < data.length; idx ++){
+    for (let idx = 0; idx < data.length; idx++) {
       const i = idx;
       rows.push(<tr key={i}>
         {/* 各个字段 */}
         {
-          members.map((f,idx)=>
+          members.map((f, idx) =>
             <td key={f.name + idx}>
-              <MFieldViewer key={this.state.ctrlVersion + "." + f.name} parent={schema} morph={this.props.morph} schema={f} database={data} path={MUtil.jsonPath("[" + i + "]", f.name)} hideBorder={true} afterChange={(path, v, final):void => {
+              <MFieldViewer key={this.state.ctrlVersion + "." + f.name} parent={schema} morph={this.props.morph} schema={f} database={data} path={MUtil.jsonPath("[" + i + "]", f.name)} hideBorder={true} afterChange={(path, v, final): void => {
                 super.changeValueEx(data, false, final);
-              }}/> 
+              }} />
             </td>)
         }
 
         {/* 操作栏 */}
         <td key=":option" align="center">
-          <CaretUpOutlined style={{display: "block"}}  hidden={data.length <= 1} onClick={()=>{
-            if(i === 0){
+          <CaretUpOutlined style={{ display: "block" }} hidden={data.length <= 1} onClick={() => {
+            if (i === 0) {
               message.warn("已经到顶了");
             } else {
-              const prev = data[i-1];
-              data[i-1] = data[i];
+              const prev = data[i - 1];
+              data[i - 1] = data[i];
               data[i] = prev;
               super.changeValueEx(data, true, true);
             }
-          }}/>
+          }} />
           <Popconfirm
             title="确定要删除吗这一项吗？"
-            onConfirm={()=>{
-              data.splice(i,1);
+            onConfirm={() => {
+              data.splice(i, 1);
               super.changeValueEx(data, true, true);
             }}
             okText="删除"
             cancelText="不删">
-            <CloseOutlined style={{display: "block"}} hidden={ data.length == (schema.min ?? 0) }/>
+            <CloseOutlined style={{ display: "block" }} hidden={data.length == (schema.min ?? 0)} />
           </Popconfirm>
-          <CaretDownOutlined style={{display: "block"}} hidden={data.length <= 1} onClick={()=>{
-            if(i === data.length - 1){
+          <CaretDownOutlined style={{ display: "block" }} hidden={data.length <= 1} onClick={() => {
+            if (i === data.length - 1) {
               message.warn("已经到底了");
             } else {
-              const prev = data[i+1];
-              data[i+1] = data[i];
+              const prev = data[i + 1];
+              data[i + 1] = data[i];
               data[i] = prev;
               super.changeValueEx(data, true, true);
             }
-          }}/>
+          }} />
         </td>
       </tr>);
     }
 
     const isMax = data.length >= (schema.max ?? Number.MAX_VALUE);
     return (
-      <table key={this.props.path} className="AExperience M3_table" style={{width: "100%"}}><tbody>
+      <table key={this.props.path} className="AExperience M3_table" style={{ width: "100%" }}><tbody>
         <tr key=":header">
-          {members.map((f,i)=><th key={f.name + i + ":first"}>{f.label ?? f.name}</th>)}
+          {members.map((f, i) => <th key={f.name + i + ":first"}>{f.label ?? f.name}</th>)}
           <td key=":操作栏" width="40px" align="center"></td>
         </tr>
         {rows}
         <tr key=":footer">
           {/* 增加按钮 */}
           <th key=":add" colSpan={cols}>
-            <Button disabled={isMax}  key=":add" onClick={()=>{
-              data.push(
-                assembly.types[schema.arrayMember.type]?.createDefaultValue(assembly, schema.arrayMember)
-              );
+            <Button disabled={isMax} key=":add" onClick={() => {
+              let newItem = assembly.types[schema.arrayMember.type]?.createDefaultValue(assembly, schema.arrayMember)
+              {/* 新增时支持要带入上一项的数据 */}
+              if (schema.arrayMember.copyFields && data.length > 0) {
+                const last = data[data.length - 1]
+                if (last) {
+                  newItem = {}
+                  schema.arrayMember.copyFields.forEach(item => {
+                    newItem[item] = last[item]
+                  })
+                }
+              }
+              data.push(newItem);
+              console.log('data', data)
               super.changeValue(data);
             }}>增加一项</Button>
             {this.props.extra}

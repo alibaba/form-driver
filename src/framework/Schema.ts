@@ -160,6 +160,9 @@ export interface MFieldSchema {
 
   /** 数组成员类型 */
   arrayMember?: MFieldSchemaAnonymity;
+
+  /** 组件 AArrayGrid 新增时指定带下来的字段 */
+  copyFields?: string[];
   
   /** 数组增加一项的按钮文案 */
   arrayAddLabel?: string;

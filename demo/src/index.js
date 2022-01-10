@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { injectTestCookie } from "./debug";
 import { CreateCourse } from './CreateCourse';
 import TestForm from './TestForm';
+import TestForm2 from './TestForm2';
 import { JZG } from './JZG';
 import {UTDriver} from './ut/UTDriver';
 
@@ -18,7 +19,7 @@ injectTestCookie();
 
 function App() {
   const q = MUtil.getQuery();
-  const pages = [UTDriver,tPage, CreateCourse, TestForm, JZG];
+  const pages = [UTDriver,tPage, CreateCourse, TestForm, TestForm2, JZG];
   for(let p of pages){
     if(_.has(q, p.name)) {
       return React.createElement(p, {}, null);

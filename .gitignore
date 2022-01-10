@@ -9,6 +9,7 @@ docs/node_modules/
 docs/.vuepress/dist/
 /es
 /types
+/plugins
 /demo/dist
 /demo/src/ut_autoTest/*
 coverage
