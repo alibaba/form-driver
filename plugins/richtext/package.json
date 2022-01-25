@@ -19,7 +19,8 @@
   "keywords": [
     "form-driver",
     "m3",
-    "pulgin"
+    "pulgin",
+    "richtext"
   ],
   "publishConfig": {
     "registry": "https://registry.npm.alibaba-inc.com"
