@@ -14,7 +14,7 @@ const OPEN_ENUM_RADIO_VALUE = -1;
  * 单选框，用于enum
  * 支持开放选项。
  * 定义示例：
- * {label:"1.1 您的性别是", name:"gendar", type:"enum", option: [{label:"男", value:"M"},{label:"女", value:"F"}] },
+ * {label:"1.1 您的性别是", name:"gendar", type:"enum", option: [{label:"男", value:"M"},{label:"女", value:"F"}]},
  * {label:"1.1 您的性别是", name:"gendar", type:"enum", option:"男 女"},
  */
 export class ARadio extends BaseViewer {
