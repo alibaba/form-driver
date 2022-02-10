@@ -70,6 +70,10 @@ export class ARemoteSelector extends Viewer<State> {
     }
     
     const p = this.props.schema.props ?? {};
+    const deepCloneP = _.cloneDeep(p)
+    const selfDisabled = deepCloneP.disabled
+    delete deepCloneP.disabled
+    
     return <Select
       key={this.props.path}
       showSearch
@@ -103,12 +107,19 @@ export class ARemoteSelector extends Viewer<State> {
             break;
         }
       }}
-      {...p}
+      {...deepCloneP}
       >
       {
         this.state.candidate?.map(d => {
           const v = MUtil.get(d, this.props.schema.remote.valuePath);
-          return <Select.Option key={v} value={v}>{labelExpr(d, this.props.schema.remote)}</Select.Option>
+          return (
+            <Select.Option 
+              key={v} 
+              value={v}
+              disabled={d[selfDisabled]}
+            >
+                {labelExpr(d, this.props.schema.remote)}
+            </Select.Option>)
         })
       }
     </Select>
