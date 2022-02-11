@@ -71,8 +71,11 @@ export class ARemoteSelector extends Viewer<State> {
     
     const p = this.props.schema.props ?? {};
     const deepCloneP = _.cloneDeep(p)
-    const selfDisabled = deepCloneP.disabled
+    const selfDisabled = p.disabled
     delete deepCloneP.disabled
+    const selfOnChange = p.onChange
+    delete deepCloneP.onChange
+    
     
     return <Select
       key={this.props.path}
@@ -106,6 +109,7 @@ export class ARemoteSelector extends Viewer<State> {
             else super.changeValue(null);
             break;
         }
+        selfOnChange && selfOnChange(v)
       }}
       {...deepCloneP}
       >
