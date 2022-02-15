@@ -7,8 +7,6 @@ import TestForm2 from './TestForm2';
 import { JZG } from './JZG';
 import {UTDriver} from './ut/UTDriver';
 
-import {tPage} from './ut_autoTest/tPage'
-
 import './index.css';
 import 'antd/dist/antd.css';
 import 'antd-mobile/dist/antd-mobile.css';
