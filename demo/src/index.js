@@ -17,7 +17,7 @@ injectTestCookie();
 
 function App() {
   const q = MUtil.getQuery();
-  const pages = [UTDriver,tPage, CreateCourse, TestForm, TestForm2, JZG];
+  const pages = [UTDriver, CreateCourse, TestForm, TestForm2, JZG];
   for(let p of pages){
     if(_.has(q, p.name)) {
       return React.createElement(p, {}, null);
