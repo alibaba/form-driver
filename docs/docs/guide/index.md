@@ -6,7 +6,7 @@ toc: content
 ### Install
 
 ```bash
-tnpm install --save @ali/m3
+npm i form-driver
 ```
 
 ### Usage
