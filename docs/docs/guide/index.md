@@ -6,14 +6,14 @@ toc: content
 ### Install
 
 ```bash
-tnpm install --save @ali/m3
+tnpm install --save form-driver
 ```
 
 ### Usage
 
 ```js
-import '@ali/m3/dist/m3.css';
-import { M3, SubmitBar } from '@ali/m3';
+import 'form-driver/dist/m3.css';
+import { M3, SubmitBar } from 'form-driver';
 
 const MamDetail = () => {
 
