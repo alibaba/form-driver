@@ -1,5 +1,5 @@
 {
-  "name": "@ali/m3-plugin-richtext",
+  "name": "@ali/m3-plugin-ossupload",
   "version": "0.1.0",
   "description": "form-driver 的上传插件",
   "license": "MIT",
