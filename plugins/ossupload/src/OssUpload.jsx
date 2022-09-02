@@ -13,17 +13,15 @@ class OssUpload extends Viewer {
       checkpoint: null,
       progress: 0,
       fileList: (super.getValue() || []).map((item, index) => {
-        item.uid = index
+        if (!item.uid) item.uid = index
         return item
       })
     }
-    const _props = this.props.schema.props
     this.options = Object.assign({
       changeHandle: () => { },
       resFormat: res => res,
       srcFormat: src => src,
-      multiple: Number(_props.maxCount) > 1,
-    }, _props)
+    }, p.schema.props)
   }
 
   reset = () => {
@@ -122,6 +120,7 @@ class OssUpload extends Viewer {
       onRemove: this.onRemove,
       customRequest: this.customRequest,
       beforeUpload: this.beforeUpload,
+      maxCount: this.options.maxCount ?? 1,
       // 回填初始值
       // fileList: this.state.fileList
       fileList: (super.getValue() || [])?.map((item, index) => {
@@ -129,9 +128,12 @@ class OssUpload extends Viewer {
         return item
       })
     };
+
+
+    console.log('this.options', this.options);
     
     return (
-      <Upload disabled={this.loading !== undefined} {...uploadProps} {...this.options}>
+      <Upload disabled={this.loading !== undefined} {...uploadProps}>
         <Button disabled={this.loading !== undefined}>点击上传</Button>
       </Upload>
     )

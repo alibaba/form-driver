@@ -1,6 +1,6 @@
 {
   "name": "@ali/m3-plugin-ossupload",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "form-driver 的上传插件",
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,7 @@
     "b": "npm run clean && npm run build",
     "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
-    "pub": "npm run b && npm version patch && tnpm publish && git push",
+    "pub": "npm run b && npm version patch && npm run update && tnpm publish",
     "patch": "npm version patch && npm publish && git push",
     "dev": "webpack-dev-server --inline --progress --config webpack.demo.js",
     "demo:build": "cross-env NODE_ENV=production webpack --config webpack.demo.js",
