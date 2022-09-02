@@ -15,18 +15,15 @@ const schema: MFieldSchema = {
             "type": "attachment",
             "name": "upload_file",
             "label": "文件上传",
-            options: {
+            props: {
                 getTokenUrl: `/academy/oss/getSTSToken`,
                 keyPath: 'questionnaire/123/23801',
+                maxSize: 1000,
+                maxCount: 2,
                 mimeTypes: [ //只允许上传图片和zip文件
                     { title: "Image files", extensions: "jpg,gif,png,bmp" },
                     { title: "Zip files", extensions: "zip" }
                 ],
-                maxSize: 1000,
-            },
-            props: {
-                multiple: true,
-                maxCount: 2,
             }
         },
     ]
