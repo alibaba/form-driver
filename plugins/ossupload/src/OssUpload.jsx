@@ -10,8 +10,7 @@ class OssUpload extends Viewer {
   constructor(p) {
     super(p);
     this.state = {
-      checkpoint: null,
-      progress: 0,
+      loading: false,
       fileList: (super.getValue() || []).map((item, index) => {
         if (!item.uid) item.uid = index
         return item
@@ -28,22 +27,9 @@ class OssUpload extends Viewer {
     this.setState({
       fileList: list
     })
-    super.changeValue(list) 
-  }  
-
-  reset = () => {
-    this.setState({ isUploading: false, loading: false });
+    super.changeValue(list)
   }
 
-  progressFun = (p, checkpoint) => {
-    this.setState({
-      progress: `${Math.floor(p * 100)}%`,
-      checkpoint
-    });
-    return function (done) {
-      done();
-    };
-  }
   componentDidMount() {
     const { getTokenUrl, keyPath } = this.options
     if (getTokenUrl) {
@@ -75,10 +61,7 @@ class OssUpload extends Viewer {
   }
 
   onRemove = (file) => {
-    console.log('onRemove: ', file)
-    console.log('this.state.fileList: ', this.state.fileList)
     const list = this.state.fileList?.filter(i => file.uid !== i.uid)
-    console.log(list)
     this.changeFileList(list)
   }
 
@@ -89,16 +72,17 @@ class OssUpload extends Viewer {
     const { keyPath } = this.options
     const name = `${keyPath}/${new Date().getTime()}-${file.name}`;
 
+    this.setState({ loading: true });
     // 上传文件
-    this._client.multipartUpload(name, file,
-      {
-        progress: this.progressFun,
-        timeout: 3000,
-        checkpoint: this.state.checkpoint,
-        meta: { 'permission-ext-or': 'm3PluginOssUpload' }
-      }
-    ).then((res) => {
-      console.log('multipartUpload: ', res)
+    try {
+      // 填写Object完整路径。Object完整路径中不能包含Bucket名称。
+      // 您可以通过自定义文件名（例如exampleobject.txt）或文件完整路径（例如exampledir/exampleobject.txt）的形式实现将数据上传到当前Bucket或Bucket中的指定目录。
+      // data对象可以自定义为file对象、Blob数据或者OSS Buffer。
+      const res = await this._client.put(
+        name,
+        file
+      );
+      console.log('client.put: ', res)
       let fileList = this.state.fileList
       fileList.push({
         uid: file.uid,
@@ -106,17 +90,15 @@ class OssUpload extends Viewer {
         osskey: name
       })
       this.changeFileList(fileList);
-      this.reset();
-    }).catch(e => {
-      console.log('multipartUpload-error: ', e);
-      this.reset();
-    });
+      this.setState({ loading: false });
+    } catch (e) {
+      console.log('client.put-error: ', e);
+      this.setState({ loading: false });
+    }
   }
 
   beforeUpload = (file) => {
     const { maxSize, maxAmount } = this.options
-    console.log(this.state.fileList)
-    // + 1 是为了排除当前文件
     if (this.state.fileList.length >= maxAmount) {
       message.error(`已达到文件数量上限(${maxAmount}个)，请删除后上传`);
       return false
@@ -128,7 +110,8 @@ class OssUpload extends Viewer {
   }
 
   element() {
-    const list  = super.getValue()
+    const list = super.getValue()
+    const {loading} = this.state
     const uploadProps = {
       onRemove: this.onRemove,
       customRequest: this.customRequest,
@@ -136,8 +119,8 @@ class OssUpload extends Viewer {
     };
 
     return (
-      <Upload disabled={this.loading !== undefined} {...uploadProps} fileList={list}>
-        <Button disabled={this.loading !== undefined}>点击上传</Button>
+      <Upload disabled={loading} {...uploadProps} fileList={list}>
+        <Button disabled={loading} loading={loading}>点击上传</Button>
       </Upload>
     )
   }
