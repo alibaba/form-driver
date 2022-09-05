@@ -24,6 +24,13 @@ class OssUpload extends Viewer {
     }, p.schema.props)
   }
 
+  changeFileList = (list) => {
+    this.setState({
+      fileList: list
+    })
+    super.changeValue(list) 
+  }  
+
   reset = () => {
     this.setState({ isUploading: false, loading: false });
   }
@@ -67,20 +74,20 @@ class OssUpload extends Viewer {
     this.cancleUpload();
   }
 
-  conRemove = (file) => {
-    console.log(file)
-    const list = (super.getValue() || [])?.filter(i => file.uid !== i.uid)
-    super.changeValue(list)
+  onRemove = (file) => {
+    console.log('onRemove: ', file)
+    console.log('this.state.fileList: ', this.state.fileList)
+    const list = this.state.fileList?.filter(i => file.uid !== i.uid)
+    console.log(list)
+    this.changeFileList(list)
   }
 
   // 自定义上传操作
   customRequest = async ({ file }) => {
     console.log('customRequest: ', file)
-
     this.loading = undefined;
     const { keyPath } = this.options
     const name = `${keyPath}/${new Date().getTime()}-${file.name}`;
-    console.log('filename：', name)
 
     // 上传文件
     this._client.multipartUpload(name, file,
@@ -91,22 +98,29 @@ class OssUpload extends Viewer {
         meta: { 'permission-ext-or': 'm3PluginOssUpload' }
       }
     ).then((res) => {
-      let fileList = (super.getValue() || [])
+      console.log('multipartUpload: ', res)
+      let fileList = this.state.fileList
       fileList.push({
         uid: file.uid,
         name: file.name,
         osskey: name
       })
-      super.changeValue(fileList);
+      this.changeFileList(fileList);
       this.reset();
     }).catch(e => {
-      console.log(e);
+      console.log('multipartUpload-error: ', e);
       this.reset();
     });
   }
 
   beforeUpload = (file) => {
-    const { maxSize } = this.options
+    const { maxSize, maxAmount } = this.options
+    console.log(this.state.fileList)
+    // + 1 是为了排除当前文件
+    if (this.state.fileList.length >= maxAmount) {
+      message.error(`已达到文件数量上限(${maxAmount}个)，请删除后上传`);
+      return false
+    }
     if (file.size > maxSize * 1024 * 1024) {
       message.error(`文件大小超过${maxSize}MB，请压缩后上传`);
       return false
@@ -114,19 +128,15 @@ class OssUpload extends Viewer {
   }
 
   element() {
+    const list  = super.getValue()
     const uploadProps = {
       onRemove: this.onRemove,
       customRequest: this.customRequest,
       beforeUpload: this.beforeUpload,
-      // 回填初始值
-      fileList: (super.getValue() || [])?.map((item, index) => {
-        if (!item.uid) item.uid = index
-        return item
-      })
     };
 
     return (
-      <Upload disabled={this.loading !== undefined} {...uploadProps}>
+      <Upload disabled={this.loading !== undefined} {...uploadProps} fileList={list}>
         <Button disabled={this.loading !== undefined}>点击上传</Button>
       </Upload>
     )

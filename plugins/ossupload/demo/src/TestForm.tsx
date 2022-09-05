@@ -19,7 +19,7 @@ const schema: MFieldSchema = {
                 getTokenUrl: `/academy/oss/getSTSToken`,
                 keyPath: 'questionnaire/123/23801',
                 maxSize: 1000,
-                maxCount: 2,
+                maxAmount: 2,
                 mimeTypes: [ //只允许上传图片和zip文件
                     { title: "Image files", extensions: "jpg,gif,png,bmp" },
                     { title: "Zip files", extensions: "zip" }
@@ -32,6 +32,7 @@ const schema: MFieldSchema = {
 const database = {
     upload_file: [
         {
+            uid: 0,
             name: 'hahahah.jpg',
             osskey: 'questionnaire/123/23801/hahahah.jpg'
         }
