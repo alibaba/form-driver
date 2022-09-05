@@ -70,9 +70,6 @@ class OssUpload extends Viewer {
   conRemove = (file) => {
     console.log(file)
     const list = (super.getValue() || [])?.filter(i => file.uid !== i.uid)
-    // this.setState({
-    //   fileList: list
-    // })
     super.changeValue(list)
   }
 
@@ -96,6 +93,7 @@ class OssUpload extends Viewer {
     ).then((res) => {
       let fileList = (super.getValue() || [])
       fileList.push({
+        uid: file.uid,
         name: file.name,
         osskey: name
       })
@@ -120,18 +118,13 @@ class OssUpload extends Viewer {
       onRemove: this.onRemove,
       customRequest: this.customRequest,
       beforeUpload: this.beforeUpload,
-      maxCount: this.options.maxCount ?? 1,
       // 回填初始值
-      // fileList: this.state.fileList
       fileList: (super.getValue() || [])?.map((item, index) => {
         if (!item.uid) item.uid = index
         return item
       })
     };
 
-
-    console.log('this.options', this.options);
-    
     return (
       <Upload disabled={this.loading !== undefined} {...uploadProps}>
         <Button disabled={this.loading !== undefined}>点击上传</Button>
