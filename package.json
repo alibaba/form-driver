@@ -14,7 +14,7 @@
     "b": "npm run clean && npm run build",
     "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
-    "pub": "npm run b && npm version patch && npm publish && git push",
+    "pub": "git add . && git commit -m 'update' & npm run b && npm version patch && npm publish && git push",
     "patch": "npm version patch && npm publish && git push",
     "submodule": "git submodule update --init",
     "ut-pull": "cd ./demo/src/ut_autoTest/ut_case && git pull",

@@ -100,8 +100,8 @@
     }
   },
   {
-    "name":"debug-1663327625669",
-    "schema":{
+    "name": "debug-1663327625669",
+    "schema": {
       "name": "quest",
       "type": "object",
       "objectFields": [
@@ -323,6 +323,24 @@
         }
       ]
     },
-    "database": {}
+    "database": {
+      "orgOrganizations": {
+        "id": 32,
+        "created": null,
+        "modified": null,
+        "gmtModified": null,
+        "gmtCreated": null,
+        "gmtCreate": null,
+        "creator": null,
+        "modifier": null,
+        "name": "研究中心",
+        "parentId": null,
+        "data": null,
+        "num": 1,
+        "label": "研究中心",
+        "key": 32,
+        "value": 32
+      }
+    }
   }
 ]
