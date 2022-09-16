@@ -78,7 +78,7 @@ export class ASelector extends BaseViewer {
             : menu
         }}
         style={{ width: "100%" }}
-        onChange={(vv: any) => super.changeValue(this._enums[vv].value)}
+        onChange={(vv: any) => super.changeValue(p?.labelInValue ? vv : this._enums[vv].value)}
         {...p}
       >
         {options}

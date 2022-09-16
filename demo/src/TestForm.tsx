@@ -69,6 +69,11 @@ const TestForm = () => {
         name: 'quest',
         type: 'object',
         objectFields: [
+          {label:"测试单选",name:"textASelector",type:"enum", editor:"ASelector", props: {labelInValue: true}, style: { width: '100px' }, option: [
+            { value: 1, label: '超级管理员' },
+            { value: 2, label: '招生' },
+            { value: 3, label: '课程' },
+          ]},
           { name: 'inttest', type: 'int', label: '数字框', max: 10, min: 0},
           { label: "拜访人", name: "visitor222", type: "string", required: true, props: {
             // disabled: true
