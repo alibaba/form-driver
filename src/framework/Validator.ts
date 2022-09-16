@@ -15,6 +15,7 @@ export type VALIDATOR = (a:Assembly, schema:MFieldSchemaAnonymity, value:any, pa
  */
 export function validateRequired(a:Assembly, schema:MFieldSchemaAnonymity, value:any, path:string): MValidationResult {
   if(schema.required){
+    console.log('validateRequired-value', path, value)
     if(_.isNil(value) || value === "" || _.isNaN(value) || (_.isArray(value) && value.length == 0)) {
       return {message:'您还没有填完这一项', path};
     }

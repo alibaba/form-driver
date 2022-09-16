@@ -69,16 +69,16 @@ const TestForm = () => {
         name: 'quest',
         type: 'object',
         objectFields: [
-          {label:"测试单选",name:"textASelector",type:"enum", editor:"ASelector", props: {labelInValue: true}, style: { width: '100px' }, option: [
+          {label:"测试单选",name:"textASelector",type:"enum",  required: true, editor:"ASelector", props: {labelInValue: true}, style: { width: '100px' }, option: [
             { value: 1, label: '超级管理员' },
             { value: 2, label: '招生' },
             { value: 3, label: '课程' },
           ]},
-          { name: 'inttest', type: 'int', label: '数字框', max: 10, min: 0},
-          { label: "拜访人", name: "visitor222", type: "string", required: true, props: {
-            // disabled: true
-          }},
-          {label:"除爱人",name:"familyAccompany",type:"set", editor:"ASetSelector", style: { width: '100px' }, option: "父亲 母亲 孩子 爱人/对象的父亲 爱人/对象的母亲 兄弟姐妹"},
+          // { name: 'inttest', type: 'int', label: '数字框', max: 10, min: 0},
+          // { label: "拜访人", name: "visitor222", type: "string", required: true, props: {
+          //   // disabled: true
+          // }},
+          // {label:"除爱人",name:"familyAccompany",type:"set", editor:"ASetSelector", style: { width: '100px' }, option: "父亲 母亲 孩子 爱人/对象的父亲 爱人/对象的母亲 兄弟姐妹"},
           // {
           //   name: 'recordList', type: 'array', label: '小记', editor: "AArrayGrid",
           //   arrayMember: {
@@ -132,32 +132,32 @@ const TestForm = () => {
           //     ]
           //   }
           // },
-          {
-            label: "角色", name: "roleListStr", type: 'set', editor: "ASetSelector", placeholder: '请选择角色',
-            setFields: [
-              { value: 1, label: '超级管理员' },
-              { value: 2, label: '招生' },
-              { value: 3, label: '课程' },
-            ]
-          },
-          {
-            "label": "多选，有最多",
-            "name": "setWithMax",
-            "max": 3,
-            "type": "set",
-            "option": "1324421467981624932134612414912634682164863214126432194612364796427368 选项2 选项3 选项4 选项5"
-          },
-          {
-            editor: 'NPS', name: 'possibility', label: "您向朋友或同事推荐本堂课程的可能性有多大?", required: true, props: {
-              leftTip: '不推荐',
-              rightTip: '非常推荐'
-            }
-          },
-          {
-            editor: 'ARate', name: 'score', label: "评分", required: true, props: {
-              count: 8
-            }
-          },
+          // {
+          //   label: "角色", name: "roleListStr", type: 'set', editor: "ASetSelector", placeholder: '请选择角色',
+          //   setFields: [
+          //     { value: 1, label: '超级管理员' },
+          //     { value: 2, label: '招生' },
+          //     { value: 3, label: '课程' },
+          //   ]
+          // },
+          // {
+          //   "label": "多选，有最多",
+          //   "name": "setWithMax",
+          //   "max": 3,
+          //   "type": "set",
+          //   "option": "1324421467981624932134612414912634682164863214126432194612364796427368 选项2 选项3 选项4 选项5"
+          // },
+          // {
+          //   editor: 'NPS', name: 'possibility', label: "您向朋友或同事推荐本堂课程的可能性有多大?", required: true, props: {
+          //     leftTip: '不推荐',
+          //     rightTip: '非常推荐'
+          //   }
+          // },
+          // {
+          //   editor: 'ARate', name: 'score', label: "评分", required: true, props: {
+          //     count: 8
+          //   }
+          // },
         ]
       }
       }

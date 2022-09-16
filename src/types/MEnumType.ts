@@ -8,8 +8,10 @@ import _ from "lodash";
 // 选项是否合法、开放选项是否合法
 function validateCandidate(a:Assembly, schema:MFieldSchemaAnonymity, value:any, path:string): MValidationResult {
   let fs = MUtil.option(schema);
+  console.log('validateCandidate', value)
   for(let f of fs){
-    if(MUtil.isEquals(f.value, value, schema.tolerate)){
+    // @ts-ignore
+    if(MUtil.isEquals(f.value, _.isObject(value) ? value?.value : value, schema.tolerate)){
       return undefined;
     }
   }
