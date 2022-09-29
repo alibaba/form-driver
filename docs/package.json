@@ -1,7 +1,7 @@
 {
   "name": "m3-docs",
   "scripts": {
-    "i": "tnpm install",
+    "i": "cnpm install",
     "ri": "rm -rf node_modules && npm run i",
     "start": "dumi dev",
     "build": "dumi build",
@@ -32,7 +32,7 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@ali/m3": "^0.3.23",
+    "form-driver": "0.1.4",
     "monaco-editor-webpack-plugin": "4.0.0",
     "react-monaco-editor": "0.43.0"
   },

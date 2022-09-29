@@ -1,0 +1,12 @@
+build
+node_modules
+npm-debug.log
+yarn-error.log
+/dist
+/lib
+/es
+/types
+/demo/dist
+coverage
+.idea
+.project

@@ -1,49 +1,36 @@
 {
-  "name": "form-driver",
-  "version": "0.1.8",
-  "description": "An efficient framework for creating forms.",
+  "name": "@ali/m3-plugin-ossupload",
+  "version": "0.1.5",
+  "description": "form-driver 的上传插件",
   "license": "MIT",
-  "authors": [
-    "龙湖 <59775976@qq.com>",
-    "云开 <2313303800@qq.com>"
-  ],
   "scripts": {
-    "start": "webpack-dev-server --inline --progress --config webpack.demo.js --compress",
+    "start": "npm run dev",
     "clean": "rimraf lib dist es coverage types",
     "build": "rollup -c",
     "b": "npm run clean && npm run build",
     "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
-    "pub": "git add . && git commit -m 'update' & npm run b && npm version patch && npm publish && git push",
+    "pub": "npm run b && npm version patch && npm run update && tnpm publish",
     "patch": "npm version patch && npm publish && git push",
-    "submodule": "git submodule update --init",
-    "ut-pull": "cd ./demo/src/ut_autoTest/ut_case && git pull",
-    "ut-test": "cd ./demo/src/ut_autoTest/ut_case && source ./.venv/bin/activate && python run_ui.py",
+    "dev": "webpack-dev-server --inline --progress --config webpack.demo.js",
     "demo:build": "cross-env NODE_ENV=production webpack --config webpack.demo.js",
-    "docs:i": "cd docs && tnpm install",
-    "docs:ri": "cd docs && rm -rf node_modules && npm run i",
-    "docs:start": "cd docs && dumi dev",
-    "docs:build": "cd docs && dumi build",
-    "docs:upload": "cd docs && hp upload ./dist m3/ --free",
-    "docs:pub": "cd docs && npm run build && npm run upload",
     "update": "git add . && git commit -m 'update' && git push"
   },
   "keywords": [
+    "form-driver",
     "m3",
-    "form",
-    "form-driver"
+    "pulgin",
+    "ossupload"
   ],
-  "homepage": "https://github.com/alibaba/form-driver",
-  "bugs": {
-    "url": "https://github.com/alibaba/form-driver/issues"
+  "publishConfig": {
+    "registry": "https://registry.npm.alibaba-inc.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/alibaba/form-driver.git"
-  },
-  "main": "lib/m3.js",
-  "module": "es/m3.js",
-  "unpkg": "dist/m3.js",
+  "authors": [
+    "云开 <2313303800@qq.com>"
+  ],
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "unpkg": "dist/index.js",
   "types": "types/index.d.ts",
   "files": [
     "dist",
@@ -52,23 +39,21 @@
     "src",
     "types"
   ],
-  "displayName": "form-driver",
   "dependencies": {
+    "ali-oss": "^6.17.1",
+    "quill": "^1.3.7"
+  },
+  "devDependencies": {
+    "react-dom": "^17.0.1",
+    "react": "^17.0.1",
+    "lodash": "^4.17.20",
     "@ant-design/icons": "^4.3.0",
     "@babel/runtime": "^7.9.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "lodash": "^4.17.20",
-    "antd": "4.18.7",
-    "antd-mobile": "^2.3.4",
-    "moment": "^2.29.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "yarn": "^1.22.17"
-  },
-  "devDependencies": {
-    "@ant-design/tools": "^13.5.0-beta.1",
+    "antd": "^4.8.5",
+    "form-driver": "0.1.0",
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/plugin-external-helpers": "^7.12.1",
@@ -92,11 +77,9 @@
     "babel-eslint": "^8.0.1",
     "babel-jest": "^22.2.2",
     "babel-loader": "^7.1.2",
-    "babel-plugin-import": "^1.13.3",
     "cross-env": "^7.0.3",
     "css-loader": "^0.28.0",
-    "css-minimizer-webpack-plugin": "^3.0.0",
-    "dingtalk-jsapi": "^2.13.20",
+    "cssnano": "^4.1.10",
     "happypack": "^5.0.1",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^3.2.0",
@@ -109,7 +92,6 @@
     "postcss-nested": "^5.0.3",
     "postcss-preset-env": "^6.7.0",
     "postcss-simple-vars": "^6.0.2",
-    "react-intl": "^5.18.1",
     "rimraf": "^2.5.2",
     "rollup": "^2.38.0",
     "rollup-plugin-babel": "^4.4.0",

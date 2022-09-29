@@ -43,8 +43,15 @@ export class ASelector extends BaseViewer {
     } else {
       let initIndex = undefined;
       const options = this._enums.map((m, index) => {
-        if (value === m.value) {
-          initIndex = index;
+        if (_.isObject(value)) {
+          // @ts-ignore
+          if (value.value === m.value) {
+            initIndex = index;
+          }
+        } else {
+          if (value === m.value) {
+            initIndex = index;
+          }
         }
         return <Select.Option key={index} value={index}>{m.label ?? m.value}</Select.Option>
       });
@@ -78,7 +85,9 @@ export class ASelector extends BaseViewer {
             : menu
         }}
         style={{ width: "100%" }}
-        onChange={(vv: any) => super.changeValue(this._enums[vv].value)}
+        onChange={(vv: any) => {
+          super.changeValue(p?.labelInValue ? this._enums[vv.value] : this._enums[vv].value)
+        }}
         {...p}
       >
         {options}

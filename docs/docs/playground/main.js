@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import parseJson from 'json-parse-better-errors';
-import M3 from '@ali/m3';
+import M3 from 'form-driver';
 import DefaultSchema from './json/simplest.json';
 import { Tabs } from 'antd';
 import MonacoEditor from './monaco';

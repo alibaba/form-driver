@@ -9,7 +9,7 @@ const sourceDirectory = path.resolve(__dirname, 'demo/src');
 const targetDirectory = path.resolve(__dirname, 'demo/dist');
 
 const isDev = process.env.NODE_ENV !== 'production';
-const HOST = "0.0.0.0"
+const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const plugins = [
@@ -49,7 +49,7 @@ module.exports = {
     filename: '[name]-[hash].js',
   },
   devServer: {
-    clientLogLevel: 'debug',
+    clientLogLevel: 'warning',
     overlay: { warnings: false, errors: true },
     stats: "errors-only",
     hot: true,
@@ -58,41 +58,15 @@ module.exports = {
     contentBase: [sourceDirectory],
     watchContentBase: true,
     open: false,
-    disableHostCheck: true,
     proxy: {
-      '/academy/hom/*': {
-        target: 'http://hom.hupan.alibaba.net',
-        changeOrigin: true,
-        secure: false,
-      },
-      '/academy/go/*': {
-        target: 'http://hom.hupan.alibaba.net',
-        changeOrigin: true,
-        secure: false,
-      },
       '/academy/*': {
-        target: 'http://www.hupan.alibaba.net',
+        target: 'http://hom.hupan.alibaba.net',
         changeOrigin: true,
-        secure: false,
         pathRewrite: {
           // '^/academy' : ''
         }
       },
-      '/api': {
-        target: 'http://work.hupan.alibaba.net',
-        changeOrigin: true,
-      }
     },
-  },
-  watchOptions: {
-    ignored: [
-      /node_modules/,
-      path.posix.resolve(__dirname, './dist'),
-      path.posix.resolve(__dirname, './es'),
-      path.posix.resolve(__dirname, './lib'),
-      path.posix.resolve(__dirname, './types'),
-      path.posix.resolve(__dirname,'./demo/src/ut_autoTest/ut_case'),
-    ],
   },
   module: {
     rules: [
@@ -101,45 +75,19 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
-            query: {
-              plugins: [
-                //antd 和 antd-mobile 按需加载
-                [
-                  "import",
-                  { libraryName: "antd", style: 'css' }, 'antd'
-                ],
-                [
-                  "import",
-                  { libraryName: "antd-mobile", style: 'css' }, 'antd-mobile'
-                ],
-              ]
-            },
           },
           {
             loader: 'ts-loader',
           },
         ],
-        exclude: [/node_modules/],
+        exclude: [/node_modules/, /package/],
       },
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/],
+        exclude: [/node_modules/, /package/],
         use: [
           {
             loader: 'babel-loader',
-            query: {
-              plugins: [
-                //antd 和 antd-mobile 按需加载
-                [
-                  "import",
-                  { libraryName: "antd", style: 'css' }, 'antd'
-                ],
-                [
-                  "import",
-                  { libraryName: "antd-mobile", style: 'css' }, 'antd-mobile'
-                ],
-              ]
-            },
           },
         ],
       },
@@ -148,7 +96,7 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
           },
           {
             loader: "less-loader",
@@ -157,7 +105,7 @@ module.exports = {
                 javascriptEnabled: true
               }
             }
-          },
+          }
         ],
       },
       {
@@ -178,18 +126,10 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader" // 将 Sass 编译成 CSS，默认使用 Node Sass
-        ]
-      },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.jsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
