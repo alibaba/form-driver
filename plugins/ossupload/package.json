@@ -1,6 +1,6 @@
 {
   "name": "@ali/m3-plugin-ossupload",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "form-driver 的上传插件",
   "license": "MIT",
   "scripts": {

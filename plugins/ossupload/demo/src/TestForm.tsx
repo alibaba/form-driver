@@ -34,7 +34,8 @@ const database = {
         {
             uid: 0,
             name: 'hahahah.jpg',
-            osskey: 'questionnaire/123/23801/hahahah.jpg'
+            osskey: 'questionnaire/123/23801/hahahah.jpg',
+            url:  'questionnaire/123/23801/hahahah.jpg',
         }
     ],
 }
