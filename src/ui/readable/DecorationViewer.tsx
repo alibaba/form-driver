@@ -22,15 +22,18 @@ export function DecorationViewer(props:MProp){
     }
   }
 
+
+  const s = props.schema.style
+
   if(subType === 'rich') {
     // HTML 片段
-    return <div dangerouslySetInnerHTML={{ __html: props.schema.decoration.HTML}}></div>
+    return <div style={{...s}} dangerouslySetInnerHTML={{ __html: props.schema.decoration.HTML}}></div>
   } else if(subType === 'submitBar') {
     // 提交按钮
     const [loading, setLoading] = useState(false);
     return <MContext.Consumer>
       {
-        ctx => <div style={{textAlign: "center"}}>
+        ctx => <div style={{textAlign: "center", ...s}}>
           <Button type="primary" loading={loading} onClick={()=>{
             const finalData = MUtil.filterHide(ctx.rootProps.schema, props.database)
             const r = assembly.validate(ctx.rootProps.schema, finalData);
@@ -56,11 +59,11 @@ export function DecorationViewer(props:MProp){
     </MContext.Consumer>
   } else if(subType === 'segmentLabel'){
     // 分段标题
-    return <div style={{borderBottom: "1px solid #d9d9d9", padding: "0 0 10px",  margin: "20px 0 15px", fontSize: 19, fontWeight: "bold"}}>
+    return <div style={{borderBottom: "1px solid #d9d9d9", padding: "0 0 10px",  margin: "20px 0 15px", fontSize: 19, fontWeight: "bold", ...s}}>
       {props.schema.decoration.segmentLabel}
     </div>
   } else if(subType === 'operations'){
-    return <Space size="middle">
+    return <Space size="middle" style={{...s}}>
       {props.schema.decoration.operations.map((o,index)=>
         <a key={index} onClick={()=>{
           const ppath = MUtil.parentPath(props.path);

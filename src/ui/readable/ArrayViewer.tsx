@@ -1,5 +1,3 @@
-
-
 import _ from "lodash";
 import React from "react";
 import { assembly } from '../../framework/Assembly';
@@ -9,20 +7,21 @@ import { BaseViewer } from "../BaseViewer";
 export class ArrayViewer extends BaseViewer {
   element(ctx) {
     const vs = this.getValue();
+    const s = this.props.schema.style
     if (_.isNil(vs)) {
-      return <div>{assembly.theme.READABLE_BLANK}</div>
+      return <div style={{ ...s }}>{assembly.theme.READABLE_BLANK}</div>
     } else if (!_.isArray(vs)) {
-      return <div>{assembly.theme.READABLE_INVALID}</div>
+      return <div style={{ ...s }}>{assembly.theme.READABLE_INVALID}</div>
     } else if (vs.length === 0) {
-      return <div>{assembly.theme.READABLE_BLANK}</div>
+      return <div style={{ ...s }}>{assembly.theme.READABLE_BLANK}</div>
     }
 
     if (this.props.schema.toReadable) {
-      return <div>{assembly.toReadable(this.props.schema, vs, super.getParentValue())}</div>
+      return <div> style={{ ...s }}{assembly.toReadable(this.props.schema, vs, super.getParentValue())}</div>
     } else if (this.props.schema.remote) {
-      return <div> {vs.map(v => v.label).join(", ")} </div>
+      return <div style={{ ...s }}> {vs.map(v => v.label).join(", ")} </div>
     } else if (!this.props.schema.arrayMember) {
-      return <div>{vs.join(', ')}</div>
+      return <div style={{ ...s }}>{vs.join(', ')}</div>
     } else {
       if (this.props.schema.layoutHint === "h") {
         return <div style={{ display: 'flex' }}>

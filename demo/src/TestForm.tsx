@@ -28,6 +28,9 @@ let db = {
   "setWithMax": ["不存在的值"],
   // "inttest": 123,
   possibility: 2,
+  textASelector: 2,
+  orgList: [{value: 123, label: '发送端接口号发送到发送'}],
+  description: 'fadafashfahslkfhafh',
   // score: 3
   // "tree1": [{
   //   "value": "0-0",
@@ -74,6 +77,24 @@ const TestForm = () => {
             { value: 2, label: '招生' },
             { value: 3, label: '课程' },
           ]},
+          {
+            label: "归属团队", name: "orgList", required: true, placeholder: '请选择归属团队', type: "array", editor: "ARemoteSelector",
+            // style: {
+            //     color: "rgba(0,0,0,0.6)",
+            // },
+            remote: {
+              url: "/academy/hom/org/getOrgTree?orgId=6",
+              dataPath: "data[0].data",
+              valuePath: "id",
+              labelExpr: "name",
+            },
+          },
+          // {
+          //     label: "事件简介", name: "description", required: true, type: "rich",
+          //     options: {
+          //         useImage: false
+          //     }
+          // },
           // { name: 'inttest', type: 'int', label: '数字框', max: 10, min: 0},
           // { label: "拜访人", name: "visitor222", type: "string", required: true, props: {
           //   // disabled: true
