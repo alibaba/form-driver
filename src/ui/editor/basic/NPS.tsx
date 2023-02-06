@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { BaseViewer } from "../../BaseViewer";
 import { Rate } from 'antd';
-import "./NPS.less";
+import './ARate.less';
 import { MProp } from "../../../framework/Schema";
 
 /**

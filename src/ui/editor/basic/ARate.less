@@ -6,3 +6,30 @@
         flex: 1
     }
 }
+
+.m3-nps-wrapper {
+    .m3-nps-tip {
+        overflow: hidden;
+        text-align: center;
+        padding-left: 15px;
+        padding-right: 15px;
+        span:first-child {
+            float: left;
+        }
+
+        span:last-child {
+            float: right;
+        }
+    }
+
+    .ant-rate {
+        display: flex !important;
+        width  : 100%;
+
+        .ant-rate-star {
+            & > div {
+                text-align: center;
+            }
+        }
+    }
+}
