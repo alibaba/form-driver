@@ -12,7 +12,7 @@ import { MProp } from "../../../framework/Schema";
 export class ARate extends BaseViewer {
   value: string;
 
-  constructor(p:MProp){
+  constructor(p: MProp) {
     super(p);
     this.value = super.getValue() == 0 ? null : super.getValue();
   }
@@ -21,17 +21,28 @@ export class ARate extends BaseViewer {
     const props = {
       count: this.props.schema.max,
       defaultValue: this.value,
-      onChange: (value, label, extra)=>{
+      onChange: (value, label, extra) => {
         if (value == 0) value = null
         if (p.onChange) p.onChange(value, label, extra)
         super.changeValue(value);
       },
-      onBlur: () =>{
+      onBlur: () => {
         if (p.onBlur) p.onBlur()
         super.changeValue(super.getValue())
       },
       ...p,
     }
-    return <Rate {...props} />
+    return <div className="m3-nps-wrapper">
+      {
+        p.centerTip || p.leftTip || p.rightTip ?
+          <div className="m3-nps-tip">
+            {p.centerTip}
+            <span>{p.leftTip}</span>
+            <span>{p.rightTip}</span>
+          </div> : null
+      }
+      <Rate className="m3-nps-rate" {...props} />
+      {/* <Rate {...props} /> */}
+    </div>
   }
 }

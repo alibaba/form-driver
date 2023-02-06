@@ -29,7 +29,7 @@ let db = {
   // "inttest": 123,
   possibility: 2,
   textASelector: 2,
-  orgList: [{value: 123, label: '发送端接口号发送到发送'}],
+  orgList: [{ value: 123, label: '发送端接口号发送到发送' }],
   description: 'fadafashfahslkfhafh',
   // score: 3
   // "tree1": [{
@@ -72,11 +72,32 @@ const TestForm = () => {
         name: 'quest',
         type: 'object',
         objectFields: [
-          {label:"测试单选",name:"textASelector",type:"enum",  required: true, editor:"ASelector", props: {labelInValue: true}, style: { width: '100px' }, option: [
-            { value: 1, label: '超级管理员' },
-            { value: 2, label: '招生' },
-            { value: 3, label: '课程' },
-          ]},
+          {
+            "editor": "ARate",
+            "max": 5,
+            "name": "t_AE08ED51",
+            "label": "评分",
+            "type": "int",
+            "props": {
+              "centerTip": "中立",
+              "leftTip": "不可能",
+              "rightTip": "极有可能"
+            }
+          },
+          {
+            "editor": "ARate",
+            "max": 10,
+            "name": "t_12313",
+            "label": "评分",
+            "type": "int",
+          },
+          {
+            label: "测试单选", name: "textASelector", type: "enum", required: true, editor: "ASelector", props: { labelInValue: true }, style: { width: '100px' }, option: [
+              { value: 1, label: '超级管理员' },
+              { value: 2, label: '招生' },
+              { value: 3, label: '课程' },
+            ]
+          },
           {
             label: "归属团队", name: "orgList", required: true, placeholder: '请选择归属团队', type: "array", editor: "ARemoteSelector",
             // style: {
@@ -168,12 +189,12 @@ const TestForm = () => {
           //   "type": "set",
           //   "option": "1324421467981624932134612414912634682164863214126432194612364796427368 选项2 选项3 选项4 选项5"
           // },
-          // {
-          //   editor: 'NPS', name: 'possibility', label: "您向朋友或同事推荐本堂课程的可能性有多大?", required: true, props: {
-          //     leftTip: '不推荐',
-          //     rightTip: '非常推荐'
-          //   }
-          // },
+          {
+            editor: 'NPS', name: 'possibility', label: "您向朋友或同事推荐本堂课程的可能性有多大?", required: true, props: {
+              leftTip: '不推荐',
+              rightTip: '非常推荐'
+            }
+          },
           // {
           //   editor: 'ARate', name: 'score', label: "评分", required: true, props: {
           //     count: 8
