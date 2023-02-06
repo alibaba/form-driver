@@ -79,9 +79,9 @@ const TestForm = () => {
             "label": "评分",
             "type": "int",
             "props": {
-              "centerTip": "中立",
-              "leftTip": "不可能",
-              "rightTip": "极有可能"
+              "centerTip": "中立不可能发大水发大水发杀死放",
+              "leftTip": "不可能发大水发大水发杀死放",
+              "rightTip": "极有可发的发顺丰能"
             }
           },
           {

@@ -13,12 +13,19 @@
         text-align: center;
         padding-left: 15px;
         padding-right: 15px;
-        span:first-child {
-            float: left;
+        display: flex;
+        .m3-nps-tip-left {
+            flex: 1;          
+            text-align: left;
         }
-
-        span:last-child {
-            float: right;
+        .m3-nps-tip-center {
+            flex: 1;       
+            padding: 0 10px;   
+            text-align: center;
+        }
+        .m3-nps-tip-right {
+            flex: 1;          
+            text-align: right;
         }
     }
 

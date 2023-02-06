@@ -36,9 +36,9 @@ export class ARate extends BaseViewer {
       {
         p.centerTip || p.leftTip || p.rightTip ?
           <div className="m3-nps-tip">
-            {p.centerTip}
-            <span>{p.leftTip}</span>
-            <span>{p.rightTip}</span>
+            <span className="m3-nps-tip-left">{p.leftTip}</span>
+            <span className="m3-nps-tip-center">{p.centerTip}</span>
+            <span className="m3-nps-tip-right">{p.rightTip}</span>
           </div> : null
       }
       <Rate className="m3-nps-rate" {...props} />
