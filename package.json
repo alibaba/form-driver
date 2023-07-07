@@ -26,7 +26,7 @@
     "docs:build": "cd docs && dumi build",
     "docs:upload": "cd docs && hp upload ./dist m3/ --free",
     "docs:pub": "cd docs && npm run build && npm run upload",
-    "update": "git add . && git commit -m 'update' && git push"
+    "push": "git add . && git commit -m 'update' && git push"
   },
   "keywords": [
     "m3",
