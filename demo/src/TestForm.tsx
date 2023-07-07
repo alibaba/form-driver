@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import { message } from 'antd';
 import { M3, SubmitBar } from "../../src";
 
+
+export const valueLabel = {
+  type: "object",
+  name: "-",
+  objectFields: [
+      { label: "文案", name: "label", type: "string" },
+  ]
+};
+
 const treeData = [
   {
     title: 'Node1',
@@ -110,6 +119,7 @@ const TestForm = () => {
               labelExpr: "name",
             },
           },
+          { label: "选项", name: `option`, type: "array", editor: "AArrayGrid", arrayMember: valueLabel, autoValue: true },
           // {
           //     label: "事件简介", name: "description", required: true, type: "rich",
           //     options: {

@@ -163,6 +163,9 @@ export interface MFieldSchema {
 
   /** 组件 AArrayGrid 新增时指定带下来的字段 */
   copyFields?: string[];
+
+  /** 组件 AArrayGrid 新增时，是否自动添加带有唯一值的 value 属性 */
+  autoValue?: boolean;
   
   /** 数组增加一项的按钮文案 */
   arrayAddLabel?: string;
