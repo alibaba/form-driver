@@ -10,7 +10,7 @@
     "b": "npm run clean && npm run build",
     "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
-    "pub": "npm run b && npm version patch && npm run update && tnpm publish",
+    "pub": "npm run b && npm version patch && npm run update && npm publish",
     "patch": "npm version patch && npm publish && git push",
     "dev": "webpack-dev-server --inline --progress --config webpack.demo.js",
     "demo:build": "cross-env NODE_ENV=production webpack --config webpack.demo.js",
