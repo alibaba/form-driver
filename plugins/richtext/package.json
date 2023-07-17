@@ -1,6 +1,6 @@
 {
   "name": "form-driver-plugin-richtext",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "form-driver 的富文本插件",
   "license": "MIT",
   "scripts": {
