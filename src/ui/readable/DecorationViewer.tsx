@@ -5,6 +5,7 @@ import { Button, Modal, message, Space} from 'antd';
 import { MUtil } from '../../framework/MUtil';
 import { assembly } from '../../framework/Assembly';
 import { MContext } from '../../framework/MContext';
+import './RichViewer.less'
 import _ from "lodash";
 
 export function DecorationViewer(props:MProp){
@@ -27,7 +28,23 @@ export function DecorationViewer(props:MProp){
 
   if(subType === 'rich') {
     // HTML 片段
-    return <div style={{...s}} dangerouslySetInnerHTML={{ __html: props.schema.decoration.HTML}}></div>
+    const [isShow, setIsShow] = useState(false);
+    const d = props.schema?.decoration
+    if (d.more) {
+      return <div className="form-driver-plugin-richtext-viewer-wrap">
+        <div className={'ql-editor'} style={{ padding: 0 }} dangerouslySetInnerHTML={{ __html: d.HTML }} />
+        {isShow ? <div className={'ql-editor'} style={{ padding: 0 }} dangerouslySetInnerHTML={{ __html: d.HTML2 }} /> : null}
+        <div className="richtext-viewer-more">
+          <span onClick={() => {
+            setIsShow(!isShow)
+          }}>{isShow ? '收起' : '展开'}{isShow ? <i className="u-arrow u-arrow-up">
+          </i> : <i className="u-arrow u-arrow-down ">
+          </i>}</span>
+        </div>
+      </div>
+    } else {
+      return <div className={'ql-editor'} style={{ padding: 0 }} dangerouslySetInnerHTML={{ __html: d.HTML }} />
+    }
   } else if(subType === 'submitBar') {
     // 提交按钮
     const [loading, setLoading] = useState(false);

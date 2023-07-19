@@ -243,7 +243,7 @@ export interface MFieldSchema {
     subType?: "rich" | "segmentLabel" | "submitBar" | "operations", // 子类型
     HTML?: string, // html片段
     more?: boolean, // 是否显示更多
-    HMTL2?: string, // 更多的 html片段
+    HTML2?: string, // 更多的 html片段
     submitLabel?: string, // 提交按钮
     segmentLabel?: string, // 分段标题
     operations?: { label: React.ReactNode, handler: (data) => void }[]  // 操作

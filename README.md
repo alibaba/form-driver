@@ -11,7 +11,7 @@ An efficient framework for creating forms.
 # 安装依赖
 npm run i
 
-# 本地开发
+# 本地开发  http://0.0.0.0:8080
 npm run dev
 
 # 本地构建

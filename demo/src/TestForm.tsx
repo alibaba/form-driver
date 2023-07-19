@@ -39,7 +39,7 @@ let db = {
   possibility: 2,
   textASelector: 2,
   orgList: [{ value: 123, label: '发送端接口号发送到发送' }],
-  description: 'fadafashfahslkfhafh',
+  // description: 'fadafashfahslkfhafh',
   // score: 3
   // "tree1": [{
   //   "value": "0-0",
@@ -75,7 +75,8 @@ const TestForm = () => {
   return <div>
     <M3
       // key={status}
-      morph={'editor'}
+      morph={'readable'}
+      // morph={'editor'}
       debug={true}
       schema={{
         name: 'quest',
@@ -120,12 +121,15 @@ const TestForm = () => {
             },
           },
           { label: "选项", name: `option`, type: "array", editor: "AArrayGrid", arrayMember: valueLabel, autoValue: true },
-          // {
-          //     label: "事件简介", name: "description", required: true, type: "rich",
-          //     options: {
-          //         useImage: false
-          //     }
-          // },
+          {
+              label: "事件简介", name: "description", required: true,
+              type: "decoration",
+              "decoration": {
+                HTML: "<p>图文展示fdsfdasfsafafafasdasdf</p><p>fdsfasfs</p>",
+                more: true,
+                HTML2: "<p>hahhahhahahahahahahah</p><p>fd啊哈发货的哈发顺丰哈哈发哈大沙发萨哈发撒</p>"
+              }
+          },
           // { name: 'inttest', type: 'int', label: '数字框', max: 10, min: 0},
           // { label: "拜访人", name: "visitor222", type: "string", required: true, props: {
           //   // disabled: true
