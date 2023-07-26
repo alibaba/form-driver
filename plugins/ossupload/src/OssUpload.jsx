@@ -1,10 +1,11 @@
 /* eslint-disable */
 import React from "react";
+import OSS from 'ali-oss';
 import { Upload, message, Button } from 'antd';
 import { Ajax, Viewer } from "form-driver";
-import _ from "lodash";
 
-const OSS = require('ali-oss');
+// const OSS = require("ali-oss")
+
 
 class OssUpload extends Viewer {
   constructor(p) {

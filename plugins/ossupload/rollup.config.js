@@ -91,5 +91,6 @@ const setupOpt = (type) => {
   return baseOpt
 }
 
-const options = ['cjs', 'es', 'umd'].map(item => setupOpt(item))
+const options = ['es'].map(item => setupOpt(item))
+// const options = ['cjs', 'es', 'umd'].map(item => setupOpt(item))
 export default options

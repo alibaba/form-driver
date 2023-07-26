@@ -43,6 +43,7 @@ const database = {
 export class TestForm extends React.Component<any, any> {
     render() {
         return <M3 schema={schema} database={database} morph="editor">
+        {/* return <M3 schema={schema} database={database} morph="readable"> */}
             <SubmitBar onSubmit={async (d: any) => {
                 console.log(d);
                 return new Promise(function (resolve, reject) {

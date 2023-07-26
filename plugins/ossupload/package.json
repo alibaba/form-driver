@@ -10,11 +10,11 @@
     "b": "npm run clean && npm run build",
     "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
-    "pub": "npm run b && npm version patch && npm run update && npm publish",
+    "pub": "npm run b && npm version patch && npm run push && npm publish",
     "patch": "npm version patch && npm publish && git push",
     "dev": "webpack-dev-server --inline --progress --config webpack.demo.js",
     "demo:build": "cross-env NODE_ENV=production webpack --config webpack.demo.js",
-    "update": "git add . && git commit -m 'update' && git push"
+    "push": "git add . && git commit -m 'update' && git push"
   },
   "keywords": [
     "form-driver",
@@ -40,8 +40,7 @@
     "types"
   ],
   "dependencies": {
-    "ali-oss": "^6.17.1",
-    "quill": "^1.3.7"
+    "ali-oss": "^6.17.1"
   },
   "devDependencies": {
     "react-dom": "^17.0.1",
