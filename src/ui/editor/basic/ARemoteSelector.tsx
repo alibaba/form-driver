@@ -74,6 +74,7 @@ export class ARemoteSelector extends Viewer<State> {
     const selfDisabled = p.disabled
     delete deepCloneP.disabled
     const selfOnChange = p.onChange
+    const preOnChange = p.preOnChange
     delete deepCloneP.onChange
     
     
@@ -94,14 +95,22 @@ export class ARemoteSelector extends Viewer<State> {
           this.fetchCandidate("");
         }
       }}
-      onChange={(v: any) => {
+      onChange={async (v: any) => {
+        let data = v.map(item => ({value: item.value, label: item.label}))
+        if(preOnChange){
+          const result = await preOnChange(v)
+          if(result && result.length > 0){
+            data = result
+          }
+        }
+
         switch(type){
           case "vl":
             if (v) super.changeValue({value:v.value, label:v.label});
             else super.changeValue(null);
             break;
           case "array":
-            if (v) super.changeValue(v.map(i=>({value:i.value, label:i.label })));
+            if (v) super.changeValue(data);
             else super.changeValue(null);
             break;
           case "string":
