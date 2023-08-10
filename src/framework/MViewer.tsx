@@ -84,7 +84,6 @@ export class MViewer extends React.Component<MViewerProp, State> {
     const props = this.props;
     const database = this.database;
     const { ctrlVersion, forceValid } = this.state
-    // console.log('MViewer', props.changeSchema);
     
     return <MContext.Provider value={{
       rootProps: props,

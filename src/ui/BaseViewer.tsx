@@ -24,6 +24,15 @@ export abstract class Viewer<S extends ViewerState> extends React.Component<MPro
     return MUtil.get(this.props.database, this.props.path);
   }
 
+  /**
+   * 修复全局 Scheme
+   */
+  changeSchema(v){
+    if (this.props.changeSchema) {
+     this.props.changeSchema(v) 
+    }
+  }
+
   getParentValue(){
     return MUtil.get(this.props.database, MUtil.parentPath(this.props.path));
   }
