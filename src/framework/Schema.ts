@@ -313,6 +313,8 @@ export interface MFieldSchema {
  */
 export type AFTER_CHANGE_CALLBACK = (path: string, v: any, final: boolean) => void;
 
+export type CHANGE_SCHEMA_CALLBACK = (v: any) => void;
+
 export interface MProp {
   /** database的数据描述 */
   schema: MFieldSchemaAnonymity,
@@ -328,6 +330,9 @@ export interface MProp {
 
   /** database有任何变化时回调 */
   afterChange?: AFTER_CHANGE_CALLBACK,
+
+  /** 修改schema */
+  changeSchema?: CHANGE_SCHEMA_CALLBACK,
 
   /** @deprecated 直接上层。有时parent是谁，会影响渲染字段 */
   parent?: MFieldSchemaAnonymity,

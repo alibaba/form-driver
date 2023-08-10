@@ -1,5 +1,6 @@
 import React, { ClassType } from "react";
 import { MValidationResult, MFieldSchemaAnonymity, MProp, MValidationFail } from './Schema';
+import { CHANGE_SCHEMA_CALLBACK } from "../framework/Schema";
 import _ from "lodash";
 import { MUtil } from './MUtil';
 import { MType, PluginType } from "../types/MType";
@@ -76,12 +77,13 @@ export class Assembly {
   }
 
   /** 根据定义返回View，返回nil表示没有可用的View */
-  getViewerOf(f: MFieldSchemaAnonymity, morph: MORPH): ClassType<any, any, any> {
+  getViewerOf(f: MFieldSchemaAnonymity, morph: MORPH, changeSchema: CHANGE_SCHEMA_CALLBACK): ClassType<any, any, any> {
     if (f.editor && morph === "editor") {
       if (_.isString(f.editor)) {
         return _.get(this.viewers, f.editor);
       } else {
-        return f.editor;
+        // return f.editor;
+        return changeSchema ? React.createElement(f.editor, {changeSchema}) : f.editor;
       }
     } else if (f.readable && morph === "readable") {
       if (_.isString(f.readable)) {

@@ -4,6 +4,7 @@ import { MViewerDebug } from './MViewerDebug';
 import editorMap from './editorMap';
 import { MFieldSchema, M3UISpec, MFieldSchemaAnonymity } from "../../src/framework/Schema";
 import _ from "lodash";
+import { MContext } from './MContext';
 
 // 外部 schema 转化为内部
 function deal(fieldSchema: MFieldSchemaAnonymity | MFieldSchema) {
@@ -59,6 +60,8 @@ function standardSchema(schema: MFieldSchema | MFieldSchema[], layout?: M3UISpec
 }
 
 
+// export const MContext = React.createContext(undefined);
+
 const M3 = (props: React.PropsWithChildren<M3Prop & { debug?: boolean }>) => {
   const [prevProp, setPrevProp] = useState(props);
 
@@ -86,8 +89,14 @@ const M3 = (props: React.PropsWithChildren<M3Prop & { debug?: boolean }>) => {
   }, [props.database])
 
   return (
-    debug ? <MViewerDebug key={k} {...props} database={database} schema={schema} /> :
-      <MViewer key={k} {...props} database={database} schema={schema} />
+    // <MContext.Provider value={{
+    //   rootProps: props,
+    //   setForceValid: (b) => { this.setState({ forceValid: true }) }
+    // }}>{
+      debug ? <MViewerDebug key={k} {...props} database={database} schema={schema} /> :
+      <MViewer key={k} {...props} database={database} schema={schema}/>
+    // }
+    // </MContext.Provider>
   );
 }
 

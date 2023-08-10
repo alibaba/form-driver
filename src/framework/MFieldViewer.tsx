@@ -9,16 +9,20 @@ import { MContext } from './MContext';
  */
 export class MFieldViewer extends React.Component<MProp, any> {
   render() {
-    const viewer = assembly.getViewerOf(this.props.schema, this.props.morph);
+    const viewer = assembly.getViewerOf(this.props.schema, this.props.morph, this.props.changeSchema);
     if(!viewer){
       return MUtil.error(`字段的视图尚未实现`, this.props.schema);
     }
     const props = {
       afterChange: ()=>{}, // 给afterChange一个默认值
+      // changeSchema: this.props.changeSchema,
       name:this.props.path,
       ...this.props
     };
-    const ele =  React.createElement(viewer, props, null);
+    console.log('MFieldViewer.changeSchema', this.props.changeSchema, this.props.schema);
+    // console.log('MFieldViewer => this.props.afterChange', this.props.afterChange);
+    
+    const ele = React.createElement(viewer, props, null);
     return  <MContext.Consumer>
       {ctx => {
         if (ctx.rootProps.wrapper && this.props.schema.type !== 'object' && this.props.schema.type !== 'array') {

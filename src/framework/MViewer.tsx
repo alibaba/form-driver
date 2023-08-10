@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AFTER_CHANGE_CALLBACK, MFieldSchema, M3UISpec } from "../framework/Schema";
+import { AFTER_CHANGE_CALLBACK, CHANGE_SCHEMA_CALLBACK, MFieldSchema, M3UISpec } from "../framework/Schema";
 import { Button, message, Modal } from "antd";
 import "./MViewer.less";
 import { MFieldViewer } from "./MFieldViewer";
@@ -18,6 +18,7 @@ export interface MViewerProp {
   morph: MORPH,
   onSubmit?: (finalData: any) => Promise<any>;
   afterChange?: AFTER_CHANGE_CALLBACK,
+  changeSchema?: CHANGE_SCHEMA_CALLBACK,
   wrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   formItemWrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   /** 持久存储选项，nil表示不持久存储 */
@@ -32,6 +33,7 @@ export interface M3Prop {
   morph: MORPH,
   onSubmit?: (finalData: any) => Promise<any>;
   afterChange?: AFTER_CHANGE_CALLBACK,
+  changeSchema?: CHANGE_SCHEMA_CALLBACK,
   wrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   formItemWrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   /** 持久存储选项，nil表示不持久存储 */
@@ -82,13 +84,14 @@ export class MViewer extends React.Component<MViewerProp, State> {
     const props = this.props;
     const database = this.database;
     const { ctrlVersion, forceValid } = this.state
-
+    // console.log('MViewer', props.changeSchema);
+    
     return <MContext.Provider value={{
       rootProps: props,
       forceValid, setForceValid: (b) => { this.setState({ forceValid: true }) }
     }}>
       <div key={ctrlVersion} className={MUtil.phoneLike() ? "MEditor_p" : "MEditor"} style={props.style}>
-        <MFieldViewer schema={props.schema} database={database} path="" morph={props.morph} afterChange={PersistantTool.patchAfterChange(props.afterChange, props.persistant)} />
+        <MFieldViewer schema={props.schema} database={database} path="" morph={props.morph} afterChange={PersistantTool.patchAfterChange(props.afterChange, props.persistant)} changeSchema={props.changeSchema}/>
         {props.children}
       </div>
     </MContext.Provider>
