@@ -19,7 +19,6 @@ export class MFieldViewer extends React.Component<MProp, any> {
       name: this.props.path,
       ...this.props
     };
-    console.log('MFieldViewer.changeSchema', this.props.changeSchema, this.props.schema);
 
     const ele = React.createElement(viewer, props, null);
 

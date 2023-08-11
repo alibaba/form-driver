@@ -52,8 +52,6 @@ class CourseLinkEditor extends BaseViewer {
                                                 this.setState({
                                                     key: this.state.key + 1
                                                 })
-                                                console.log('courseLinkEditor.props', this.props);
-                                                this.props.changeSchema(this.state.key);
                                                 
                                                 if(i.applyFormUrl){
                                                     const uniqueId = i.applyFormUrl.split(/[?&]/)[1].split(/=/)[1]
@@ -75,8 +73,7 @@ class CourseLinkEditor extends BaseViewer {
                                                     }else{
                                                         newObjectFields = this.props.parent.objectFields.filter(item => !item.courseId || item.courseId !== i.id)
                                                     }
-                                                    console.log('courseLinkEditor.newObjectFields', newObjectFields);
-                                                    // this.props.changeSchema(newObjectFields)
+                                                    this.props.changeSchema(newObjectFields)
                                                 } 
                                             }}
                                             checked={checked}

@@ -84,9 +84,11 @@ const M3 = (props: React.PropsWithChildren<M3Prop & { debug?: boolean }>) => {
     }
   }, [props.database])
 
+  const changeSchema = v => setSchema(standardSchema(v))
+
   return (
-      debug ? <MViewerDebug key={k} {...props} database={database} schema={schema} changeSchema={(v) => console.log(v)}/> :
-      <MViewer key={k} {...props} database={database} schema={schema} changeSchema={(v) => console.log(v)}/>
+      debug ? <MViewerDebug key={k} {...props} database={database} schema={schema} changeSchema={changeSchema}/> :
+      <MViewer key={k} {...props} database={database} schema={schema} changeSchema={changeSchema}/>
   );
 }
 
