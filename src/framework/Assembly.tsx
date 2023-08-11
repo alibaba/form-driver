@@ -77,13 +77,12 @@ export class Assembly {
   }
 
   /** 根据定义返回View，返回nil表示没有可用的View */
-  getViewerOf(f: MFieldSchemaAnonymity, morph: MORPH, changeSchema: CHANGE_SCHEMA_CALLBACK): ClassType<any, any, any> {
+  getViewerOf(f: MFieldSchemaAnonymity, morph: MORPH): ClassType<any, any, any> {
     if (f.editor && morph === "editor") {
       if (_.isString(f.editor)) {
         return _.get(this.viewers, f.editor);
       } else {
-        // return f.editor;
-        return changeSchema ? React.createElement(f.editor, {changeSchema}) : f.editor;
+        return f.editor;
       }
     } else if (f.readable && morph === "readable") {
       if (_.isString(f.readable)) {
@@ -143,6 +142,7 @@ export class Assembly {
   addType(typeParam: PluginType) {
     const { name, type, editor, readable = "DivViewer" } = typeParam
     this.types[name] = type;
+    
     _.set(this.morph, "editor." + name, editor);
     _.set(this.morph, "readable." + name, readable);
 

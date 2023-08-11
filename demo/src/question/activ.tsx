@@ -63,6 +63,7 @@ const Answer = () => {
       type:"object", 
       objectFields: list.map(item => item.component)
     };
+    
     // 处理database
     const database = _.assign({}, MUtil.renameKey(prevServerData, _.invert(name2id)));
     setInput({schema, database})
@@ -74,7 +75,7 @@ const Answer = () => {
   }, database: []})
   useEffect(() => { onLoad() }, []);
 
-  return <M3 schema={input.schema} database={input.database} morph="editor"/>
+  return <M3 schema={input.schema} database={input.database} morph="editor" changeSchema={v => v}/>
 };
 
 export default Answer;

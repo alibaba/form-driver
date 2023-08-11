@@ -17,7 +17,7 @@ class CourseLinkEditor extends BaseViewer {
 
     element() {
         const list = this.props.schema.courseDetailList
-        console.log('courseLinkEditor.props', this.props);
+        console.log('props', this.props);
         return <>
             {
                 (list ?? []).length > 0 ? 
@@ -73,8 +73,7 @@ class CourseLinkEditor extends BaseViewer {
                                                     }else{
                                                         newObjectFields = this.props.parent.objectFields.filter(item => !item.courseId || item.courseId !== i.id)
                                                     }
-                                                    console.log('courseLinkEditor.newObjectFields', newObjectFields);
-                                                    this.props.changeSchema(newObjectFields)
+                                                    // this.props.changeSchema(newObjectFields)
                                                 } 
                                             }}
                                             checked={checked}
