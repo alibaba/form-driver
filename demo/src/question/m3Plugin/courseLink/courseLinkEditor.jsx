@@ -17,7 +17,6 @@ class CourseLinkEditor extends BaseViewer {
 
     element() {
         const list = this.props.schema.courseDetailList
-        console.log('props', this.props);
         return <>
             {
                 (list ?? []).length > 0 ? 
@@ -53,6 +52,9 @@ class CourseLinkEditor extends BaseViewer {
                                                 this.setState({
                                                     key: this.state.key + 1
                                                 })
+                                                console.log('courseLinkEditor.props', this.props);
+                                                this.props.changeSchema(this.state.key);
+                                                
                                                 if(i.applyFormUrl){
                                                     const uniqueId = i.applyFormUrl.split(/[?&]/)[1].split(/=/)[1]
                                                     const { data } = await Ajax.get(`/academy/questionnaire/detail?uniqueId=${uniqueId}`);
@@ -73,6 +75,7 @@ class CourseLinkEditor extends BaseViewer {
                                                     }else{
                                                         newObjectFields = this.props.parent.objectFields.filter(item => !item.courseId || item.courseId !== i.id)
                                                     }
+                                                    console.log('courseLinkEditor.newObjectFields', newObjectFields);
                                                     // this.props.changeSchema(newObjectFields)
                                                 } 
                                             }}

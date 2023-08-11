@@ -42,7 +42,6 @@ const defaultTheme: MTheme = {
   themeName: "antMiddle"
 }
 
-let rootHideMap = {} 
 /**
  * 注册viewer，type，morph（viewer和type之间的关联）
  */
@@ -78,6 +77,7 @@ export class Assembly {
 
   /** 根据定义返回View，返回nil表示没有可用的View */
   getViewerOf(f: MFieldSchemaAnonymity, morph: MORPH): ClassType<any, any, any> {
+    console.log('getviewof', f, morph)
     if (f.editor && morph === "editor") {
       if (_.isString(f.editor)) {
         return _.get(this.viewers, f.editor);
