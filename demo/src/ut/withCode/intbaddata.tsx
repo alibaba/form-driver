@@ -1,7 +1,7 @@
 /** 测试运行时schema / database 变化 */
 import React from 'react';
-import M3 from '../../../../../src/framework/M3';
-import { SubmitBar } from '../../../../../src/framework/MViewer';
+import M3 from '../../../../src/framework/M3';
+import { SubmitBar } from '../../../../src/framework/MViewer';
 
 const schema = {
 	"name":"quest","type":"object",

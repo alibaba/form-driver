@@ -1,7 +1,7 @@
 /** 测试运行时schema / database 变化 */
 import React, { useState } from 'react';
 import { Switch } from 'antd';
-import M3 from '../../../../../src/framework/M3';
+import M3 from '../../../../src/framework/M3';
 
 const schema1 = {
 	"name":"quest","type":"object",

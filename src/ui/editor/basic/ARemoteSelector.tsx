@@ -100,7 +100,7 @@ export class ARemoteSelector extends Viewer<State> {
 
         switch(type){
           case "vl":
-            if (v) super.changeValue(result ||  {value: v.value, label: v.label});
+            if (v) super.changeValue(result || {value: v.value, label: v.label});
             else super.changeValue(null);
             break;
           case "array":
