@@ -20,30 +20,70 @@ const QuestionEditor = () => {
       schema={{
         name: 'quest',
         type: 'object',
-        objectFields: [{
-            label: "课程", name: "courseList", required: true, type: "array", placeholder: "请输入", editor: "ARemoteSelector",
+        objectFields: [
+          {
+            label: "vl", name: "vl", placeholder: '请选择关联资料', type: "vl", editor: "ARemoteSelector", required: true,
+            readable: 'A',
+            a: {
+              onClick: val => {
+                console.log('val', val);
+              }
+            },
             remote: {
-                url: "/academy/hom/course/list?title=${q}",
+                url: "/academy/hom/lyg/event/resource/search?keyword=${q}",
                 dataPath: "data",
-                valuePath: "id",
-                labelExpr: "title"
+                valuePath: "resourceId",
+                labelExpr: "resourceName"
             },
             props: {
-                onChange(v) {
-                    console.log(v);
-                },
-                async preOnChange(v) {
-                  const ids = v.map(i => i.value)
-                  const payload = ids.join('&courseIds=')
-                  const data =  await fetch(`/academy/hom/course/list?courseIds=${payload}`).then(res => res.json())
-                  const result = data.data.map(item => ({...item, label: item.title, value: item.id}))
-                  console.log('preOnChange', result);
-                  return result
-                }
+              onChange(v) {
+                // console.log(v);
+              },
+              async preOnChange(v) {
+                return {vlaue: v.value, label: v.label, id: v.label}
+              }
             }
-        }]
-      }
-      }
+          },
+          {
+            label: "array", name: "array", required: true, type: "array", placeholder: "请输入", editor: "ARemoteSelector",
+            remote: {
+              url: "/academy/hom/course/list?title=${q}",
+              dataPath: "data",
+              valuePath: "id",
+              labelExpr: "title"
+            },
+            props: {
+              onChange(v) {
+                // console.log(v);
+              },
+              async preOnChange(v) {
+                const ids = v.map(i => i.value)
+                const payload = ids.join('&courseIds=')
+                const data = await fetch(`/academy/hom/course/list?courseIds=${payload}`).then(res => res.json())
+                const result = data.data.map(item => ({ ...item, label: item.title, value: item.id }))
+                return result
+              }
+            }
+          },
+          {
+            label: "string", name: "string", required: true, type: "string", placeholder: "请输入", editor: "ARemoteSelector",
+            remote: {
+              url: "/academy/hom/course/list?title=${q}",
+              dataPath: "data",
+              valuePath: "id",
+              labelExpr: "title"
+            },
+            props: {
+              onChange(v) {
+                // console.log(v);
+              },
+              async preOnChange(v) {
+                return v.value
+              }
+            }
+          }
+        ]
+      }}
       database={database}>
       <SubmitBar onSubmit={async (d: any) => {
         return new Promise(function (resolve, reject) {
