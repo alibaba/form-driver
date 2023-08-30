@@ -7,7 +7,9 @@ const QuestionEditor = () => {
   const [database, setDatabase] = useState({})
   useEffect(() => {
     setTimeout(() => {
-      setDatabase([])
+      setDatabase({
+        courseList: [],
+      })
     }, 1000)
   }, []);
 
@@ -31,9 +33,12 @@ const QuestionEditor = () => {
                     console.log(v);
                 },
                 async preOnChange(v) {
-                    const id = v[v.length - 1].value
-                    const data =  await fetch(`/academy/hom/course?courseId=${id}`).then(res => res.json())
-                    return data.data
+                  const ids = v.map(i => i.value)
+                  const payload = ids.join('&courseIds=')
+                  const data =  await fetch(`/academy/hom/course/list?courseIds=${payload}`).then(res => res.json())
+                  const result = data.data.map(item => ({...item, label: item.title, value: item.id}))
+                  console.log('preOnChange', result);
+                  return result
                 }
             }
         }]

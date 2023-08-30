@@ -3,10 +3,10 @@ import { Button, Modal } from 'antd';
 import React from "react";
 import jsonUt from './case.json';
 import _ from 'lodash';
-import { M3 } from '../../../src/';
-import { SubmitBar } from '../../../src/framework/MViewer';
-import { MFieldSchema } from '../../../src/framework/Schema';
-import { MUtil } from '../../../src/framework/MUtil';
+import { M3 } from '../../../../src';
+import { SubmitBar } from '../../../../src/framework/MViewer';
+import { MFieldSchema } from '../../../../src/framework/Schema';
+import { MUtil } from '../../../../src/framework/MUtil';
 import { UtProps } from './withCode/utprops';
 import { IntBadData } from './withCode/intbaddata';
 

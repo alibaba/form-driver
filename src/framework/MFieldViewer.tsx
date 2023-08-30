@@ -10,6 +10,8 @@ import { MContext } from './MContext';
 export class MFieldViewer extends React.Component<MProp, any> {
   render() {
     const viewer = assembly.getViewerOf(this.props.schema, this.props.morph);
+    // console.log('MFieldViewer.viewer', viewer);
+    
     if (!viewer) {
       return MUtil.error(`字段的视图尚未实现`, this.props.schema);
     }
