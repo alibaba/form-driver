@@ -96,7 +96,6 @@ export class ARemoteSelector extends Viewer<State> {
         }
       }}
       onChange={async (v: any) => {
-        // 只对array生效
         const result = preOnChange ? await preOnChange(v) : null
 
         switch(type){
