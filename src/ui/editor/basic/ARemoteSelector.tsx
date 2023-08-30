@@ -96,12 +96,11 @@ export class ARemoteSelector extends Viewer<State> {
         }
       }}
       onChange={async (v: any) => {
-        // 只对array生效
         const result = preOnChange ? await preOnChange(v) : null
 
         switch(type){
           case "vl":
-            if (v) super.changeValue({value: (result ?? v).value, label: (result ?? v).label});
+            if (v) super.changeValue(result ||  {value: v.value, label: v.label});
             else super.changeValue(null);
             break;
           case "array":
