@@ -3,9 +3,23 @@ import { M3, SubmitBar } from "../../src";
 import { message } from 'antd';
 
 let db = {
+  "participantList": [
+    {
+      "archiveId": {
+        "value": 37160,
+        "label": "柳青(青青) / 北京小桔科技有限公司"
+      },
+      "role": "哈哈光",
+      "coConstructionTime": 2
+    }
+  ],
+  "archiveId": {
+    "value": 37160,
+    "label": "柳青(青青) / 北京小桔科技有限公司"
+  },
 }
 const TestForm2 = () => {
-  const [database, setDatabase] = useState({})
+  const [database, setDatabase] = useState(db)
   useEffect(() => {
 
   }, []);
@@ -18,29 +32,55 @@ const TestForm2 = () => {
         name: 'quest',
         type: 'object',
         objectFields: [
+          // {
+          //   name: "participantList", type: "array", editor: "AArrayGrid",
+          //   arrayMember: {
+          //     column: 3,
+          //     // 新增时指定带下来的字段
+          //     copyFields: ['role', 'coConstructionTime'],
+          //     objectFields: [
+          //       {
+          //         label: "人物档案", name: "archiveId", placeholder: '请选择人物档案', type: "vl", editor: "ARemoteSelector", required: true,
+          //         remote: {
+          //           url: "/academy/hom/lyg/archive/search?type=1&keywords=${q}",
+          //           dataPath: "data.list",
+          //           valuePath: "id",
+          //           labelExpr: "name +  ' / ' + brief"
+          //         }, readable: 'A', a: {
+          //           labelExpr: (val) => {
+          //             console.log('lableExpr:' + String(val))
+          //             return <span>fdasfasa</span>
+          //           },
+          //           onClick: (val) => {
+          //             window.open(`/#/archive-detail?id=${val.value}`)
+          //           }
+          //         }
+          //       },
+          //       { label: "角色", name: "role", type: "string", required: true, },
+          //       { label: "共建时", name: "coConstructionTime", type: "int" },
+          //     ]
+          //   }
+          // },
           {
-            name: "participantList", type: "array", editor: "AArrayGrid",
-            arrayMember: {
-              column: 3,
-              // 新增时指定带下来的字段
-              copyFields: ['role', 'coConstructionTime'],
-              objectFields: [
-                {
-                  label: "人物档案", name: "archiveId", placeholder: '请选择人物档案', type: "vl", editor: "ARemoteSelector", required: true,
-                  remote: {
-                    url: "/academy/hom/lyg/archive/search?type=1&keywords=${q}",
-                    dataPath: "data.list",
-                    valuePath: "id",
-                    labelExpr: "name +  ' / ' + brief"
-                  }, readable: 'A', a: {
-                    onClick: (val) => {
-                      window.open(`/#/archive-detail?id=${val.value}`)
-                    }
-                  }
-                },
-                { label: "角色", name: "role", type: "string", required: true, },
-                { label: "共建时", name: "coConstructionTime", type: "int" },
-              ]
+            label: "人物档案", name: "archiveId", placeholder: '请选择人物档案', type: "vl", editor: "ARemoteSelector", required: true,
+            remote: {
+              url: "/academy/hom/lyg/archive/search?type=1&keywords=${q}",
+              dataPath: "data.list",
+              valuePath: "id",
+              // labelExpr: "name +  ' / ' + brief",
+              labelExpr: (val) => {
+                console.log('lableExpr:', val)
+                // return <span>{val.name +  ' / ' + val.brief}</span>
+                return  val.name +  ' / ' + val.brief
+              },
+            }, readable: 'A', a: {
+              labelExpr: (val, p) => {
+                console.log('lableExpr:', val, p)
+                return <span>{val.label}</span>
+              },
+              onClick: (val) => {
+                window.open(`/#/archive-detail?id=${val.value}`)
+              }
             }
           },
         ],

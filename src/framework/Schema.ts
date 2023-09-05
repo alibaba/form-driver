@@ -40,6 +40,7 @@ export interface MFieldSchema {
   type?: string,
   name: string,
   label?: string,
+  labelTip?: string,
 
   /** 编辑器，editor:<viewer名字> 是 viewerFor: {morph:"editor", name:<viewer名字>} 的简写 */
   editor?: string | VIEWER,
@@ -281,7 +282,7 @@ export interface MFieldSchema {
     valuePath: JSEXPR,
 
     /** 在dataPath下，标题字段的表达式 */
-    labelExpr: JSEXPR,
+    labelExpr: ((value: any) => React.ReactNode) | JSEXPR,
   }
 
   a?: {
