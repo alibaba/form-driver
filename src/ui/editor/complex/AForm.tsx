@@ -142,7 +142,7 @@ export class AForm extends Viewer<State> {
         //this.setState({shouldAnimation: shouldAnimation(hideMap, newHideMap, objectFields)});
         this.setState({});
       }
-    }} parent={this.props.schema} changeSchema={this.props.changeSchema} forceValid={this.props.forceValid} style={{ width: "100%" }} />
+    }} parent={this.props.schema} changeSchema={this.props.changeSchema} changeDatabase={this.props.changeDatabase} forceValid={this.props.forceValid} style={{ width: "100%" }} />
 
     let ele;
     if(uispec.layout === "vertical") { // label在字段上面的分段布局

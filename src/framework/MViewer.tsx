@@ -19,6 +19,7 @@ export interface MViewerProp {
   onSubmit?: (finalData: any) => Promise<any>;
   afterChange?: AFTER_CHANGE_CALLBACK,
   changeSchema?: CHANGE_SCHEMA_CALLBACK,
+  changeDatabase?: CHANGE_SCHEMA_CALLBACK,
   wrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   formItemWrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   /** 持久存储选项，nil表示不持久存储 */
@@ -28,12 +29,14 @@ export interface MViewerProp {
 export interface M3Prop {
   schema: MFieldSchema | MFieldSchema[],
   database: any,
+  form?: any,
   layout?: M3UISpec,
   style?: React.CSSProperties,
   morph: MORPH,
   onSubmit?: (finalData: any) => Promise<any>;
   afterChange?: AFTER_CHANGE_CALLBACK,
   changeSchema?: CHANGE_SCHEMA_CALLBACK,
+  changeDatabase?: CHANGE_SCHEMA_CALLBACK,
   wrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   formItemWrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   /** 持久存储选项，nil表示不持久存储 */
@@ -84,13 +87,21 @@ export class MViewer extends React.Component<MViewerProp, State> {
     const props = this.props;
     const database = this.database;
     const { ctrlVersion, forceValid } = this.state
-    
+
     return <MContext.Provider value={{
       rootProps: props,
       forceValid, setForceValid: (b) => { this.setState({ forceValid: true }) }
     }}>
       <div key={ctrlVersion} className={MUtil.phoneLike() ? "MEditor_p" : "MEditor"} style={props.style}>
-        <MFieldViewer schema={props.schema} database={database} path="" morph={props.morph} afterChange={PersistantTool.patchAfterChange(props.afterChange, props.persistant)} changeSchema={props.changeSchema}/>
+        <MFieldViewer
+          schema={props.schema}
+          database={database}
+          path=""
+          morph={props.morph}
+          afterChange={PersistantTool.patchAfterChange(props.afterChange, props.persistant)}
+          changeSchema={props.changeSchema}
+          changeDatabase={props.changeDatabase}
+        />
         {props.children}
       </div>
     </MContext.Provider>

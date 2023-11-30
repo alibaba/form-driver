@@ -18,6 +18,7 @@ export class MFieldViewer extends React.Component<MProp, any> {
     const props = {
       afterChange: () => { }, // 给afterChange一个默认值
       changeSchema: () => { },  // 给changeSchema一个默认值
+      changeDatabase: () => { },  // 给changeDatabase一个默认值
       name: this.props.path,
       ...this.props
     };
