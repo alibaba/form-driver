@@ -6,7 +6,7 @@ import { MViewerDebug } from './framework/MViewerDebug';
 import { MORPH, VIEWER, assembly, MTheme, Assembly } from './framework/Assembly';
 import { ViewerState, Viewer, BaseViewer } from './ui/BaseViewer';
 import { MViewer, SubmitBar, useM3Database } from './framework/MViewer';
-import M3 from './framework/M3';
+import M3 , {useForm} from './framework/M3';
 import { MFieldViewer } from './framework/MFieldViewer';
 import { MContext } from './framework/MContext';
 import { MUtil } from './framework/MUtil';
@@ -19,6 +19,7 @@ import { MType, EmtpyType, createDefaultValue } from './types/MType';
 
 export {
   M3,
+  useForm,
   MContext, MFieldViewer, BaseViewer, assembly, SegmentEditSwitch, Viewer, UnderlineInputBox, Segment, MUtil, Ajax,
   MViewer,
   MViewerDebug, SubmitBar,

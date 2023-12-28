@@ -1,6 +1,6 @@
 {
   "name": "form-driver",
-  "version": "0.1.18",
+  "version": "0.2.0",
   "description": "An efficient framework for creating forms.",
   "license": "MIT",
   "authors": [
@@ -14,7 +14,7 @@
     "b": "npm run clean && npm run build",
     "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
-    "pub": "git add . && git commit -m 'update' & npm run b && npm version patch && npm publish && git push",
+    "pub": "git pull && git add . && git commit -m 'update' & npm run b && npm version patch && npm publish && git push",
     "patch": "npm version patch && npm publish && git push",
     "submodule": "git submodule update --init",
     "ut-pull": "cd ./demo/src/ut_autoTest/ut_case && git pull",
@@ -26,7 +26,7 @@
     "docs:build": "cd docs && dumi build",
     "docs:upload": "cd docs && hp upload ./dist m3/ --free",
     "docs:pub": "cd docs && npm run build && npm run upload",
-    "push": "git add . && git commit -m 'update' && git push"
+    "push": "git pull && git add . && git commit -m 'update' && git push"
   },
   "keywords": [
     "m3",

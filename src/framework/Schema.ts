@@ -40,6 +40,7 @@ export interface MFieldSchema {
   type?: string,
   name: string,
   label?: string,
+  labelTip?: string,
 
   /** 编辑器，editor:<viewer名字> 是 viewerFor: {morph:"editor", name:<viewer名字>} 的简写 */
   editor?: string | VIEWER,
@@ -281,7 +282,7 @@ export interface MFieldSchema {
     valuePath: JSEXPR,
 
     /** 在dataPath下，标题字段的表达式 */
-    labelExpr: JSEXPR,
+    labelExpr: ((value: any) => React.ReactNode) | JSEXPR,
   }
 
   a?: {
@@ -333,6 +334,9 @@ export interface MProp {
 
   /** 修改schema */
   changeSchema?: CHANGE_SCHEMA_CALLBACK,
+
+  /** 修改database */
+  changeDatabase?: CHANGE_SCHEMA_CALLBACK,
 
   /** @deprecated 直接上层。有时parent是谁，会影响渲染字段 */
   parent?: MFieldSchemaAnonymity,

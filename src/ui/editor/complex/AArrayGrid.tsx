@@ -41,6 +41,7 @@ function uuid(len = 8, radix = 16) {
  *    {from:"1606997544611",to:"", tillNow:true, company:"阿里巴巴", position:"CEO"},
  *  ]
  */
+
 export class AArrayGrid extends BaseViewer {
   element() {
     const schema = this.props.schema;
@@ -118,7 +119,7 @@ export class AArrayGrid extends BaseViewer {
     return (
       <table key={this.props.path} className="AExperience M3_table" style={{ width: "100%" }}><tbody>
         <tr key=":header">
-          {members.map((f, i) => <th key={f.name + i + ":first"}>{f.label ?? f.name}</th>)}
+          {members.map((f, i) => <th key={f.name + i + ":first"}>{f.required ? <span style={{ color: "red" }}>*</span> : null}{f.label ?? f.name}</th>)}
           <td key=":操作栏" width="40px" align="center"></td>
         </tr>
         {rows}

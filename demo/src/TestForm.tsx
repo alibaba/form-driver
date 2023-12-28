@@ -75,8 +75,8 @@ const TestForm = () => {
   return <div>
     <M3
       // key={status}
-      morph={'readable'}
-      // morph={'editor'}
+      // morph={'readable'}
+      morph={'editor'}
       debug={true}
       schema={{
         name: 'quest',
