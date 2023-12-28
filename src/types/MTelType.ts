@@ -4,7 +4,8 @@ import { validateRequired, generateRegexValidate } from '../framework/Validator'
 import _ from "lodash";
 
 export const MCnPhoneType: MType = _.assign({}, EmtpyType, {
-  validators: [validateRequired, generateRegexValidate(/^1[3456789]\d{9}$/, "输入有效手机号")],
+  // validators: [validateRequired, generateRegexValidate(/^1[3456789]\d{9}$/, "输入有效手机号")],
+  validators: [validateRequired, generateRegexValidate(/^[1][0-9]{10}$/, "输入有效手机号")],
 });
 
 export const MEmailType: MType = _.assign({}, EmtpyType, {

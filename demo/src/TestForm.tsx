@@ -119,6 +119,14 @@ const TestForm = () => {
               valuePath: "id",
               labelExpr: "name",
             },
+            props: {
+              preOnChange: v => {
+                if(v && v.length > 0){
+                  const value = [v[v.length -1]]
+                  return value
+                }
+              }
+            }
           },
           { label: "选项", name: `option`, type: "array", editor: "AArrayGrid", arrayMember: valueLabel, autoValue: true },
           {
