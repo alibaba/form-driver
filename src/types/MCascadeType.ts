@@ -18,7 +18,11 @@ export const MCascadeType: MType = {
   validators: [validateRequired, generateSchemaValidate({type:"array", arrayMember: {type: "vl"}, min:1}, "请重新填写") ],
 
   toReadable: (assembly:Assembly, s:MFieldSchemaAnonymity, vs:any):string => {
-    return vs?.map(e=>e.label)?.join("/") ?? assembly.theme.READABLE_BLANK;
+    if (vs && vs.map) {
+      return vs.map(e => e.label)?.join("/") ?? assembly.theme.READABLE_BLANK;
+    } else {
+      return assembly.theme.READABLE_BLANK;
+    }
   },
 
   standardValue: (assembly:Assembly, s:MFieldSchemaAnonymity, v:any, strict:boolean):any => { // TODO 尚未实现
