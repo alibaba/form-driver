@@ -1,6 +1,13 @@
 .ant-rate {
+
+    /* 自定义Rate组件未选中星星的颜色 */
+    .ant-rate-star-zero .ant-rate-star-first,
+    .ant-rate-star-zero .ant-rate-star-second {
+        color: #666;
+    }
+
     display: flex !important;
-    width  : 100%;
+    width : 100%;
 
     .ant-rate-star {
         flex: 1
@@ -14,27 +21,30 @@
         padding-left: 15px;
         padding-right: 15px;
         display: flex;
+
         .m3-nps-tip-left {
-            flex: 1;          
+            flex: 1;
             text-align: left;
         }
+
         .m3-nps-tip-center {
-            flex: 1;       
-            padding: 0 10px;   
+            flex: 1;
+            padding: 0 10px;
             text-align: center;
         }
+
         .m3-nps-tip-right {
-            flex: 1;          
+            flex: 1;
             text-align: right;
         }
     }
 
     .ant-rate {
         display: flex !important;
-        width  : 100%;
+        width: 100%;
 
         .ant-rate-star {
-            & > div {
+            &>div {
                 text-align: center;
             }
         }
