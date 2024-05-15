@@ -7,6 +7,7 @@ let db = {
     uid: 'rc-upload-1715741152318-134567',
     name: '774KB.m4a',
     keyPath: "业务数据/速记/录音/370/774KB.m4a",
+    size: 308049,
     url: "https://daily-hp-mam.oss-cn-hangzhou.aliyuncs.com/%E4%B8%9A%E5%8A%A1%E6%95%B0%E6%8D%AE/%E9%80%9F%E8%AE%B0/%E5%BD%95%E9%9F%B3/370/774KB.m4a"
   }],
 }
@@ -33,6 +34,8 @@ const TestForm3 = () => {
                 url: '/academy/hom/shorthand/course/production/oss_upload_token',
                 params: { shorthandId: 370 }
               },
+              checkSame: true,
+              showSize: true,
               multiple: true,
               maxSize: 1000,
               accept:".mp3,.m4a,.wav" 

@@ -5,7 +5,6 @@ import { CloseOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Ajax, Viewer } from "../../index";
 import './index.less';
 
-
 class OssUpload extends Viewer {
   constructor(p) {
     super(p);
@@ -25,6 +24,9 @@ class OssUpload extends Viewer {
       changeHandle: () => { },
       resFormat: res => res,
       srcFormat: src => src,
+      maxAmount: 50,
+      maxSize: 1000,
+      checkSame: false,
       multipartUploadConf: {
         parallel: 3,
         partSize: 1024 * 1024 * 2,
@@ -87,9 +89,11 @@ class OssUpload extends Viewer {
     return this._client.multipartUpload(name, file, config)
       .then(res => {
         console.log('this._client.multipartUpload: result:', res)
+        console.log('this._client.multipartUpload: file:', file)
         // 单个上传成功, 记录了到结果
         this.changeFileList([...resList, {
           uid: file.uid,
+          size: file.size,
           name: file.name,
           keyPath: res.name
         }]);
@@ -148,7 +152,7 @@ class OssUpload extends Viewer {
   }
 
   element() {
-    const { multiple = false, accept = '', multipartUploadConf, maxSize, maxAmount } = this.options
+    const { multiple = false, accept = '', multipartUploadConf, maxSize, maxAmount, showSize = false, checkSame } = this.options
     const { loading, fileListStatus, keyPath, attachmentVisible, resList } = this.state
 
     // 上传配置
@@ -177,8 +181,11 @@ class OssUpload extends Viewer {
           message.error(`文件大小超过${maxSize}MB，请压缩后上传`);
           return false
         }
+        if (checkSame &&  resList.findIndex(e => e.name == file.name) >= 0) {
+          message.error(`存在同名文件，无法上传该文件`);
+          return false
+        }
         this.setState({
-          fileList,
           fileListStatus: fileList.map(item => ({ file: item, count: 1, percent: 0 })),
           attachmentVisible: true,
         })
@@ -207,7 +214,6 @@ class OssUpload extends Viewer {
                     onOk: () => {
                       this.cancleUpload()
                       this.setState({
-                        fileList: [],
                         fileListStatus: [],
                         attachmentVisible: false
                       })
@@ -215,7 +221,6 @@ class OssUpload extends Viewer {
                   })
                 } else {
                   this.setState({
-                    fileList: [],
                     fileListStatus: [],
                     attachmentVisible: false
                   })
