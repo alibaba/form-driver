@@ -16,7 +16,7 @@ import nested from 'postcss-nested';
 import postcssPresetEnv from 'postcss-preset-env';
 import pkg from './package.json'
 
-const extensions = ['.ts', '.tsx']
+const extensions = ['.ts', '.tsx', '.jsx']
 
 const makeExternalPredicate = (externalArr) => {
   if (externalArr.length === 0) {

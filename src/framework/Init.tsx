@@ -51,7 +51,10 @@ import { AKvSet } from '../ui/editor/basic/AKvSet';
 import { ACascadePicker } from '../ui/editor/basic/ACascadePicker';
 import { MCascadeType } from '../types/MCascadeType';
 import editorMap from './editorMap';
+import OssUpload from "../plugins/ossUpload/index";
 
+// 在 m3 中注册oss上传插件
+assembly.addType(OssUpload);
 
 let init = false;
 /**
