@@ -67,7 +67,18 @@ class OssUpload extends Viewer {
 
   cancleUpload = () => {
     if (this._client) this._client.cancel();
+    this.endUpload()
+  }
+
+  startUpload() {
+    this.setState({ loading: true });
+    // 留下上传中的标记，为了实现上传中无法提交
+    localStorage["m3-plugin-ossupload-loading"] = true
+  }
+
+  endUpload() {
     this.setState({ loading: false });
+    delete localStorage["m3-plugin-ossupload-loading"]
   }
 
   componentWillUnmount() {
@@ -85,18 +96,19 @@ class OssUpload extends Viewer {
   // 自动断点续传
   upload = (name, file, config) => {
     const { multipartUploadConf } = this.options
-    const { fileListStatus, resList } = this.state
+    const { fileListStatus, resList, keyPath } = this.state
     return this._client.multipartUpload(name, file, config)
       .then(res => {
-        console.log('this._client.multipartUpload: result:', res)
-        console.log('this._client.multipartUpload: file:', file)
-        // 单个上传成功, 记录了到结果
-        this.changeFileList([...resList, {
-          uid: file.uid,
-          size: file.size,
-          name: file.name,
-          keyPath: res.name
-        }]);
+        // 当所有文件上传完成后，记录了到结果，并取消loading
+        if (fileListStatus.every(e => e.percent == 100)) {
+          const addArr = fileListStatus.map(ele => {
+            const r = ele.file
+            r.keyPath = `${keyPath}/${ele.file.name}`
+            return r
+          })
+          this.changeFileList([...resList, ...addArr]);
+          this.endUpload()
+        }
       })
       .catch(async e => {
         if (e && e.name && e.name === 'cancel') {
@@ -163,12 +175,10 @@ class OssUpload extends Viewer {
       customRequest: async ({ file }) => {
         // 一个个上传的
         console.log('customRequest->fileList：', file)
-        this.setState({ loading: true });
         await this.upload(`${keyPath}/${file.name}`, file, {
           progress: (p, checkpoint) => this.progress(p, checkpoint, file),
           ...multipartUploadConf
         })
-        this.setState({ loading: false });
       },
       beforeUpload: (file, fileList) => {
         // 这里可以拿到上传的所有文件
@@ -181,14 +191,16 @@ class OssUpload extends Viewer {
           message.error(`文件大小超过${maxSize}MB，请压缩后上传`);
           return false
         }
-        if (checkSame &&  resList.findIndex(e => e.name == file.name) >= 0) {
+        if (checkSame && resList.findIndex(e => e.name == file.name) >= 0) {
           message.error(`存在同名文件，无法上传该文件`);
           return false
         }
         this.setState({
-          fileListStatus: fileList.map(item => ({ file: item, count: 1, percent: 0 })),
+          fileListStatus: fileList.map(item => ({file: item, count: 1, percent: 0})),
           attachmentVisible: true,
         })
+        
+        this.startUpload()
       }
     };
 
