@@ -104,6 +104,8 @@ class OssUpload extends Viewer {
           const addArr = fileListStatus.map(ele => {
             const r = ele.file
             r.keyPath = `${keyPath}/${ele.file.name}`
+            r.name = ele.file.name
+            r.size = ele.file.size
             return r
           })
           this.changeFileList([...resList, ...addArr]);
