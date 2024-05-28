@@ -5,6 +5,7 @@ import { CloseOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Ajax, Viewer } from "../../index";
 import './index.less';
 
+let fileArr = []
 class OssUpload extends Viewer {
   constructor(p) {
     super(p);
@@ -71,13 +72,18 @@ class OssUpload extends Viewer {
   }
 
   startUpload() {
-    this.setState({ loading: true });
+    this.setState({ loading: true, attachmentVisible: true });
     // 留下上传中的标记，为了实现上传中无法提交
     localStorage["m3-plugin-ossupload-loading"] = true
   }
 
   endUpload() {
-    this.setState({ loading: false });
+    this.setState({
+      loading: false,
+      fileListStatus: [],
+      attachmentVisible: false
+    });
+    fileArr = []
     delete localStorage["m3-plugin-ossupload-loading"]
   }
 
@@ -101,12 +107,13 @@ class OssUpload extends Viewer {
       .then(res => {
         // 当所有文件上传完成后，记录了到结果，并取消loading
         if (fileListStatus.every(e => e.percent == 100)) {
-          const addArr = fileListStatus.map(ele => {
-            const r = ele.file
-            r.keyPath = `${keyPath}/${ele.file.name}`
-            r.name = ele.file.name
-            r.size = ele.file.size
-            return r
+          const addArr = fileListStatus.map(({file}) => {
+            return {
+              uid: file.uid,
+              name: file.name,
+              keyPath: `${keyPath}/${file.name}`,
+              size: file.size,
+            }
           })
           this.changeFileList([...resList, ...addArr]);
           this.endUpload()
@@ -145,7 +152,7 @@ class OssUpload extends Viewer {
             })
           }
         }
-      });
+      })
   }
 
   // 进度条
@@ -183,25 +190,24 @@ class OssUpload extends Viewer {
         })
       },
       beforeUpload: (file, fileList) => {
-        // 这里可以拿到上传的所有文件
         console.log('beforeUpload->fileList：', file, fileList)
+        // 这里可以拿到上传的所有文件
+        if (checkSame && resList.findIndex(e => e.name == file.name) >= 0) {
+          message.error(`存在“${file.name}”的同名文件，无法上传该文件`);
+          return false
+        }
         if (fileList.length >= maxAmount) {
           message.error(`已达到文件数量上限(${maxAmount}个)，请删除后上传`);
           return false
         }
         if (file.size > maxSize * 1024 * 1024) {
-          message.error(`文件大小超过${maxSize}MB，请压缩后上传`);
+          message.error(`“${file.name}”文件大小超过${maxSize}MB，请压缩后上传`);
           return false
         }
-        if (checkSame && resList.findIndex(e => e.name == file.name) >= 0) {
-          message.error(`存在同名文件，无法上传该文件`);
-          return false
-        }
+        fileArr.push({ file: file, count: 1, percent: 0 })
         this.setState({
-          fileListStatus: fileList.map(item => ({file: item, count: 1, percent: 0})),
-          attachmentVisible: true,
+          fileListStatus: fileArr,
         })
-        
         this.startUpload()
       }
     };
@@ -227,10 +233,6 @@ class OssUpload extends Viewer {
                     maskClosable: false,
                     onOk: () => {
                       this.cancleUpload()
-                      this.setState({
-                        fileListStatus: [],
-                        attachmentVisible: false
-                      })
                     }
                   })
                 } else {

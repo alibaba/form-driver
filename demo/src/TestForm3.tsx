@@ -48,6 +48,8 @@ const TestForm3 = () => {
         return new Promise(function (resolve, reject) {
           console.log('testform2-form', form);
           console.log('testform2-form', d);
+          console.log('testform2-form', d[1].name);
+          console.log('testform2-form', d[1].size);
           if (localStorage["m3-plugin-ossupload-loading"]) {
             message.error("请等待文件上传完成后提交");
             reject(null)
