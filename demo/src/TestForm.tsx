@@ -214,7 +214,8 @@ const TestForm = () => {
           {
             editor: 'NPS', name: 'possibility', label: "您向朋友或同事推荐本堂课程的可能性有多大?", required: true, props: {
               leftTip: '不推荐',
-              rightTip: '非常推荐'
+              rightTip: '非常推荐',
+              remark: '0-4分完全没有收获，5-6分有少量收获，7-8分有收获，9-10分极有收获。'
             }
           },
           // {

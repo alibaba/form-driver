@@ -26,6 +26,18 @@ const TestForm3 = () => {
         type: 'object',
         objectFields: [
           {
+            "name": "AEmailBox",
+            "label": "邮箱",
+            editor: 'ASpecInputBox',
+            type: 'email',
+          },
+          {
+            "name": "ATelBox",
+            editor: 'ASpecInputBox',
+            type: 'tel',
+            "label": "手机号",
+          },
+          {
             "type": "ossupload",
             "name": "upload_file1234",
             "label": "录音文件上传",

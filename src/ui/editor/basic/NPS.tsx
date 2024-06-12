@@ -42,6 +42,9 @@ export class NPS extends BaseViewer {
         <span className="m3-nps-tip-right">{p.rightTip ?? '极有可能'}</span>
       </div>
       <Rate className="m3-nps-rate" {...props} />
+      {
+        p.remark ? <div  className="m3-nps-remark">{p.remark}</div> : null
+      }
     </div>
   }
 }
