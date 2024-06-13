@@ -7,7 +7,7 @@ export const valueLabel = {
   type: "object",
   name: "-",
   objectFields: [
-      { label: "文案", name: "label", type: "string" },
+    { label: "文案", name: "label", type: "string" },
   ]
 };
 
@@ -109,6 +109,15 @@ const TestForm = () => {
             ]
           },
           {
+            label: "关联资料", name: "resourceId", placeholder: '请选择关联资料', type: "vl", editor: "ARemoteSelector", required: true,
+            remote: {
+              url: "/academy/hom/lyg/event/resource/search?keyword=${q}",
+              dataPath: "data",
+              valuePath: "resourceId",
+              labelExpr: "resourceName"
+            }
+          },
+          {
             label: "归属团队", name: "orgList", required: true, placeholder: '请选择归属团队', type: "array", editor: "ARemoteSelector",
             // style: {
             //     color: "rgba(0,0,0,0.6)",
@@ -121,8 +130,8 @@ const TestForm = () => {
             },
             props: {
               preOnChange: v => {
-                if(v && v.length > 0){
-                  const value = [v[v.length -1]]
+                if (v && v.length > 0) {
+                  const value = [v[v.length - 1]]
                   return value
                 }
               }
@@ -130,13 +139,13 @@ const TestForm = () => {
           },
           { label: "选项", name: `option`, type: "array", editor: "AArrayGrid", arrayMember: valueLabel, autoValue: true },
           {
-              label: "事件简介", name: "description", required: true,
-              type: "decoration",
-              "decoration": {
-                HTML: "<p>图文展示fdsfdasfsafafafasdasdf</p><p>fdsfasfs</p>",
-                more: true,
-                HTML2: "<p>hahhahhahahahahahahah</p><p>fd啊哈发货的哈发顺丰哈哈发哈大沙发萨哈发撒</p>"
-              }
+            label: "事件简介", name: "description", required: true,
+            type: "decoration",
+            "decoration": {
+              HTML: "<p>图文展示fdsfdasfsafafafasdasdf</p><p>fdsfasfs</p>",
+              more: true,
+              HTML2: "<p>hahhahhahahahahahahah</p><p>fd啊哈发货的哈发顺丰哈哈发哈大沙发萨哈发撒</p>"
+            }
           },
           // { name: 'inttest', type: 'int', label: '数字框', max: 10, min: 0},
           // { label: "拜访人", name: "visitor222", type: "string", required: true, props: {

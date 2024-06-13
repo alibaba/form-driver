@@ -38,7 +38,7 @@ export class ARemoteSelector extends Viewer<State> {
     this.state = { candidate: undefined, fetching: false, q: "" };
     this.fetchCandidate = debounce(q => {
       this.setState({ fetching: true });
-      Ajax.get(this.props.schema.remote.url.replace("${q}", q))
+      Ajax.get(this.props.schema.remote.url.replace("${q}", encodeURIComponent(q)))
         .then(
           d => {
             _.assign(this.props.schema, {
