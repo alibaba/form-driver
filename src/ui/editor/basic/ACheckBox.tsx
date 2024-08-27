@@ -1,5 +1,5 @@
 import React from "react";
-import { Checkbox } from "antd";
+import { Checkbox, Modal } from "antd";
 import _ from "lodash";
 import { MUtil } from "../../../framework/MUtil";
 import { BaseViewer } from '../../BaseViewer';
@@ -53,8 +53,21 @@ export class ACheckBox extends BaseViewer {
       const isShow = MUtil.isShow(this.props.database, ctx.rootProps.schema?.objectFields, m.showIf)
       if (!isShow) return null;
       return [
-        <Checkbox key={index} disabled={this.props.disable} checked={_.includes(data, m.value)} onChange={(e) =>
-          super.changeValue(MSetType.change(e.target.checked, m.value, data, this.props.schema))}>
+        <Checkbox key={index} disabled={this.props.disable} checked={_.includes(data, m.value)} onChange={(e) => {
+          console.log(this.props.schema)
+          console.log(data)
+          const max = this.props.schema.max
+          if (max > 0 && e.target.checked) {
+            const len = data ? data.length : 0
+            // 选择第 max + 1 项时，提示并组织
+            if (len >= this.props.schema.max) {
+              Modal.info({title: `此题最只能选择 ${max} 项`, okText: '确认', icon: null, centered: true, cancelText: ''})
+              return
+            }
+          }
+          super.changeValue(MSetType.change(e.target.checked, m.value, data, this.props.schema))
+        }}
+          >
           {ACheckBoxLabel(m)}
         </Checkbox>,
         this._createBr()
