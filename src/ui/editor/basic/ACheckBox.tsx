@@ -61,7 +61,7 @@ export class ACheckBox extends BaseViewer {
             const len = data ? data.length : 0
             // 选择第 max + 1 项时，提示并组织
             if (len >= this.props.schema.max) {
-              Modal.info({title: `此题最只能选择 ${max} 项`, okText: '确认', icon: null, centered: true, cancelText: ''})
+              Modal.info({title: `此题最多只能选择 ${max} 项`, okText: '确认', icon: null, centered: true, cancelText: ''})
               return
             }
           }
