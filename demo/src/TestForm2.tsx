@@ -66,9 +66,19 @@ const TestForm2 = () => {
             "label": "管理员",
             "name": "managerList",
             "required": true,
-            "type": "array",
+            "type": "vl",
             "placeholder": "请输入",
             "editor": "ARemoteSelector",
+            props: {
+              placeholder: '请选择管理员',
+              allowClear: true,
+              onChange: function (v) {
+
+                console.log("ARemoteSelector onChange", this.props.database)
+
+                this.props.changeDatabase({...this.props.database, name: 12345678})
+              }
+            },
             "remote": {
               "url": "/academy/hom/new_user/queryByAccountOrName?kw=${q}&orgIds=6",
               "dataPath": "data",

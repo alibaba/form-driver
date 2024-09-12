@@ -116,7 +116,8 @@ export class ARemoteSelector extends Viewer<State> {
             else super.changeValue(null);
             break;
         }
-        selfOnChange && selfOnChange(v)
+
+        selfOnChange && selfOnChange.call(this, v)
       }}
       {...deepCloneP}
     >
