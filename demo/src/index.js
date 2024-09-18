@@ -5,6 +5,7 @@ import { CreateCourse } from './CreateCourse';
 import TestForm from './TestForm';
 import TestForm2 from './TestForm2';
 import TestForm3 from './TestForm3';
+import Design from './Design';
 import { JZG } from './JZG';
 import {UTDriver} from './ut/UTDriver';
 import QuestionEditor from './QuestionEditor';
@@ -20,7 +21,7 @@ injectTestCookie();
 
 function App() {
   const q = MUtil.getQuery();
-  const pages = [UTDriver, CreateCourse, TestForm, TestForm2, TestForm3, JZG, QuestionEditor, activ];
+  const pages = [UTDriver, CreateCourse, TestForm, TestForm2, TestForm3,  Design ,JZG, QuestionEditor, activ];
   for(let p of pages){
     if(_.has(q, p.name)) {
       return React.createElement(p, {}, null);

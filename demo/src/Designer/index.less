@@ -1,0 +1,102 @@
+/** antd的Tabs不能100%高，加上FullHeightTab这个class就可以了 */
+.FullHeightTab .ant-tabs-content{
+    height: 100%
+  }
+  .FullHeightTab .ant-tabs {
+    height: 100%
+  }
+  .m3-designer-drawer-wraper {
+    transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), height 0s ease 0.3s, width 0s ease 0.3s, -webkit-transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    height: 100%;
+    background-color: #fff;
+    overflow-y: auto;
+  
+    .m3-designer-drawer-header {
+      width: 100%;
+      background-color: #fff;
+      padding: 12px 20px;
+      overflow: hidden;
+      .m3-designer-drawer-header-title {
+        color: rgba(0,0,0,.85);
+        font-weight: 500;
+        font-size: 16px;
+        float: left; 
+      }
+      .m3-designer-drawer-header-tip {
+        font-size: 14px;
+        float: left; 
+        margin-left: 15px;
+        margin-top: 3px;
+      }
+      .m3-designer-drawer-header-close {
+        float: right;
+        cursor: pointer;
+      }
+    }
+    .m3-designer-drawer-content {
+      padding: 10px;
+      overflow-y: auto;
+      width: 100%;
+      height: calc(100% - 48px);    
+    }
+  }
+  
+  .m3-designer-drawer-wraper-open {
+    width: 100%;
+  }
+  
+  .quest-list {
+    
+    .quest-list-pages-search {
+      background: #fff;
+      padding: 15px 30px;
+    
+      .ant-form-item {
+          margin-bottom: 0px !important;
+      }
+    }
+  
+    .quest-list-content {
+      background: #fff;
+      margin-top: 20px;
+      overflow: hidden;
+      padding: 20px 30px;
+    
+      .createBtn {
+        float: right;
+        margin-bottom: 15px;
+        cursor: pointer;
+        z-index: 2;
+      }
+    
+      .link-text {
+        padding-right: 10px;
+      }
+    
+      .link-text:last-child {
+        padding-right: 0px;
+      }
+    }
+  }
+  
+  .question-list-operate-popover {
+    .operate-list{
+      margin:8px 0;
+      color:#1890ff;
+      cursor: pointer
+    }
+    .operate-disabled-list {
+      pointer-events: none;
+      color: #999;
+    }
+  }
+  
+  .question-list-download-drawer {
+    .anls-report-tips{
+      color: #EC808D
+    }
+  }

@@ -1,4 +1,3 @@
-
 import React from "react";
 import _ from "lodash";
 import "./AForm.less";
@@ -154,7 +153,7 @@ export class AForm extends Viewer<State> {
       wrapperProp.style.display = "flex";
       ele = <Collapsible {...wrapperProp}>
         <ItemLabel uispec={uispec} schema={f} labelWidth={labelWidth} morph={morph}/>
-        <span style={{flex: 1}}>{fieldViewer}</span>
+        <span style={{width: `calc(100% - ${labelWidth}px)`}}>{fieldViewer}</span>
       </Collapsible>
     } else {
       ele = MUtil.error(invalidLayoutMsg);
