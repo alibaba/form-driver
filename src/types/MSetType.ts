@@ -55,7 +55,8 @@ export const MSetType: MType & {
           return f.label ?? v;
         }
       }
-      return s.openOption ? v : assembly.theme.READABLE_INVALID
+      // 其他选项的内容前加上标识
+      return s.openOption ? `「${s.openOption.label}」${v}` : assembly.theme.READABLE_INVALID
     }).join(", ");
   },
 

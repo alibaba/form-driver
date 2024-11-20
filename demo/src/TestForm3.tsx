@@ -33,6 +33,10 @@ const TestForm3 = () => {
                         "label": "请选择你心目中的组长（选择5位）",
                         "type": "set",
                         "required": true,
+                        "openOption": {
+                            "type": "string",
+                            "label": "其他补充"
+                        },
                         "option": [
                             {
                                 "label": "蔡铁强（德尔玛集团）",

@@ -41,11 +41,8 @@ export const MEnumType: MType = {
         return f.label ?? v;
       }
     }
-    if (s.openOption) {
-      return v;
-    } else {
-      return assembly.theme.READABLE_BLANK;
-    }
+    // 其他选项的内容前加上标识
+    return s.openOption ? `「${s.openOption.label}」${v}` : assembly.theme.READABLE_INVALID
   },
 
   standardValue: (assembly: Assembly, s: MFieldSchemaAnonymity, value: any, strict: boolean): any => {
