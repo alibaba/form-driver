@@ -236,7 +236,10 @@ const TestForm = () => {
       }
       }
       database={database}>
-      <SubmitBar onSubmit={async (d: any) => {
+      <SubmitBar onCancel={() => {
+        console.log(123)
+        history.go(-1);
+      }} onSubmit={async (d: any) => {
         return new Promise(function (resolve, reject) {
           setTimeout(() => {
             message.success("提交成功");

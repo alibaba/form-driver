@@ -135,6 +135,7 @@ export class MViewer extends React.Component<MViewerProp, State> {
 export function SubmitBar(props: {
   style?: React.CSSProperties,
   onSubmit?: (finalData: any) => Promise<any>,
+  onCancel?: () => void,
   children?: React.ReactNode | ((loading: boolean) => React.ReactNode)
 }): JSX.Element {
 
@@ -178,6 +179,9 @@ export function SubmitBar(props: {
         }
       };
       return <div style={style} onClick={props.children ? onClick : undefined}>
+        {
+          props.onCancel ? <Button style={{ width: "40%", marginRight: '20px' }} onClick={props.onCancel}>返回</Button> : null
+        }
         {
           props.children
             ? (_.isFunction(props.children) ? props.children(loading) : props.children)
