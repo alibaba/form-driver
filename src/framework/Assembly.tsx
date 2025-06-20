@@ -1,5 +1,6 @@
 import React, { ClassType } from "react";
 import { MValidationResult, MFieldSchemaAnonymity, MProp, MValidationFail } from './Schema';
+import { CHANGE_SCHEMA_CALLBACK } from "../framework/Schema";
 import _ from "lodash";
 import { MUtil } from './MUtil';
 import { MType, PluginType } from "../types/MType";
@@ -41,7 +42,6 @@ const defaultTheme: MTheme = {
   themeName: "antMiddle"
 }
 
-let rootHideMap = {} 
 /**
  * 注册viewer，type，morph（viewer和type之间的关联）
  */
@@ -141,6 +141,7 @@ export class Assembly {
   addType(typeParam: PluginType) {
     const { name, type, editor, readable = "DivViewer" } = typeParam
     this.types[name] = type;
+    
     _.set(this.morph, "editor." + name, editor);
     _.set(this.morph, "readable." + name, readable);
 

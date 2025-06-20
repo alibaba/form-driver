@@ -40,6 +40,7 @@ export interface MFieldSchema {
   type?: string,
   name: string,
   label?: string,
+  labelTip?: string,
 
   /** 编辑器，editor:<viewer名字> 是 viewerFor: {morph:"editor", name:<viewer名字>} 的简写 */
   editor?: string | VIEWER,
@@ -163,6 +164,9 @@ export interface MFieldSchema {
 
   /** 组件 AArrayGrid 新增时指定带下来的字段 */
   copyFields?: string[];
+
+  /** 组件 AArrayGrid 新增时，是否自动添加带有唯一值的 value 属性 */
+  autoValue?: boolean;
   
   /** 数组增加一项的按钮文案 */
   arrayAddLabel?: string;
@@ -239,6 +243,8 @@ export interface MFieldSchema {
   decoration?: {
     subType?: "rich" | "segmentLabel" | "submitBar" | "operations", // 子类型
     HTML?: string, // html片段
+    more?: boolean, // 是否显示更多
+    HTML2?: string, // 更多的 html片段
     submitLabel?: string, // 提交按钮
     segmentLabel?: string, // 分段标题
     operations?: { label: React.ReactNode, handler: (data) => void }[]  // 操作
@@ -276,7 +282,7 @@ export interface MFieldSchema {
     valuePath: JSEXPR,
 
     /** 在dataPath下，标题字段的表达式 */
-    labelExpr: JSEXPR,
+    labelExpr: ((value: any) => React.ReactNode) | JSEXPR,
   }
 
   a?: {
@@ -308,6 +314,8 @@ export interface MFieldSchema {
  */
 export type AFTER_CHANGE_CALLBACK = (path: string, v: any, final: boolean) => void;
 
+export type CHANGE_SCHEMA_CALLBACK = (v: any) => void;
+
 export interface MProp {
   /** database的数据描述 */
   schema: MFieldSchemaAnonymity,
@@ -323,6 +331,12 @@ export interface MProp {
 
   /** database有任何变化时回调 */
   afterChange?: AFTER_CHANGE_CALLBACK,
+
+  /** 修改schema */
+  changeSchema?: CHANGE_SCHEMA_CALLBACK,
+
+  /** 修改database */
+  changeDatabase?: CHANGE_SCHEMA_CALLBACK,
 
   /** @deprecated 直接上层。有时parent是谁，会影响渲染字段 */
   parent?: MFieldSchemaAnonymity,

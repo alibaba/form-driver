@@ -1,0 +1,53 @@
+.m3-plugin-ossupload-progress-modal {
+    display: block;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 400px;
+    padding: 14px 24px 24px 24px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 2px 2px 24px 2px rgba(0, 0, 0, 0.1);
+
+    .cancel-icon {
+        text-align: right;
+    }
+
+    .divider {
+        width: calc(100% + 48px);
+        margin: 4px -24px 12px -24px
+    }
+
+    .link-text {
+        color: #1890ff;
+        cursor: pointer;
+        transition: color 0.3s;
+        pointer-events: auto;
+      }
+      
+    .progress-list {
+        min-height: 30px;
+        max-height: 400px;
+        overflow-y: scroll;
+
+        .upload-progress-box {
+            display: flex;
+
+            .file-name {
+                cursor: default;
+                width: 110px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                display: inline-block;
+            }
+        }
+
+        .none {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            line-height: 30px;
+        }
+    }
+}

@@ -8,6 +8,31 @@ import { MFieldViewer } from "../../../framework/MFieldViewer";
 import React from "react";
 import { assembly } from '../../../framework/Assembly';
 
+function uuid(len = 8, radix = 16) {
+  let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  let uuid = [];
+  let i = 0;
+  radix = radix || chars.length;
+
+  if (len) {
+      for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix];
+  } else {
+      let r;
+      uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+      uuid[14] = '4';
+
+      for (i = 0; i < 36; i++) {
+          if (!uuid[i]) {
+              r = 0 | Math.random() * 16;
+              uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+          }
+      }
+  }
+
+  return uuid.join('');
+}
+
+
 /**
  * 数据表格
  * 数据是这样的数组：
@@ -16,6 +41,7 @@ import { assembly } from '../../../framework/Assembly';
  *    {from:"1606997544611",to:"", tillNow:true, company:"阿里巴巴", position:"CEO"},
  *  ]
  */
+
 export class AArrayGrid extends BaseViewer {
   element() {
     const schema = this.props.schema;
@@ -93,7 +119,7 @@ export class AArrayGrid extends BaseViewer {
     return (
       <table key={this.props.path} className="AExperience M3_table" style={{ width: "100%" }}><tbody>
         <tr key=":header">
-          {members.map((f, i) => <th key={f.name + i + ":first"}>{f.label ?? f.name}</th>)}
+          {members.map((f, i) => <th key={f.name + i + ":first"}>{f.required ? <span style={{ color: "red" }}>*</span> : null}{f.label ?? f.name}</th>)}
           <td key=":操作栏" width="40px" align="center"></td>
         </tr>
         {rows}
@@ -113,6 +139,12 @@ export class AArrayGrid extends BaseViewer {
                 }
               }
               data.push(newItem);
+              if (schema.autoValue) {
+                // 自动增加 value 属性
+                data.forEach(element => {
+                  if (!element.value) element.value = uuid()
+                });
+              }
               console.log('data', data)
               super.changeValue(data);
             }}>增加一项</Button>

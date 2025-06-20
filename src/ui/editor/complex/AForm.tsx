@@ -1,4 +1,3 @@
-
 import React from "react";
 import _ from "lodash";
 import "./AForm.less";
@@ -137,13 +136,12 @@ export class AForm extends Viewer<State> {
 
     const fieldViewer = <MFieldViewer morph={morph ?? "readable"} key={path} schema={f} database={this.props.database} path={path} afterChange={(p, v: any, blur) => {
       this.props.afterChange?.(path, v, blur);
-
       const newHideMap = MUtil.hideMap(MUtil.get(this.props.database, this.props.path), objectFields, uispec);
       if (!_.isEqual(newHideMap, hideMap)) { // 如果有字段依赖导致表单项展示与否变化
         //this.setState({shouldAnimation: shouldAnimation(hideMap, newHideMap, objectFields)});
         this.setState({});
       }
-    }} parent={this.props.schema} forceValid={this.props.forceValid} style={{ width: "100%" }} />
+    }} parent={this.props.schema} changeSchema={this.props.changeSchema} changeDatabase={this.props.changeDatabase} forceValid={this.props.forceValid} style={{ width: "100%" }} />
 
     let ele;
     if(uispec.layout === "vertical") { // label在字段上面的分段布局
@@ -155,7 +153,7 @@ export class AForm extends Viewer<State> {
       wrapperProp.style.display = "flex";
       ele = <Collapsible {...wrapperProp}>
         <ItemLabel uispec={uispec} schema={f} labelWidth={labelWidth} morph={morph}/>
-        <span style={{flex: 1}}>{fieldViewer}</span>
+        <span style={{width: `calc(100% - ${labelWidth}px)`}}>{fieldViewer}</span>
       </Collapsible>
     } else {
       ele = MUtil.error(invalidLayoutMsg);

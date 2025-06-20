@@ -1,5 +1,248 @@
 [
   {
+    "name": "too-long",
+    "schema": {
+      "name": "quest",
+      "type": "object",
+      "objectFields": [
+        {
+          "label": "事件简介",
+          "name": "description",
+          "required": true,
+          "type": "string",
+          "style": {
+            "color": "rgba(0,0,0,0.6)",
+            "backgroundColor": "red"
+          },
+          "options": {
+            "useImage": false
+          }
+        },
+        {
+          "name": "participantList",
+          "type": "array",
+          "editor": "AArrayGrid",
+          "arrayMember": {
+            "column": 3,
+            "type": "object",
+            "uispec": {
+              "layout": "horizontal",
+              "comma": "："
+            },
+            "copyFields": [
+              "role",
+              "coConstructionTime"
+            ],
+            "objectFields": [
+              {
+                "label": "人物档案",
+                "name": "archiveId",
+                "placeholder": "请选择人物档案",
+                "type": "vl",
+                "editor": "ARemoteSelector",
+                "required": true,
+                "remote": {
+                  "url": "/academy/hom/lyg/archive/search?type=1&keywords=${q}",
+                  "dataPath": "data.list",
+                  "valuePath": "id",
+                  "labelExpr": "name + ' / ' + brief"
+                },
+                "readable": "A",
+                "a": {}
+              },
+              {
+                "label": "角色",
+                "name": "role",
+                "type": "string",
+                "required": true
+              },
+              {
+                "label": "共建时",
+                "name": "coConstructionTime",
+                "type": "int"
+              }
+            ]
+          }
+        },
+        {
+          "name": "resourceList",
+          "type": "array",
+          "editor": "AArrayGrid",
+          "arrayMember": {
+            "column": 4,
+            "type": "object",
+            "uispec": {
+              "layout": "vertical",
+              "comma": "："
+            },
+            "copyFields": [
+              "resourceType",
+              "displayType"
+            ],
+            "objectFields": [
+              {
+                "label": "资料类型",
+                "name": "resourceType",
+                "placeholder": "请选择资料类型",
+                "type": "enum",
+                "required": true,
+                "enumFields": [
+                  {
+                    "value": 0,
+                    "label": "视频"
+                  },
+                  {
+                    "value": 1,
+                    "label": "图片"
+                  },
+                  {
+                    "value": 2,
+                    "label": "文档"
+                  },
+                  {
+                    "value": 3,
+                    "label": "音频"
+                  }
+                ],
+                "option": [
+                  {
+                    "value": 0,
+                    "label": "视频"
+                  },
+                  {
+                    "value": 1,
+                    "label": "图片"
+                  },
+                  {
+                    "value": 2,
+                    "label": "文档"
+                  },
+                  {
+                    "value": 3,
+                    "label": "音频"
+                  }
+                ]
+              },
+              {
+                "label": "关联资料",
+                "name": "resourceId",
+                "placeholder": "请选择关联资料",
+                "type": "vl",
+                "editor": "ARemoteSelector",
+                "required": true,
+                "readable": "A",
+                "a": {},
+                "remote": {
+                  "url": "/academy/hom/lyg/event/resource/search?keyword=${q}",
+                  "dataPath": "data",
+                  "valuePath": "resourceId",
+                  "labelExpr": "resourceName"
+                }
+              },
+              {
+                "label": "可见范围",
+                "name": "displayType",
+                "placeholder": "请选择可见范围",
+                "type": "enum",
+                "required": true,
+                "enumFields": [
+                  {
+                    "value": 1,
+                    "label": "事件中所有人展示"
+                  },
+                  {
+                    "value": 2,
+                    "label": "部分展示"
+                  }
+                ],
+                "option": [
+                  {
+                    "value": 1,
+                    "label": "事件中所有人展示"
+                  },
+                  {
+                    "value": 2,
+                    "label": "部分展示"
+                  }
+                ]
+              },
+              {
+                "label": "展示范围",
+                "name": "displayRange",
+                "placeholder": "请选择展示范围",
+                "type": "array",
+                "editor": "ARemoteSelector",
+                "remote": {
+                  "url": "/academy/hom/lyg/archive/search?type=1&keywords=${q}",
+                  "dataPath": "data.list",
+                  "valuePath": "id",
+                  "labelExpr": "name"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "uispec": {
+        "type": "segmentForm",
+        "layout": "horizontal",
+        "comma": "：",
+        "segments": [
+          {
+            "label": "事件信息",
+            "fields": [
+              "description"
+            ]
+          },
+          {
+            "label": "参与人信息",
+            "fields": [
+              "participantList"
+            ]
+          },
+          {
+            "label": "资料信息",
+            "fields": [
+              "resourceList"
+            ]
+          }
+        ]
+      }
+    },
+    "database": {
+      "bizId": null,
+      "type": [
+        {
+          "label": "访谈",
+          "value": 600
+        },
+        {
+          "label": "老物件提交",
+          "value": 602
+        }
+      ],
+      "name": "老物件提交-陈方毅",
+      "eventStartTime": "2024-09-20T16:00:00.000Z",
+      "eventEndTime": null,
+      "description": "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890",
+      "participantList": [
+        {
+          "id": 20009,
+          "eventId": 3790,
+          "archiveId": {
+            "value": 186,
+            "label": "陈方毅"
+          },
+          "archiveName": "陈方毅",
+          "role": "提交人",
+          "coConstructionTime": 0
+        }
+      ],
+      "resourceList": [],
+      "orgList": []
+    }
+  },
+  {
     "name": "检验问题",
     "schema": {
       "name": "agent",

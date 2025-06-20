@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { BaseViewer } from "../../BaseViewer";
 import { Rate } from 'antd';
-import "./NPS.less";
+import './ARate.less';
 import { MProp } from "../../../framework/Schema";
 
 /**
@@ -12,7 +12,7 @@ import { MProp } from "../../../framework/Schema";
 export class NPS extends BaseViewer {
   value: string;
 
-  constructor(p:MProp){
+  constructor(p: MProp) {
     super(p);
     // rate 组件从 1 开始计算
     this.value = super.getValue() == -1 ? null : super.getValue() + 1;
@@ -23,14 +23,14 @@ export class NPS extends BaseViewer {
       count: 11,
       character: ({ index }) => index,
       defaultValue: this.value,
-      onChange: (value, label, extra)=>{
+      onChange: (value, label, extra) => {
         // nps 从 0 开始计算
         let v = value - 1
         if (v == -1) v = null
         if (p.onChange) p.onChange(v, label, extra)
         super.changeValue(v);
       },
-      onBlur: () =>{
+      onBlur: () => {
         if (p.onBlur) p.onBlur()
         super.changeValue(super.getValue())
       },
@@ -38,10 +38,13 @@ export class NPS extends BaseViewer {
     }
     return <div className="m3-nps-wrapper">
       <div className="m3-nps-tip">
-        <span>{p.leftTip ?? '不可能'}</span>
-        <span>{p.rightTip ?? '极有可能'}</span>
+        <span className="m3-nps-tip-left">{p.leftTip ?? '不可能'}</span>
+        <span className="m3-nps-tip-right">{p.rightTip ?? '极有可能'}</span>
       </div>
       <Rate className="m3-nps-rate" {...props} />
+      {
+        p.remark ? <div  className="m3-nps-remark">{p.remark}</div> : null
+      }
     </div>
   }
 }

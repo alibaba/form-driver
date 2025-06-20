@@ -1,6 +1,6 @@
 {
   "name": "form-driver",
-  "version": "0.1.8",
+  "version": "0.3.13",
   "description": "An efficient framework for creating forms.",
   "license": "MIT",
   "authors": [
@@ -14,7 +14,7 @@
     "b": "npm run clean && npm run build",
     "i": "yarn",
     "ri": "rm -rf node_modules && npm run i",
-    "pub": "git add . && git commit -m 'update' & npm run b && npm version patch && npm publish && git push",
+    "pub": "npm run b && git pull && git add . && git commit -m 'update' && npm version patch && npm publish && git push",
     "patch": "npm version patch && npm publish && git push",
     "submodule": "git submodule update --init",
     "ut-pull": "cd ./demo/src/ut_autoTest/ut_case && git pull",
@@ -26,7 +26,7 @@
     "docs:build": "cd docs && dumi build",
     "docs:upload": "cd docs && hp upload ./dist m3/ --free",
     "docs:pub": "cd docs && npm run build && npm run upload",
-    "update": "git add . && git commit -m 'update' && git push"
+    "push": "git pull && git add . && git commit -m 'update' && git push"
   },
   "keywords": [
     "m3",
@@ -56,18 +56,18 @@
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
     "@babel/runtime": "^7.9.2",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
+    "ali-oss": "^6.17.1",
     "lodash": "^4.17.20",
     "antd": "4.18.7",
     "antd-mobile": "^2.3.4",
     "moment": "^2.29.1",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "yarn": "^1.22.17"
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
     "@ant-design/tools": "^13.5.0-beta.1",
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",

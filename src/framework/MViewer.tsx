@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AFTER_CHANGE_CALLBACK, MFieldSchema, M3UISpec } from "../framework/Schema";
+import { AFTER_CHANGE_CALLBACK, CHANGE_SCHEMA_CALLBACK, MFieldSchema, M3UISpec } from "../framework/Schema";
 import { Button, message, Modal } from "antd";
 import "./MViewer.less";
 import { MFieldViewer } from "./MFieldViewer";
@@ -18,6 +18,8 @@ export interface MViewerProp {
   morph: MORPH,
   onSubmit?: (finalData: any) => Promise<any>;
   afterChange?: AFTER_CHANGE_CALLBACK,
+  changeSchema?: CHANGE_SCHEMA_CALLBACK,
+  changeDatabase?: CHANGE_SCHEMA_CALLBACK,
   wrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   formItemWrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   /** 持久存储选项，nil表示不持久存储 */
@@ -27,11 +29,14 @@ export interface MViewerProp {
 export interface M3Prop {
   schema: MFieldSchema | MFieldSchema[],
   database: any,
+  form?: any,
   layout?: M3UISpec,
   style?: React.CSSProperties,
   morph: MORPH,
   onSubmit?: (finalData: any) => Promise<any>;
   afterChange?: AFTER_CHANGE_CALLBACK,
+  changeSchema?: CHANGE_SCHEMA_CALLBACK,
+  changeDatabase?: CHANGE_SCHEMA_CALLBACK,
   wrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   formItemWrapper?: (elem: React.ReactElement, schema: Partial<MFieldSchema>) => React.ReactElement,
   /** 持久存储选项，nil表示不持久存储 */
@@ -88,7 +93,15 @@ export class MViewer extends React.Component<MViewerProp, State> {
       forceValid, setForceValid: (b) => { this.setState({ forceValid: true }) }
     }}>
       <div key={ctrlVersion} className={MUtil.phoneLike() ? "MEditor_p" : "MEditor"} style={props.style}>
-        <MFieldViewer schema={props.schema} database={database} path="" morph={props.morph} afterChange={PersistantTool.patchAfterChange(props.afterChange, props.persistant)} />
+        <MFieldViewer
+          schema={props.schema}
+          database={database}
+          path=""
+          morph={props.morph}
+          afterChange={PersistantTool.patchAfterChange(props.afterChange, props.persistant)}
+          changeSchema={props.changeSchema}
+          changeDatabase={props.changeDatabase}
+        />
         {props.children}
       </div>
     </MContext.Provider>
@@ -122,6 +135,7 @@ export class MViewer extends React.Component<MViewerProp, State> {
 export function SubmitBar(props: {
   style?: React.CSSProperties,
   onSubmit?: (finalData: any) => Promise<any>,
+  onCancel?: () => void,
   children?: React.ReactNode | ((loading: boolean) => React.ReactNode)
 }): JSX.Element {
 
@@ -165,6 +179,9 @@ export function SubmitBar(props: {
         }
       };
       return <div style={style} onClick={props.children ? onClick : undefined}>
+        {
+          props.onCancel ? <Button style={{ width: "40%", marginRight: '20px' }} onClick={props.onCancel}>返回</Button> : null
+        }
         {
           props.children
             ? (_.isFunction(props.children) ? props.children(loading) : props.children)

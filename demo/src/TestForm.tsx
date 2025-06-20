@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import { message } from 'antd';
 import { M3, SubmitBar } from "../../src";
 
+
+export const valueLabel = {
+  type: "object",
+  name: "-",
+  objectFields: [
+    { label: "文案", name: "label", type: "string" },
+  ]
+};
+
 const treeData = [
   {
     title: 'Node1',
@@ -28,6 +37,9 @@ let db = {
   "setWithMax": ["不存在的值"],
   // "inttest": 123,
   possibility: 2,
+  textASelector: 2,
+  orgList: [{ value: 123, label: '发送端接口号发送到发送' }],
+  // description: 'fadafashfahslkfhafh',
   // score: 3
   // "tree1": [{
   //   "value": "0-0",
@@ -63,17 +75,78 @@ const TestForm = () => {
   return <div>
     <M3
       // key={status}
+      // morph={'readable'}
       morph={'editor'}
       debug={true}
       schema={{
         name: 'quest',
         type: 'object',
         objectFields: [
-          {label:"测试单选",name:"textASelector",type:"enum",  required: true, editor:"ASelector", props: {labelInValue: true}, style: { width: '100px' }, option: [
-            { value: 1, label: '超级管理员' },
-            { value: 2, label: '招生' },
-            { value: 3, label: '课程' },
-          ]},
+          {
+            "editor": "ARate",
+            "max": 5,
+            "name": "t_AE08ED51",
+            "label": "评分",
+            "type": "int",
+            "props": {
+              "centerTip": "中立不可能发大水发大水发杀死放",
+              "leftTip": "不可能发大水发大水发杀死放",
+              "rightTip": "极有可发的发顺丰能"
+            }
+          },
+          {
+            "editor": "ARate",
+            "max": 10,
+            "name": "t_12313",
+            "label": "评分",
+            "type": "int",
+          },
+          {
+            label: "测试单选", name: "textASelector", type: "enum", required: true, editor: "ASelector", props: { labelInValue: true }, style: { width: '100px' }, option: [
+              { value: 1, label: '超级管理员' },
+              { value: 2, label: '招生' },
+              { value: 3, label: '课程' },
+            ]
+          },
+          {
+            label: "关联资料", name: "resourceId", placeholder: '请选择关联资料', type: "vl", editor: "ARemoteSelector", required: true,
+            remote: {
+              url: "/academy/hom/lyg/event/resource/search?keyword=${q}",
+              dataPath: "data",
+              valuePath: "resourceId",
+              labelExpr: "resourceName"
+            }
+          },
+          {
+            label: "归属团队", name: "orgList", required: true, placeholder: '请选择归属团队', type: "array", editor: "ARemoteSelector",
+            // style: {
+            //     color: "rgba(0,0,0,0.6)",
+            // },
+            remote: {
+              url: "/academy/hom/org/getOrgTree?orgId=6",
+              dataPath: "data[0].data",
+              valuePath: "id",
+              labelExpr: "name",
+            },
+            props: {
+              preOnChange: v => {
+                if (v && v.length > 0) {
+                  const value = [v[v.length - 1]]
+                  return value
+                }
+              }
+            }
+          },
+          { label: "选项", name: `option`, type: "array", editor: "AArrayGrid", arrayMember: valueLabel, autoValue: true },
+          {
+            label: "事件简介", name: "description", required: true,
+            type: "decoration",
+            "decoration": {
+              HTML: "<p>图文展示fdsfdasfsafafafasdasdf</p><p>fdsfasfs</p>",
+              more: true,
+              HTML2: "<p>hahhahhahahahahahahah</p><p>fd啊哈发货的哈发顺丰哈哈发哈大沙发萨哈发撒</p>"
+            }
+          },
           // { name: 'inttest', type: 'int', label: '数字框', max: 10, min: 0},
           // { label: "拜访人", name: "visitor222", type: "string", required: true, props: {
           //   // disabled: true
@@ -147,12 +220,13 @@ const TestForm = () => {
           //   "type": "set",
           //   "option": "1324421467981624932134612414912634682164863214126432194612364796427368 选项2 选项3 选项4 选项5"
           // },
-          // {
-          //   editor: 'NPS', name: 'possibility', label: "您向朋友或同事推荐本堂课程的可能性有多大?", required: true, props: {
-          //     leftTip: '不推荐',
-          //     rightTip: '非常推荐'
-          //   }
-          // },
+          {
+            editor: 'NPS', name: 'possibility', label: "您向朋友或同事推荐本堂课程的可能性有多大?", required: true, props: {
+              leftTip: '不推荐',
+              rightTip: '非常推荐',
+              remark: '0-4分完全没有收获，5-6分有少量收获，7-8分有收获，9-10分极有收获。'
+            }
+          },
           // {
           //   editor: 'ARate', name: 'score', label: "评分", required: true, props: {
           //     count: 8
@@ -162,7 +236,10 @@ const TestForm = () => {
       }
       }
       database={database}>
-      <SubmitBar onSubmit={async (d: any) => {
+      <SubmitBar onCancel={() => {
+        console.log(123)
+        history.go(-1);
+      }} onSubmit={async (d: any) => {
         return new Promise(function (resolve, reject) {
           setTimeout(() => {
             message.success("提交成功");
