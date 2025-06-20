@@ -11,8 +11,8 @@ An efficient framework for creating forms.
 # 安装依赖
 npm run i
 
-# 本地开发  http://0.0.0.0:8080
-npm run dev
+# 本地调试 http://0.0.0.0:8080
+npm run start
 
 # 本地构建
 npm run b
@@ -25,7 +25,7 @@ npm run pub
 
 ``` md
 ├── demo/                          # 演示页面目录
-│   ├── src/                       # demo 源代码
+│   ├── src/                       # demo 页面代码（引用 M3 M3 源代码）
 │   └── dist/                      # demo 构建产物
 ├── docs/                          # M3 的文档
 ├── src/                           # M3 源代码
