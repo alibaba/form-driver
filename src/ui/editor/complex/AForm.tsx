@@ -35,8 +35,10 @@ function ItemLabel(props: { uispec?: M3UISpec, schema: MFieldSchema, labelWidth?
     </Popover>
   }
 
+  console.log('ItemLabel', props)
   if (props.labelWidth) {
-    return <span className="ItemLabel" style={{ display: "inline-block", width: props.labelWidth + 20 }}>{star}{label}{popoverDesc}</span>;
+    // 防止 提示信息 换行
+    return <span className="ItemLabel" style={{ display: "inline-block", width: props.labelWidth + 40 }}>{star}{label}{popoverDesc}</span>;
   } else {
     return <div className="ItemLabel" key={"字段标题:" + props.schema.name}>{star}{label}{popoverDesc}</div>;
   }
