@@ -68,8 +68,39 @@ const M3 = (props: React.PropsWithChildren<M3Prop & { debug?: boolean }>) => {
   let debug = props.debug || (window.location.search.indexOf("debug") >= 0 || window.location.hash.indexOf("debug") >= 0);
 
   const changeSchema = v => {
-    setSchema(standardSchema(v))
-    setK(++k)
+    // 如果传入的是部分 schema 更新（只包含当前字段的更新），则合并到现有 schema 中
+    if (v && v.name) {
+      // 查找并更新特定字段
+      const updateSchemaField = (schema) => {
+        if (schema.name === v.name) {
+          return { ...schema, ...v };
+        }
+        
+        if (schema.objectFields) {
+          return {
+            ...schema,
+            objectFields: schema.objectFields.map(updateSchemaField)
+          };
+        }
+        
+        if (schema.arrayMember) {
+          return {
+            ...schema,
+            arrayMember: updateSchemaField(schema.arrayMember)
+          };
+        }
+        
+        return schema;
+      };
+      
+      const updatedSchema = updateSchemaField(schema);
+      setSchema(standardSchema(updatedSchema));
+    } else {
+      // 完整 schema 替换
+      setSchema(standardSchema(v));
+    }
+    
+    setK(++k);
   }
   const changeDatabase = v => {
     setDatabase(_.cloneDeep(v))
