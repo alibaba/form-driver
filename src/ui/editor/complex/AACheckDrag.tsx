@@ -91,7 +91,7 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
     prevState: Readonly<AACheckDragState>,
     snapshot?: any
   ): void {
-    console.log("DRAG: 组件更新", this.state.data, this.props);
+    // console.log("DRAG: 组件更新", this.state.data, this.props);
   }
 
   element(ctx) {
