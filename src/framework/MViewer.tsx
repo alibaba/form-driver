@@ -191,10 +191,10 @@ export function SubmitBar(props: {
             ctx.rootProps.schema,
             ctx.rootProps.database
           );
-          console.log("当前数据格式", {
-            schema: ctx.rootProps.schema,
-            database: ctx.rootProps.database,
-          });
+          // console.log("当前数据格式", {
+          //   schema: ctx.rootProps.schema,
+          //   database: ctx.rootProps.database,
+          // });
           const submit = props.onSubmit ?? ctx.rootProps.onSubmit;
           ctx.setForceValid(true);
           if (r) {
@@ -211,11 +211,32 @@ export function SubmitBar(props: {
             });
           } else {
             if (submit) {
+              // const sortQuestion = ctx.rootProps.schema.objectFields
+              //   .filter((q) => q.editor === "AACheckDrag")
+              //   ?.map((q) => q.name);
               setLoading(true);
               const finalData = MUtil.filterHide(
                 ctx.rootProps.schema,
                 ctx.rootProps.database
               );
+              // const beforeHandleData = [...finalData];
+              // Object.keys(finalData).map((n) => {
+              //   if (sortQuestion?.includes(n)) {
+              //     finalData[n] = finalData[n].map((item) => {
+              //       if (item.includes("open")) {
+              //         return item.split("open-")?.[1];
+              //       }
+              //       return item;
+              //     });
+              //   }
+              // });
+              // console.log("最终提交的数据", {
+              //   a: sortQuestion,
+              //   b: ctx.rootProps.schema,
+              //   c: ctx.rootProps.database,
+              //   beforeHandleData: ctx.rootProps.database,
+              //   finalData,
+              // });
               submit(finalData)
                 .then(() => {
                   PersistantTool.clear(ctx.rootProps.persistant);
@@ -253,7 +274,7 @@ export function SubmitBar(props: {
                 loading={loading}
                 onClick={props.children ? undefined : onClick}
               >
-                提交czx
+                提交
               </Button>
             )}
           </div>

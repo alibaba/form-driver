@@ -17,7 +17,6 @@ export class OpenOption extends BaseViewer {
             super.changeValue({
               label: val?.label ?? "其他【请注明】",
               type: "string",
-              value: MUtil.unique(),
             });
           } else {
             super.changeValue(undefined);
@@ -27,6 +26,7 @@ export class OpenOption extends BaseViewer {
         <Input
           disabled={!val}
           defaultValue={val?.label ?? "其他【请注明】"}
+          defaultChecked
           onChange={(e) => {
             const res = e.target.value;
             super.changeValue({

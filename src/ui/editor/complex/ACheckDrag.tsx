@@ -12,12 +12,8 @@ import { assembly } from "../../../framework/Assembly";
 import { ViewerState } from "../../BaseViewer";
 
 // 扩展 ViewerState 接口
-interface AACheckDragState extends ViewerState {
+interface ACheckDragState extends ViewerState {
   data: any[];
-  checkFields: MEnumField[];
-  checkValues: ValueConst[];
-  // 可以添加其他需要的状态字段
-  // customField: string;
 }
 
 function ACheckBoxLabel(field: MEnumField) {
@@ -33,15 +29,26 @@ function ACheckBoxLabel(field: MEnumField) {
  * 示例：{label:"1.13 除爱人/对象之外，目前和您一起生活的家庭成员包括(多选):",name:"familyAccompany",type:"set", option: "父亲 母亲 孩子 爱人/对象的父亲 爱人/对象的母亲 兄弟姐妹"},
  * 值：["孩子", "父亲"]
  */
-export class AACheckDrag extends Viewer<AACheckDragState> {
+export class ACheckDrag extends Viewer<ACheckDragState> {
   _enumFields: MEnumField[];
   _enumValues: ValueConst[];
 
   /** 这个是开放输入框的值 */
   _inputBoxValue: ValueConst;
 
+  // 定时器
+  timer: any;
+  // 输入框 ref
+  inputRef: React.RefObject<HTMLInputElement>;
+
+  checkFields: MEnumField[];
+  checkValues: ValueConst[];
+  dataRef: any; // 选中数据的 Ref 版本，用于获取最新数据的，避免页面渲染
+
   constructor(p: MProp) {
     super(p);
+    this.inputRef = React.createRef();
+    this.timer = null;
     this._enumFields = MUtil.option(this.props.schema);
     this._enumValues = this._enumFields.map((e) => e.value);
 
@@ -51,32 +58,28 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
         _.first(_.difference(super.getValue(), this._enumValues)) ??
         assembly.types[openOpt.type].createDefaultValue(assembly, openOpt);
     }
-    console.log("重新执行了", super.getValue(), [...(super.getValue() ?? [])]);
     const initialCheckFields = openOpt
       ? [
           ...this._enumFields,
 
           {
             label: p.schema.openOption.label,
-            value: "open-" + this._inputBoxValue,
+            value: this._inputBoxValue,
             remark: "openOption",
           },
         ]
       : this._enumFields;
     const initialCheckValues = openOpt
-      ? [...this._enumValues, "open-" + this._inputBoxValue]
+      ? [...this._enumValues, this._inputBoxValue]
       : this._enumValues;
     // 初始化扩展的状态，包含父类的基础状态和新增的 data 字段
+    this.checkFields = initialCheckFields;
+    this.checkValues = initialCheckValues;
+    this.dataRef = [...(super.getValue() ?? [])];
     this.state = {
       ctrlVersion: 1,
       noValidate: false,
       data: [...(super.getValue() ?? [])], // 选中状态
-      checkFields: this.state?.checkFields
-        ? this.state.checkFields
-        : initialCheckFields, // 枚举选项
-      checkValues: this.state?.checkValues
-        ? this.state.checkValues
-        : initialCheckValues, // 枚举选项对应的值
     };
   }
 
@@ -88,14 +91,16 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
 
   componentDidUpdate(
     prevProps: Readonly<MProp>,
-    prevState: Readonly<AACheckDragState>,
+    prevState: Readonly<ACheckDragState>,
     snapshot?: any
   ): void {
-    // console.log("DRAG: 组件更新", this.state.data, this.props);
+    setTimeout(() => {
+      console.log("DRAG: 组件更新", this.checkFields, this.state.data);
+    }, 2000);
   }
 
   element(ctx) {
-    let { data, checkFields, checkValues } = this.state;
+    let { data } = this.state;
     const values = [...(data ?? [])];
     const openIndex = MSetType.openValueIndex(this.props.schema, values);
     // console.log("选项顺序更换", {
@@ -104,7 +109,7 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
     //   values,
     //   qq: super.getValue(),
     // });
-    let checkboxs: any[] = checkFields.map((m: any, index) => {
+    let checkboxs: any[] = this.checkFields.map((m: any, index) => {
       const isShow = MUtil.isShow(
         this.props.database,
         ctx.rootProps.schema?.objectFields,
@@ -115,7 +120,7 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
       const checkIndex = values?.findIndex((e) => e === m.value);
       if (m.remark === "openOption") {
         const key = this._inputBoxValue;
-        const checked = values?.findIndex((e) => e?.includes("open"));
+        const checked = values?.findIndex((e) => e === key);
         return [
           <Checkbox
             disabled={this.props.disable}
@@ -123,15 +128,30 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
             checked={checked !== -1}
             checkedIcon={checked ? checked + 1 : 1}
             onChange={(e) => {
+              const max = this.props.schema.max;
+              if (max > 0 && e.target.checked) {
+                const len = values ? values.length : 0;
+                // 选择第 max + 1 项时，提示并组织
+                if (len >= this.props.schema.max) {
+                  Modal.info({
+                    title: `此题最多只能选择 ${max} 项`,
+                    okText: "确认",
+                    icon: null,
+                    centered: true,
+                    cancelText: "",
+                  });
+                  return;
+                }
+              }
               const currentCheckValue = MSetType.change(
                 e.target.checked,
-                "open-" + key,
+                key,
                 values,
                 this.props.schema,
                 true
               );
-              console.log("currentCheckValue", currentCheckValue);
-
+              console.log("当前选中的数据ccc", currentCheckValue);
+              this.dataRef = currentCheckValue;
               setTimeout(() => {
                 super.changeValue(currentCheckValue);
                 this.setState({
@@ -143,43 +163,70 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
             <span style={{ marginRight: "10px" }}>
               {this.props.schema.openOption.label ?? "其他"}
             </span>
-            <MFieldViewer
-              morph={this.props.morph}
-              schema={this.props.schema.openOption}
-              database={this}
-              path="_inputBoxValue"
-              afterChange={(path: string, str: any, final: boolean) => {
-                const matchEnum = checkFields.find((e) => e.value === str);
-                console.log("输入框 afterChange", str, values, matchEnum);
-                if (matchEnum) {
-                  // 不能让用户输入某个枚举值
-                  this._inputBoxValue = "";
-                  _.remove(values, (e) => !checkValues.includes(e));
-                  if (!values.includes(str)) {
-                    values.push(str);
-                  }
-
-                  queueMicrotask(() => {
-                    super.changeValueEx(values, true, final);
-                    this.setState({
-                      data: values,
-                    });
+            <span
+              onBlurCapture={(e) => {
+                console.log("输入框失去焦点", this.dataRef);
+                setTimeout(() => {
+                  super.changeValue(this.dataRef);
+                  this.setState({
+                    data: this.dataRef,
                   });
-                } else {
-                  const idx = values.findIndex((v) => v.includes("open"));
-                  if (!_.isNil(idx)) {
-                    this._inputBoxValue = str;
-                    values[idx] = "open-" + str;
-                    console.log("输入框数据", values);
-                    MUtil.set(this.props.database, this.props.path, values);
-                  }
-                }
+                }, 0);
               }}
-              parent={this.props.schema}
-              forceValid={false}
-              disable={openIndex < 0}
-              style={{ width: "inherit" }}
-            />
+            >
+              <MFieldViewer
+                morph={this.props.morph}
+                schema={this.props.schema.openOption}
+                database={this}
+                path="_inputBoxValue"
+                afterChange={(path: string, str: any, final: boolean) => {
+                  const matchEnum = this.checkFields.find(
+                    (e) => e.value === str && e.remark !== "openOption"
+                  );
+                  console.log("输入框 afterChange", str, values, matchEnum);
+                  if (matchEnum) {
+                    // 不能让用户输入某个枚举值
+                    this._inputBoxValue = "";
+                    _.remove(values, (e) => !this.checkValues.includes(e));
+                    if (!values.includes(str)) {
+                      values.push(str);
+                    }
+
+                    queueMicrotask(() => {
+                      super.changeValueEx(values, true, final);
+                      this.setState({
+                        data: values,
+                      });
+                    });
+                  } else {
+                    const idx = values.findIndex((v) => {
+                      const index = this.checkFields
+                        .filter((e) => e.remark !== "openOption")
+                        .findIndex((e) => e.value === v);
+                      if (index === -1) return true;
+                    });
+                    if (!_.isNil(idx) || str === "") {
+                      this._inputBoxValue = str;
+                      values[idx] = str;
+                      this.dataRef = values;
+                      this.checkFields = this.checkFields.map((e) =>
+                        e.remark === "openOption" ? { ...e, value: str } : e
+                      );
+                      console.log("输入框数据", {
+                        values,
+                        checkFields: this.checkFields,
+                        dataRef: this.dataRef,
+                      });
+                      MUtil.set(this.props.database, this.props.path, values);
+                    }
+                  }
+                }}
+                parent={this.props.schema}
+                forceValid={false}
+                disable={openIndex < 0}
+                style={{ width: "inherit" }}
+              />
+            </span>
           </Checkbox>,
           this._createBr(),
         ];
@@ -192,7 +239,6 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
           checkedIcon={checkIndex === -1 ? 1 : checkIndex + 1}
           checked={_.includes(values, m.value)}
           onChange={(e) => {
-            console.log("当前变化的 value", values);
             const currentCheckValue = MSetType.change(
               e.target.checked,
               m.value,
@@ -200,7 +246,7 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
               this.props.schema,
               true
             );
-            console.log("currentCheckValue", currentCheckValue);
+            console.log("当前变化的 value", values, currentCheckValue);
             const max = this.props.schema.max;
             if (max > 0 && e.target.checked) {
               const len = values ? values.length : 0;
@@ -216,7 +262,7 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
                 return;
               }
             }
-
+            this.dataRef = currentCheckValue;
             queueMicrotask(() => {
               super.changeValue(currentCheckValue);
               this.setState({
@@ -233,6 +279,7 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
 
     // 定义更换数据源的方法
     const changeOriginDataSource = (newData) => {
+      console.log("新数据", newData);
       // 更新排序后的选项数据
       const sortedCheckFields = newData.map((item) => ({
         ...item,
@@ -262,13 +309,12 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
       //   sortedCheckFields,
       //   newSchema,
       // });
-
+      this.checkFields = sortedCheckFields;
+      this.dataRef = sortedData;
       setTimeout(() => {
         this.setState({
           data: sortedData,
-          checkFields: sortedCheckFields,
         });
-        // console.log("DRAG 数据 Database", this.props.database, this.props.path);
         MUtil.set(this.props.database, this.props.path, sortedData);
       }, 0);
     };
@@ -277,17 +323,31 @@ export class AACheckDrag extends Viewer<AACheckDragState> {
       <SortDrag
         changeOriginDataSource={changeOriginDataSource}
         sortList={(checkboxs ?? [])?.map((cpn, index) => {
-          console.log("DRAG: 实际传递进如 SortDrag的数据", data, checkFields);
-          const checkFieldsValue = checkFields[index]?.value;
+          let checkFieldsValue;
+          checkFieldsValue = this.checkFields[index]?.value;
+          const isOpenOp = this.checkFields[index]?.remark === "openOption";
+          if (isOpenOp) {
+            checkFieldsValue = this._inputBoxValue;
+          }
+          console.log("DRAG: 实际传递进如 SortDrag的数据", {
+            data,
+            dataRef: this.dataRef,
+            checkFields: this.checkFields,
+            schema: this.props.database,
+            isOpenOp,
+            openValue: this._inputBoxValue,
+          });
+
           return {
-            isChecked:
-              data?.findIndex((e) => e?.includes(checkFieldsValue)) !== -1,
+            isChecked: this.dataRef
+              ? this.dataRef?.findIndex((e) => e === checkFieldsValue) !== -1
+              : false,
             checkedIndex:
-              data?.findIndex((e) => e?.includes(checkFieldsValue)) + 1,
+              this.dataRef?.findIndex((e) => e === checkFieldsValue) + 1,
             cpn,
-            id: "" + checkFields[index]?.value,
-            label: checkFields[index]?.label,
-            remark: checkFields[index]?.remark,
+            id: "" + checkFieldsValue,
+            label: this.checkFields[index]?.label,
+            remark: this.checkFields[index]?.remark,
           };
         })}
       />

@@ -156,7 +156,7 @@ export const MSetType: MType & {
       // 处理排他选项
       const option = MUtil.option(s);
       const newFs = _.find(option, { value: newValue });
-      console.log("change 变化", option, prevValue, newFs);
+      console.log("change 变化", option, prevValue, newValue, newFs);
       // 把所有exclusive跟自己不同的都清掉（newFs空是开放选项，不用管）
       if (newFs) {
         prevValue = prevValue?.filter((v) => {
@@ -172,9 +172,7 @@ export const MSetType: MType & {
       if (!_.isArray(prevValue)) {
         prevValue = [];
       }
-      console.log("开始加入新值-开始", prevValue, newValue);
       prevValue.push(newValue);
-      console.log("开始加入新值-结束", prevValue);
 
       // 处理max限制
       const max = s.max ?? Number.MAX_VALUE;
@@ -194,14 +192,11 @@ export const MSetType: MType & {
         // 如果有多个不在option中的值，就只保留一个
         prevValue = MSetType.clearOpenValue(s, prevValue, true);
       }
-
-      console.log("开始加入新值-移除value", prevValue, newValue);
     }
     if (!prevValue?.length) {
       // 如果删光了，或者只剩个开放选项，但是没有填
       prevValue = undefined;
     }
-    console.log("开始加入新值-最后的数据", prevValue);
     return prevValue;
   },
 

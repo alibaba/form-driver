@@ -33,7 +33,7 @@ import { ASetSelector } from "../ui/editor/basic/ASetSelector";
 import { AExperience } from "../ui/editor/complex/AExperience";
 import { ACnAddress } from "../ui/editor/complex/ACnAddress";
 import { AArray } from "../ui/editor/complex/AArray";
-import { AACheckDrag } from "../ui/editor/complex/AACheckDrag";
+import { ACheckDrag } from "../ui/editor/complex/ACheckDrag";
 import { AArrayGrid } from "../ui/editor/complex/AArrayGrid";
 import { ARangePicker } from "../ui/editor/basic/ARangePicker";
 import { AIntDiff } from "../ui/editor/complex/AIntDiff";
@@ -109,7 +109,7 @@ export function ensureM3() {
     ASpecInputBox: ASpecInputBox,
     AForm: AForm,
     AArray: AArray,
-    AACheckDrag: AACheckDrag,
+    ACheckDrag: ACheckDrag,
     AArrayGrid: AArrayGrid,
     ARangePicker: ARangePicker,
     AIntDiff: AIntDiff,

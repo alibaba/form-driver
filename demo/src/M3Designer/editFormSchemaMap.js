@@ -25,7 +25,7 @@ function set(a, path, v) {
 export const unitEnum = [
   { type: "enum", label: "单选", editor: "ARadio", option: [] },
   { type: "set", label: "多选", editor: "ACheckBox", option: [] },
-  { type: "set", label: "排序题", editor: "AACheckDrag", option: [] },
+  { type: "set", label: "排序题", editor: "ACheckDrag", option: [] },
   { type: "string", label: "文本", editor: "AInputBox" },
   { type: "tel", label: "手机号", editor: "ASpecInputBox", icon: "mobile" },
   { type: "email", label: "邮箱", editor: "ASpecInputBox", icon: "email" },
