@@ -6,11 +6,7 @@
     "target": "esnext",
     "module": "esnext",
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "declarationDir": "./types",
     "allowJs": false,
     "skipLibCheck": true,
@@ -21,17 +17,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true,
     "declaration": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"]
   },
-  "includes": [
-    "./externals.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-  ]
+  "include": ["./externals.d.ts", "src/**/*"],
+  "exclude": ["node_modules", "dist", "build"]
 }

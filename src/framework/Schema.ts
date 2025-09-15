@@ -1,29 +1,32 @@
-import { MORPH, VIEWER, Assembly } from './Assembly';
+import { MORPH, VIEWER, Assembly } from "./Assembly";
 
 export type ValueConst = string | boolean | number;
 export interface MEnumField {
   // 展示选项时，html > label > value
 
   /** 选项文案 */
-  label?: string,
+  label?: string;
   /** 选项html */
-  html?: string,
+  html?: string;
   /** 选项的showIf */
-  showIf?: boolean,
+  showIf?: boolean;
   /** 选项html */
-  value: ValueConst,
+  value: ValueConst;
   // 排他选项。
   // 只对多选有效，exclusive不同（exclusive都是undefined的两个选项，也算相同）的两个选项，不能同时选中
   // 应用场景：有些多选中有 "以上都没有" 这类选项，选中时，其他选项都要取消掉
-  exclusive?: string,
+  exclusive?: string;
   // 选项分值
-  score?: number,
+  score?: number;
+
+  // 备注
+  remark?: string;
 
   children?: MEnumField[];
 }
 
 /** 匿名的MFieldSchema，没有name字段 */
-export type MFieldSchemaAnonymity = Omit<MFieldSchema, "name">
+export type MFieldSchemaAnonymity = Omit<MFieldSchema, "name">;
 
 /** JS表达式 */
 export type JSEXPR = string;
@@ -31,22 +34,23 @@ export type JSEXPR = string;
 /** 如何适配屏幕 */
 export type SCREEN_ADAPTION =
   /** 强制使用适应大屏的控件 */
-  "big" |
+  | "big"
   /** 强制使用适应小屏的控件 */
-  "phone"
+  | "phone";
 
 /** M3 单元的 schema */
 export interface MFieldSchema {
-  type?: string,
-  name: string,
-  label?: string,
-  labelTip?: string,
+  type?: string;
+  name: string;
+  label?: string;
+  labelTip?: string;
+  value?: number;
 
   /** 编辑器，editor:<viewer名字> 是 viewerFor: {morph:"editor", name:<viewer名字>} 的简写 */
-  editor?: string | VIEWER,
+  editor?: string | VIEWER;
 
   /** 查看器，readable:<viewer名字> 是 viewerFor: {morph:"readable", name:<viewer名字>} 的简写 */
-  readable?: string | VIEWER,
+  readable?: string | VIEWER;
 
   /** 选项 */
   option?: MEnumField[] | string;
@@ -66,16 +70,16 @@ export interface MFieldSchema {
   /** @deprecated 旧版本字段，新版本用 openOption */
   setOpen?: MFieldSchemaAnonymity;
 
-  /** 
-   * 默认值 
+  /**
+   * 默认值
    * object上设置defaultValue后，其字段的defaultValue就无效了
    */
-  defaultValue?: ValueConst,
+  defaultValue?: ValueConst;
 
-  /** 
+  /**
    * 表单控件的属性（对应 antd 组件的 api）
    */
-  props?: any,
+  props?: any;
 
   /** 最多输入多少行，默认1，表示单行字符串 */
   stringLines?: number;
@@ -103,19 +107,19 @@ export interface MFieldSchema {
    *    READABLE_UNKNOWN/READABLE_BLANK/READABLE_INVALID/READABLE_ERROR：这些值参考MTheme
    * 函数=就不用解释了，自己可以随意发挥了
    */
-  toReadable?: string | ((v: any, parent: any, assembly: Assembly) => string),
+  toReadable?: string | ((v: any, parent: any, assembly: Assembly) => string);
 
-  /** 
+  /**
    * true表示值不是严格匹配
    * 例如枚举的value是number时，传入字符串也可以匹配
    */
   tolerate?: boolean;
 
   /** 是否强制使用大屏或者小屏的控件，默认是自动 */
-  screenAdaption?: SCREEN_ADAPTION
+  screenAdaption?: SCREEN_ADAPTION;
 
   /** 展示时显示的后缀 */
-  postfix?: string,
+  postfix?: string;
 
   /** 会展示为一个问号图标，点击弹出提示 */
   popoverDesc?: React.ReactNode;
@@ -142,21 +146,21 @@ export interface MFieldSchema {
     y: string | MEnumField[];
 
     /** 每行最多选几个，默认1 */
-    maxX?: number,
+    maxX?: number;
 
     /** 每行最少选几个，默认1 */
-    minX?: number,
+    minX?: number;
 
     /** 每列最多选几个，默认无限多个 */
-    maxY?: number,
+    maxY?: number;
 
     /** 每列最少选几个，默认1 */
-    minY?: number,
+    minY?: number;
 
     /** 开放项的配置，开放项是y轴最后一个选项 */
     open?: {
-      label: string
-    }
+      label: string;
+    };
   };
 
   /** 数组成员类型 */
@@ -167,7 +171,7 @@ export interface MFieldSchema {
 
   /** 组件 AArrayGrid 新增时，是否自动添加带有唯一值的 value 属性 */
   autoValue?: boolean;
-  
+
   /** 数组增加一项的按钮文案 */
   arrayAddLabel?: string;
 
@@ -185,12 +189,13 @@ export interface MFieldSchema {
     hideTillNow?: boolean;
     /** 是否能选择时间 */
     showTime?: boolean;
-  }
+  };
 
   /** 数据格式 */
   dataFormat?:
-  "x" | "YYYYMMDD" | /** 用于时间日期类型字段的数据格式，参考moment，例如x表示数据是时间戳，YYYYMMDD表示数据是形如19990130的字符串 */
-  string;
+    | "x"
+    | "YYYYMMDD" /** 用于时间日期类型字段的数据格式，参考moment，例如x表示数据是时间戳，YYYYMMDD表示数据是形如19990130的字符串 */
+    | string;
 
   /**
    * 例如：
@@ -198,11 +203,11 @@ export interface MFieldSchema {
    * (1)增长了约___万元 (2)下降了约___万元 (3)基本没有变化
    */
   intDiff?: {
-    incLabel: string;         // 增长了约
+    incLabel: string; // 增长了约
     incLabelPostfix: string; // 万元
-    decLabel: string;         // 下降了约
+    decLabel: string; // 下降了约
     decLabelPostfix: string; // 万元
-    keep: string;             // 基本没有变化
+    keep: string; // 基本没有变化
   };
 
   /** 可以自己写个样式，会作用于antd元素上 */
@@ -226,29 +231,29 @@ export interface MFieldSchema {
   /** 用于hpOrg类型*/
   hpOrg?: {
     /** 空格表示根 */
-    rootId: string
+    rootId: string;
   };
 
   ossFile?: {
-    type: "HP_GO" | "HP_SECOBJ",
+    type: "HP_GO" | "HP_SECOBJ";
     /** 预览大小，单位像素 */
-    previewSize?: number,
+    previewSize?: number;
     arguments:
-    { genName: boolean, ossKeyPath: string, permissionPolicyOr: string }  // HPHOM_SECOBJ的参数，也就是/academy/oss/secObject的参数
-    | { appName: string } // HPHOM_GO的参数，也就是/academy/go/upload的参数
-    | any;
-  }
+      | { genName: boolean; ossKeyPath: string; permissionPolicyOr: string } // HPHOM_SECOBJ的参数，也就是/academy/oss/secObject的参数
+      | { appName: string } // HPHOM_GO的参数，也就是/academy/go/upload的参数
+      | any;
+  };
 
   /** 装饰物的html */
   decoration?: {
-    subType?: "rich" | "segmentLabel" | "submitBar" | "operations", // 子类型
-    HTML?: string, // html片段
-    more?: boolean, // 是否显示更多
-    HTML2?: string, // 更多的 html片段
-    submitLabel?: string, // 提交按钮
-    segmentLabel?: string, // 分段标题
-    operations?: { label: React.ReactNode, handler: (data) => void }[]  // 操作
-  }
+    subType?: "rich" | "segmentLabel" | "submitBar" | "operations"; // 子类型
+    HTML?: string; // html片段
+    more?: boolean; // 是否显示更多
+    HTML2?: string; // 更多的 html片段
+    submitLabel?: string; // 提交按钮
+    segmentLabel?: string; // 分段标题
+    operations?: { label: React.ReactNode; handler: (data) => void }[]; // 操作
+  };
 
   /** 
    * 来自远程的数据，用于下拉搜索框.
@@ -274,16 +279,16 @@ export interface MFieldSchema {
    */
   remote?: {
     /** 数据url，可以用${q}引用用户输入的查询关键字 */
-    url: string,
+    url: string;
     /** url返回的json中，数据list的路径 */
-    dataPath: string,
+    dataPath: string;
 
     /** 在dataPath下，值字段路径 */
-    valuePath: JSEXPR,
+    valuePath: JSEXPR;
 
     /** 在dataPath下，标题字段的表达式 */
-    labelExpr: ((value: any) => React.ReactNode) | JSEXPR,
-  }
+    labelExpr: ((value: any) => React.ReactNode) | JSEXPR;
+  };
 
   a?: {
     urlExpr?: ((value: any, parent: any) => React.ReactNode) | JSEXPR;
@@ -291,98 +296,106 @@ export interface MFieldSchema {
     onClick?: (value: any, parent: any) => void;
     /** 在当前页面打开 */
     currentPage?: boolean;
-  }
+  };
 
   /** 元素的style */
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
 
   /** 布局方式，垂直（vertical）、水平（horizontal） */
   layoutHint?: "v" | "h";
 
   /** 其他插件的配置 */
   options?: any;
-  
+
   /** 业务数据 */
   bizData?: any;
 }
 
-/** 
+/**
  * 数据变化时回调
  * final=true表示回调是因为类似失去焦点导致的，此后不会再有变化回调
  * final=false表示回调是因为用户操作导致的，不处理的话也不会导致最终数据不一致，因为后续会有final=true的回调。
  * 对于暂存表单等比较重的操作，应该仅在final=true时触发，以减少调用次数
  */
-export type AFTER_CHANGE_CALLBACK = (path: string, v: any, final: boolean) => void;
+export type AFTER_CHANGE_CALLBACK = (
+  path: string,
+  v: any,
+  final: boolean
+) => void;
 
 export type CHANGE_SCHEMA_CALLBACK = (v: any) => void;
 
 export interface MProp {
   /** database的数据描述 */
-  schema: MFieldSchemaAnonymity,
+  schema: MFieldSchemaAnonymity;
 
   /** json格式数据 */
-  database: any,
+  database: any;
 
   /** 编辑database中的字段路径 */
-  path: string,
+  path: string;
 
   /** 元素形态 */
   morph: MORPH;
 
   /** database有任何变化时回调 */
-  afterChange?: AFTER_CHANGE_CALLBACK,
+  afterChange?: AFTER_CHANGE_CALLBACK;
 
   /** 修改schema */
-  changeSchema?: CHANGE_SCHEMA_CALLBACK,
+  changeSchema?: CHANGE_SCHEMA_CALLBACK;
 
   /** 修改database */
-  changeDatabase?: CHANGE_SCHEMA_CALLBACK,
+  changeDatabase?: CHANGE_SCHEMA_CALLBACK;
 
   /** @deprecated 直接上层。有时parent是谁，会影响渲染字段 */
-  parent?: MFieldSchemaAnonymity,
+  parent?: MFieldSchemaAnonymity;
 
   /** 强制展示校验信息 */
-  forceValid?: boolean,
+  forceValid?: boolean;
 
   /**
-   * 要求元素展示删除按钮 
+   * 要求元素展示删除按钮
    * true=父元素是array(或object），要求子元素展示删除按钮
    * false=父元素是array(或object），子元素可以展示删除按钮，但disable
    * undefined=子元素不能展示删除按钮
    */
-  removeButton?: boolean,
+  removeButton?: boolean;
 
   /** 禁用元素 */
-  disable?: boolean,
+  disable?: boolean;
 
   /** 是否隐藏边框，例如在表格中就不需要边框 */
-  hideBorder?: boolean,
+  hideBorder?: boolean;
 
   /** 额外的控件，比如AArrayGrid里加个按钮 */
   extra?: JSX.Element;
 
   // 以下都是向下传递到html元素的
-  style?: React.CSSProperties,
-  className?: string
+  style?: React.CSSProperties;
+  className?: string;
 }
 export interface M3UISpecSegmentItem {
-  label: string,
-  fields: string[],
-  showIf?: string,
-  name?: string,
+  label: string;
+  fields: string[];
+  showIf?: string;
+  name?: string;
 
   /** 如果要支持分段编辑提交，要设置此回调 */
-  onSubmit?: (segment: M3UISpecSegmentItem, segmentData: any, done: () => void) => void;
+  onSubmit?: (
+    segment: M3UISpecSegmentItem,
+    segmentData: any,
+    done: () => void
+  ) => void;
 
   /** 设置分段根元素的style */
-  style?: React.CSSProperties,
+  style?: React.CSSProperties;
 }
 
 export interface M3UISpec {
-  type: "segmentForm" | "stepForm" | "flowForm",
-  layout: "horizontal" | "vertical",
-  comma?: string,
-  labelAlign?: "left" | "right"
+  type: "segmentForm" | "stepForm" | "flowForm";
+  layout: "horizontal" | "vertical";
+  comma?: string;
+  labelAlign?: "left" | "right";
   segments?: M3UISpecSegmentItem[];
 }
 
