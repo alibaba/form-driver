@@ -95,7 +95,7 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
     snapshot?: any
   ): void {
     setTimeout(() => {
-      console.log("DRAG: 组件更新", this.checkFields, this.state.data);
+      // console.log("DRAG: 组件更新", this.checkFields, this.state.data);
     }, 2000);
   }
 
@@ -150,7 +150,7 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
                 this.props.schema,
                 true
               );
-              console.log("当前选中的数据ccc", currentCheckValue);
+              // console.log("当前选中的数据ccc", currentCheckValue);
               this.dataRef = currentCheckValue;
               setTimeout(() => {
                 super.changeValue(currentCheckValue);
@@ -165,7 +165,7 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
             </span>
             <span
               onBlurCapture={(e) => {
-                console.log("输入框失去焦点", this.dataRef);
+                // console.log("输入框失去焦点", this.dataRef);
                 setTimeout(() => {
                   super.changeValue(this.dataRef);
                   this.setState({
@@ -183,7 +183,7 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
                   const matchEnum = this.checkFields.find(
                     (e) => e.value === str && e.remark !== "openOption"
                   );
-                  console.log("输入框 afterChange", str, values, matchEnum);
+                  // console.log("输入框 afterChange", str, values, matchEnum);
                   if (matchEnum) {
                     // 不能让用户输入某个枚举值
                     this._inputBoxValue = "";
@@ -212,11 +212,11 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
                       this.checkFields = this.checkFields.map((e) =>
                         e.remark === "openOption" ? { ...e, value: str } : e
                       );
-                      console.log("输入框数据", {
-                        values,
-                        checkFields: this.checkFields,
-                        dataRef: this.dataRef,
-                      });
+                      // console.log("输入框数据", {
+                      //   values,
+                      //   checkFields: this.checkFields,
+                      //   dataRef: this.dataRef,
+                      // });
                       MUtil.set(this.props.database, this.props.path, values);
                     }
                   }
@@ -246,7 +246,7 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
               this.props.schema,
               true
             );
-            console.log("当前变化的 value", values, currentCheckValue);
+            // console.log("当前变化的 value", values, currentCheckValue);
             const max = this.props.schema.max;
             if (max > 0 && e.target.checked) {
               const len = values ? values.length : 0;
@@ -279,7 +279,7 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
 
     // 定义更换数据源的方法
     const changeOriginDataSource = (newData) => {
-      console.log("新数据", newData);
+      // console.log("新数据", newData);
       // 更新排序后的选项数据
       const sortedCheckFields = newData.map((item) => ({
         ...item,
@@ -296,7 +296,7 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
       const isHaveOpenOption = sortedCheckFields.filter(
         (e) => e.remark === "openOption"
       );
-      console.log("isHaveOpenOption", isHaveOpenOption);
+      // console.log("isHaveOpenOption", isHaveOpenOption);
       newSchema.option = isHaveOpenOption
         ? sortedCheckFields?.filter((e) => e.remark !== "openOption")
         : sortedCheckFields;
@@ -319,37 +319,43 @@ export class ACheckDrag extends Viewer<ACheckDragState> {
       }, 0);
     };
 
+    const sortList = (checkboxs ?? [])?.map((cpn, index) => {
+      let checkFieldsValue;
+      checkFieldsValue = this.checkFields[index]?.value;
+      const isOpenOp = this.checkFields[index]?.remark === "openOption";
+      if (isOpenOp) {
+        checkFieldsValue = this._inputBoxValue;
+      }
+      // console.log("DRAG: 实际传递进如 SortDrag的数据", {
+      //   data,
+      //   dataRef: this.dataRef,
+      //   checkFields: this.checkFields,
+      //   schema: this.props.database,
+      //   isOpenOp,
+      //   openValue: this._inputBoxValue,
+      // });
+
+      return {
+        isChecked: this.dataRef
+          ? this.dataRef?.findIndex((e) => e === checkFieldsValue) !== -1
+          : false,
+        checkedIndex:
+          this.dataRef?.findIndex((e) => e === checkFieldsValue) + 1,
+        cpn,
+        id: "" + checkFieldsValue,
+        label: this.checkFields[index]?.label,
+        remark: this.checkFields[index]?.remark,
+      };
+    });
+    const finalSortList = sortList
+      .filter((item) => item.isChecked)
+      .sort((a, b) => a.checkedIndex - b.checkedIndex)
+      .concat(sortList.filter((item) => !item.isChecked));
     return (
       <SortDrag
+        key={MUtil.unique()}
         changeOriginDataSource={changeOriginDataSource}
-        sortList={(checkboxs ?? [])?.map((cpn, index) => {
-          let checkFieldsValue;
-          checkFieldsValue = this.checkFields[index]?.value;
-          const isOpenOp = this.checkFields[index]?.remark === "openOption";
-          if (isOpenOp) {
-            checkFieldsValue = this._inputBoxValue;
-          }
-          console.log("DRAG: 实际传递进如 SortDrag的数据", {
-            data,
-            dataRef: this.dataRef,
-            checkFields: this.checkFields,
-            schema: this.props.database,
-            isOpenOp,
-            openValue: this._inputBoxValue,
-          });
-
-          return {
-            isChecked: this.dataRef
-              ? this.dataRef?.findIndex((e) => e === checkFieldsValue) !== -1
-              : false,
-            checkedIndex:
-              this.dataRef?.findIndex((e) => e === checkFieldsValue) + 1,
-            cpn,
-            id: "" + checkFieldsValue,
-            label: this.checkFields[index]?.label,
-            remark: this.checkFields[index]?.remark,
-          };
-        })}
+        sortList={finalSortList}
       />
     );
   }
