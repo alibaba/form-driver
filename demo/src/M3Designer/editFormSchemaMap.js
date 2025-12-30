@@ -26,6 +26,13 @@ export const unitEnum = [
   { type: "enum", label: "单选", editor: "ARadio", option: [] },
   { type: "set", label: "多选", editor: "ACheckBox", option: [] },
   { type: "set", label: "排序题", editor: "ACheckDrag", option: [] },
+  {
+    type: "weight",
+    label: "比重题",
+    editor: "AWeight",
+    option: [],
+    icon: "weight",
+  },
   { type: "string", label: "文本", editor: "AInputBox" },
   { type: "tel", label: "手机号", editor: "ASpecInputBox", icon: "mobile" },
   { type: "email", label: "邮箱", editor: "ASpecInputBox", icon: "email" },
@@ -148,6 +155,31 @@ export const generateItemSchema = (curSchema) => {
           remark:
             "0-4分完全没有收获，5-6分有少量收获，7-8分有收获，9-10分极有收获。",
         },
+      },
+    ];
+  } else if (curSchema.type == "weight") {
+    base = [
+      {
+        label: "标题",
+        name: "label",
+        type: "string",
+        defaultValue: "请填写标题",
+      },
+      {
+        label: "选项",
+        name: `option`,
+        type: "array",
+        editor: "AArrayGrid",
+        arrayMember: valueLabel,
+        autoValue: true,
+      },
+      {
+        label: "可分配的总比重值",
+        name: "weight",
+        type: "int",
+        min: 1,
+        max: 100000,
+        placeholder: "请填写数字",
       },
     ];
   } else if (curSchema.label2 == "老师评价NPS") {

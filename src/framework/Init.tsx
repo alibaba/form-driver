@@ -34,6 +34,7 @@ import { AExperience } from "../ui/editor/complex/AExperience";
 import { ACnAddress } from "../ui/editor/complex/ACnAddress";
 import { AArray } from "../ui/editor/complex/AArray";
 import { ACheckDrag } from "../ui/editor/complex/ACheckDrag";
+import { AWeight } from "../ui/editor/complex/AWeight";
 import { AArrayGrid } from "../ui/editor/complex/AArrayGrid";
 import { ARangePicker } from "../ui/editor/basic/ARangePicker";
 import { AIntDiff } from "../ui/editor/complex/AIntDiff";
@@ -127,6 +128,7 @@ export function ensureM3() {
     ADialogForm: ADialogForm,
     AKvSet: AKvSet,
     ACascadePicker: ACascadePicker,
+    AWeight: AWeight,
   });
 
   assembly.morph = _.merge(assembly.morph, {

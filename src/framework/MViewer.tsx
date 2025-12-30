@@ -95,6 +95,37 @@ export class MViewer extends React.Component<MViewerProp, State> {
     this.recover();
   }
 
+  // ⚠️ 新增：监听 props 变化
+  componentDidUpdate(prevProps: MViewerProp) {
+    // 检查 schema 是否变化
+    if (!_.isEqual(prevProps.schema, this.props.schema)) {
+      console.log("MViewer: schema changed", {
+        prevSchema: prevProps.schema,
+        nextSchema: this.props.schema,
+      });
+
+      // 重新初始化 database
+      this.database = assembly.types[this.props.schema.type]?.standardValue(
+        assembly,
+        this.props.schema,
+        this.props.database,
+        false
+      );
+
+      // 填入默认值
+      MUtil.applyDefaultValue(this.props.schema, this.props.database, "");
+
+      // 触发重新渲染
+      this.setState({ ctrlVersion: this.state.ctrlVersion + 1 });
+    }
+
+    // 检查 database 是否变化
+    if (!_.isEqual(prevProps.database, this.props.database)) {
+      console.log("MViewer: database changed");
+      this.database = this.props.database;
+    }
+  }
+
   recover() {
     const { ctrlVersion } = this.state;
     const { persistant } = this.props;

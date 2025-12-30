@@ -393,7 +393,7 @@ const EnhancedSortDrag: React.FC<EnhancedSortDragProps> = memo((props) => {
 
       // 如果是表格行模式，直接返回组件内容
       if (isTableRow) {
-        console.log("表格行数据", item);
+        // console.log("表格行数据", item);
         return (
           <tr
             ref={(el) => {
