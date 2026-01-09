@@ -18,7 +18,7 @@ function validateCandidate(
 ): MValidationResult {
   let fs = MUtil.option(schema);
   const openOption = _.clone(schema.openOption ?? schema.setOpen);
-
+  if (!value) return undefined;
   for (let v of value) {
     let vIsOk = false;
     for (let f of fs) {

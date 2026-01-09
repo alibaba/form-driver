@@ -53,8 +53,8 @@ const mockData = {
 const InputSlider = memo((props: any) => {
   const { value, min, max, onChange: onCpnChange, onAfterChange } = props;
 
-  const onChange = (newValue: number) => {
-    onCpnChange(newValue);
+  const onChange = (newValue: number, isInputChange?: boolean) => {
+    onCpnChange(newValue, isInputChange);
   };
 
   return (
@@ -65,7 +65,8 @@ const InputSlider = memo((props: any) => {
           min={min}
           max={max}
           value={value}
-          onChange={onChange}
+          onChange={(v) => onChange(v, true)}
+          onBlur={onAfterChange}
         />
       </Col>
       <Col span={20}>
@@ -85,6 +86,7 @@ const InputSlider = memo((props: any) => {
 export class AWeight extends Viewer<AWeightState> {
   _enumFields: MEnumField[];
   _enumValues: ValueConst[];
+  allSliderValuesChanged: any = [];
   // 添加防抖定时器
   private debounceTimer: any = null;
   private lastUpdateTime: number = 0;
@@ -99,7 +101,8 @@ export class AWeight extends Viewer<AWeightState> {
     console.log("this._enumFields", this._enumFields);
     this.totalWeight = (schema as any).weight;
     this.allValues =
-      super.getValue() ?? new Array(this._enumFields.length).fill(0);
+      super.getValue()?.map((i) => i.value) ??
+      new Array(this._enumFields.length).fill(0);
     this.state = {
       allSliderValues: this.allValues,
       ctrlVersion: 1,
@@ -125,13 +128,16 @@ export class AWeight extends Viewer<AWeightState> {
   ): void {
     const newNumbers = [...numbers];
     const targetIndex = numbers.length - 1;
+    const isSelectNumber = this.allSliderValuesChanged
+      .slice(0, targetIndex)
+      .every((changed) => changed);
     const totalData = numbers.reduce((total, current, index) => {
       if (index !== targetIndex) {
         total += current;
       }
       return total;
     }, 0);
-    if (targetIndex !== -1 && currentIndex !== targetIndex) {
+    if (targetIndex !== -1 && currentIndex !== targetIndex && isSelectNumber) {
       const finalValue = this.totalWeight - totalData;
       console.log("totalData", totalData, finalValue);
       if (finalValue >= 0 && finalValue <= this.totalWeight) {
@@ -151,8 +157,22 @@ export class AWeight extends Viewer<AWeightState> {
           allSliderValues: newNumbers,
         });
       }
+    } else {
+      // 如果不联动更新的情况下，那么就直接更新滑动条
+      this.setState({
+        allSliderValues: newNumbers,
+      });
     }
-    super.changeValue(newNumbers);
+    this.allSliderValuesChanged[currentIndex] = true;
+    super.changeValue(
+      newNumbers.map((n, index) => {
+        return {
+          label: this._enumFields[index].value,
+          value: n,
+        };
+      })
+    );
+    console.log("更改后的 weight database", super.getValue());
   }
 
   // 平滑插值算法
@@ -161,24 +181,35 @@ export class AWeight extends Viewer<AWeightState> {
   }
 
   element() {
+    const hasAssignWeight = this.state.allSliderValues.reduce(
+      (total, current) => total + current,
+      0
+    );
     return (
       <div style={{ padding: 16 }}>
         {this._enumFields.map((option, index) => {
           return (
-            <div key={(option as any).uniqueId}>
+            <div key={(option as any).value}>
               <div style={{ marginBottom: 8, fontWeight: "bold" }}>
                 {option.label}
               </div>
               <InputSlider
-                onChange={(value) => {
+                onChange={(value, isInputChange) => {
                   const numbers = [...this.state.allSliderValues];
                   numbers[index] = value;
-                  super.changeValue(numbers);
+                  super.changeValue(
+                    numbers.map((n, index) => {
+                      return {
+                        label: this._enumFields[index].value,
+                        value: n,
+                      };
+                    })
+                  );
 
                   // 使用节流控制联动更新频率
                   const now = Date.now();
                   if (now - this.lastUpdateTime >= this.THROTTLE_DELAY) {
-                    this.updateLinkedSliders(numbers, index);
+                    this.updateLinkedSliders(numbers, index, isInputChange);
                     this.lastUpdateTime = now;
                   } else {
                     // 使用防抖确保最后一次更新被执行
@@ -186,7 +217,7 @@ export class AWeight extends Viewer<AWeightState> {
                       clearTimeout(this.debounceTimer);
                     }
                     this.debounceTimer = setTimeout(() => {
-                      this.updateLinkedSliders(numbers, index);
+                      this.updateLinkedSliders(numbers, index, isInputChange);
                       this.lastUpdateTime = Date.now();
                     }, this.THROTTLE_DELAY);
                   }
@@ -206,6 +237,19 @@ export class AWeight extends Viewer<AWeightState> {
             </div>
           );
         })}
+        {this.totalWeight > 0 && this._enumFields.length > 0 ? (
+          <div>
+            提示：总比重必须为{this.totalWeight}，已分配比重：
+            <span
+              style={{
+                color: hasAssignWeight > this.totalWeight ? "red" : "#000",
+              }}
+            >
+              {hasAssignWeight}
+              {hasAssignWeight > this.totalWeight ? `，请修改` : ""}
+            </span>
+          </div>
+        ) : null}
       </div>
     );
   }

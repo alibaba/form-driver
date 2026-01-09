@@ -1,12 +1,17 @@
 import React, { ClassType } from "react";
-import { MValidationResult, MFieldSchemaAnonymity, MProp, MValidationFail } from './Schema';
+import {
+  MValidationResult,
+  MFieldSchemaAnonymity,
+  MProp,
+  MValidationFail,
+} from "./Schema";
 import { CHANGE_SCHEMA_CALLBACK } from "../framework/Schema";
 import _ from "lodash";
-import { MUtil } from './MUtil';
+import { MUtil } from "./MUtil";
 import { MType, PluginType } from "../types/MType";
 
 export type MORPH = "readable" | "editor";
-export type VIEWER = ClassType<MProp, any, any>
+export type VIEWER = ClassType<MProp, any, any>;
 
 /** 统一的视觉样式 */
 export interface MTheme {
@@ -39,8 +44,8 @@ const defaultTheme: MTheme = {
   READABLE_INVALID: "❓",
   READABLE_ERROR: "❗",
 
-  themeName: "antMiddle"
-}
+  themeName: "antMiddle",
+};
 
 /**
  * 注册viewer，type，morph（viewer和type之间的关联）
@@ -49,7 +54,13 @@ export class Assembly {
   types: { [name: string]: MType } = {};
   viewers: { [name: string]: VIEWER } = {};
   editors: { [name: string]: EDITOR } = {};
-  morph: { [name: /*MORPH*/ string]: { [typeName: string]: string | ClassType<MProp, any, any> /* viewer name or viewer */ } } = {}
+  morph: {
+    [name: /*MORPH*/ string]: {
+      [typeName: string]:
+        | string
+        | ClassType<MProp, any, any> /* viewer name or viewer */;
+    };
+  } = {};
 
   theme: MTheme = defaultTheme;
 
@@ -59,8 +70,13 @@ export class Assembly {
       let r;
       if (_.isString(s.toReadable)) {
         // eslint-disable-next-line no-new-func
-        r = new Function("_", "value", "theme",
-          "const {READABLE_UNKNOWN, READABLE_BLANK, READABLE_INVALID, READABLE_ERROR} = theme; return " + s.toReadable)(_, v, this.theme);
+        r = new Function(
+          "_",
+          "value",
+          "theme",
+          "const {READABLE_UNKNOWN, READABLE_BLANK, READABLE_INVALID, READABLE_ERROR} = theme; return " +
+            s.toReadable
+        )(_, v, this.theme);
       } else if (_.isFunction(s.toReadable)) {
         r = s.toReadable(v, parent, this);
       }
@@ -71,12 +87,15 @@ export class Assembly {
       }
       return r;
     } else {
-      return s.type + "类型无效"
+      return s.type + "类型无效";
     }
-  }
+  };
 
   /** 根据定义返回View，返回nil表示没有可用的View */
-  getViewerOf(f: MFieldSchemaAnonymity, morph: MORPH): ClassType<any, any, any> {
+  getViewerOf(
+    f: MFieldSchemaAnonymity,
+    morph: MORPH
+  ): ClassType<any, any, any> {
     if (f.editor && morph === "editor") {
       if (_.isString(f.editor)) {
         return _.get(this.viewers, f.editor);
@@ -90,22 +109,30 @@ export class Assembly {
         return f.readable;
       }
     } else {
-      const viewer: string | ClassType<MProp, any, any>  = _.get(this.morph, morph + "." + f.type);
+      const viewer: string | ClassType<MProp, any, any> = _.get(
+        this.morph,
+        morph + "." + f.type
+      );
       if (_.isString(viewer)) {
         return _.get(this.viewers, viewer);
       } else {
-        return viewer
+        return viewer;
       }
     }
   }
 
-  validate(s: MFieldSchemaAnonymity, v: any, path: string = ""): MValidationFail | undefined {
+  validate(
+    s: MFieldSchemaAnonymity,
+    v: any,
+    path: string = ""
+  ): MValidationFail | undefined {
     let result: MValidationResult = undefined;
     for (let validator of this.types[s.type].validators) {
       result = validator(this, s, v, path);
-      if (result === "pass") {
+
+      if (result === "pass" && s.type !== "weight") {
         return undefined;
-      } else if (result) {
+      } else if (typeof result === "object") {
         MUtil.debug("校验", path, result.message);
         return result;
       }
@@ -115,8 +142,10 @@ export class Assembly {
 
   addViewer(name: string, v: VIEWER) {
     if (this.viewers[name]) {
-      console.error(`addViewer: 已经存在名为 ${name} 的 Viewer，无法再次添加！`)
-      return
+      console.error(
+        `addViewer: 已经存在名为 ${name} 的 Viewer，无法再次添加！`
+      );
+      return;
     } else {
       this.viewers[name] = v;
     }
@@ -124,8 +153,10 @@ export class Assembly {
 
   addEditor(name: string, v: EDITOR) {
     if (this.editors[name]) {
-      console.error(`addEditor: 已经存在名为 ${name} 的 Editor，无法再次添加！`)
-      return
+      console.error(
+        `addEditor: 已经存在名为 ${name} 的 Editor，无法再次添加！`
+      );
+      return;
     } else {
       this.editors[name] = v;
     }
@@ -139,12 +170,11 @@ export class Assembly {
    * @param typeParam 类型的描述对象
    */
   addType(typeParam: PluginType) {
-    const { name, type, editor, readable = "DivViewer" } = typeParam
+    const { name, type, editor, readable = "DivViewer" } = typeParam;
     this.types[name] = type;
-    
+
     _.set(this.morph, "editor." + name, editor);
     _.set(this.morph, "readable." + name, readable);
-
   }
 
   constructor() {

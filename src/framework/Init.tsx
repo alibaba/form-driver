@@ -49,6 +49,7 @@ import { A } from "../ui/readable/A";
 import { ADialogForm } from "../ui/editor/complex/ADialogForm";
 import { MVLPairType } from "../types/MVLPairType";
 import { MKvSetType } from "../types/MKvSetType";
+import { MWeightType } from "../types/MWeightType";
 import { AKvSet } from "../ui/editor/basic/AKvSet";
 import { ACascadePicker } from "../ui/editor/basic/ACascadePicker";
 import { MCascadeType } from "../types/MCascadeType";
@@ -75,6 +76,7 @@ export function ensureM3() {
     yearMonth: MDateTimeType,
     yearMonthDay: MDateTimeType,
     set: MSetType,
+    weight: MWeightType,
     array: MArrayType,
     string: MStringType,
     intDiff: MIntDiffType,
