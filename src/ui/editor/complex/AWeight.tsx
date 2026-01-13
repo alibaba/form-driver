@@ -61,6 +61,7 @@ const InputSlider = memo((props: any) => {
     <Row gutter={[12, 12]}>
       <Col span={4}>
         <InputNumber
+          precision={0}
           style={{ width: "100%" }}
           min={min}
           max={max}
