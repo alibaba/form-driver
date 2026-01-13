@@ -38,6 +38,7 @@ const TestForm2 = () => {
             "name": "name",
             "max": 50,
             "type": "string",
+            "popoverDesc": <span>选择是，则在接单时同步创建琅琊阁事件</span>,
             "required": true
           },
           {

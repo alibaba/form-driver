@@ -102,11 +102,13 @@ const TestForm = () => {
             "type": "int",
           },
           {
-            label: "测试单选", name: "textASelector", type: "enum", required: true, editor: "ASelector", props: { labelInValue: true }, style: { width: '100px' }, option: [
+            label: "测试单选",
+            popoverDesc: '<span>选择是，则在接单时同步创建琅琊阁事件</span>',
+            name: "textASelector", type: "enum", required: true, editor: "ASelector", props: { labelInValue: true }, style: { width: '100px' }, option: [
               { value: 1, label: '超级管理员' },
               { value: 2, label: '招生' },
               { value: 3, label: '课程' },
-            ]
+            ],
           },
           {
             label: "关联资料", name: "resourceId", placeholder: '请选择关联资料', type: "vl", editor: "ARemoteSelector", required: true,

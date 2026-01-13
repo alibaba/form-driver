@@ -21,7 +21,7 @@ type SortDragProps = {
 
 const SortDrag: React.FC<SortDragProps> = memo((props) => {
   const { sortList, changeOriginDataSource } = props;
-  const [items, setItems] = useState<SortDragProps["sortList"]>([]);
+  const [items, setItems] = useState<SortDragProps["sortList"]>(sortList);
 
   // 记录当前拖拽的 item id
   const [draggingId, setDraggingId] = useState<string | null>(null);
@@ -98,19 +98,6 @@ const SortDrag: React.FC<SortDragProps> = memo((props) => {
       cleanups.forEach((fn) => fn());
     };
   }, [items]);
-
-  useEffect(() => {
-    const checkedItems = sortList
-      .filter((item) => item.isChecked)
-      .sort((a, b) => a.checkedIndex - b.checkedIndex);
-    const unCheckedItems = sortList.filter((item) => !item.isChecked);
-    console.log("DRAG: 排序之后实际展示的数据", {
-      sortList,
-      checkedItems,
-      unCheckedItems,
-    });
-    setItems([...checkedItems, ...unCheckedItems]);
-  }, [sortList]);
 
   return (
     <div className="sortDrag">

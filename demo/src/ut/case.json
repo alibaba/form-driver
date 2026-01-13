@@ -1,12 +1,14 @@
 [
   {
-    "name": "too-long",
+    "name": "too-long & popoverDesc",
     "schema": {
       "name": "quest",
       "type": "object",
       "objectFields": [
         {
           "label": "事件简介",
+          "labelWidth": 180,
+          "popoverDesc": "选择是，则在接单时同步创建琅琊阁事件",
           "name": "description",
           "required": true,
           "type": "string",

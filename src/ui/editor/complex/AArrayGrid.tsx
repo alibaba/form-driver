@@ -1,37 +1,41 @@
-
 import _ from "lodash";
-import { Button, message, Popconfirm } from 'antd';
-import { CaretDownOutlined, CaretUpOutlined, CloseOutlined } from '@ant-design/icons';
-import { BaseViewer } from '../../BaseViewer';
+import { Button, message, Popconfirm } from "antd";
+import {
+  CaretDownOutlined,
+  CaretUpOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
+import { BaseViewer } from "../../BaseViewer";
 import { MUtil } from "../../../framework/MUtil";
 import { MFieldViewer } from "../../../framework/MFieldViewer";
 import React from "react";
-import { assembly } from '../../../framework/Assembly';
+import { assembly } from "../../../framework/Assembly";
+import EnhancedSortDrag, { DragItem } from "../../widget/EnhancedSortDrag";
 
 function uuid(len = 8, radix = 16) {
-  let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  let chars =
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
   let uuid = [];
   let i = 0;
   radix = radix || chars.length;
 
   if (len) {
-      for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix];
+    for (i = 0; i < len; i++) uuid[i] = chars[0 | (Math.random() * radix)];
   } else {
-      let r;
-      uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-      uuid[14] = '4';
+    let r;
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
+    uuid[14] = "4";
 
-      for (i = 0; i < 36; i++) {
-          if (!uuid[i]) {
-              r = 0 | Math.random() * 16;
-              uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
-          }
+    for (i = 0; i < 36; i++) {
+      if (!uuid[i]) {
+        r = 0 | (Math.random() * 16);
+        uuid[i] = chars[i == 19 ? (r & 0x3) | 0x8 : r];
       }
+    }
   }
 
-  return uuid.join('');
+  return uuid.join("");
 }
-
 
 /**
  * 数据表格
@@ -50,16 +54,26 @@ export class AArrayGrid extends BaseViewer {
       return MUtil.error("arrayMember未定义", schema);
     }
 
-    const members = schema.arrayMember.objectFields  // 成员是复杂结构
-      || [{ name: undefined, ...schema.arrayMember }]; // 成员是简单结构
+    const members = schema.arrayMember.objectFields || [
+      // 成员是复杂结构
+      { name: undefined, ...schema.arrayMember },
+    ]; // 成员是简单结构
     // if(!members) {
     //   return MUtil.error("AArrayGrid只适用于对象数组", schema);
     // }
 
     let data = super.getValue();
-    if (!_.isArray(data)) { // 只接受数组
+    if (!_.isArray(data)) {
+      // 只接受数组
       data = [];
     }
+
+    data = data.map((d) => {
+      if (!d.uniqueId) {
+        d.uniqueId = uuid();
+      }
+      return d;
+    });
 
     const cols = 1 + members.length;
 
@@ -68,90 +82,204 @@ export class AArrayGrid extends BaseViewer {
     let rows = [];
     for (let idx = 0; idx < data.length; idx++) {
       const i = idx;
-      rows.push(<tr key={i}>
-        {/* 各个字段 */}
-        {
-          members.map((f, idx) =>
+      rows.push(
+        <tr key={i}>
+          {/* 各个字段 */}
+          {members.map((f, idx) => (
             <td key={f.name + idx}>
-              <MFieldViewer key={this.state.ctrlVersion + "." + f.name} parent={schema} morph={this.props.morph} schema={f} database={data} path={MUtil.jsonPath("[" + i + "]", f.name)} hideBorder={true} afterChange={(path, v, final): void => {
-                super.changeValueEx(data, false, final);
-              }} />
-            </td>)
-        }
+              <MFieldViewer
+                key={this.state.ctrlVersion + "." + f.name}
+                parent={schema}
+                morph={this.props.morph}
+                schema={f}
+                database={data}
+                path={MUtil.jsonPath("[" + i + "]", f.name)}
+                hideBorder={true}
+                afterChange={(path, v, final): void => {
+                  super.changeValueEx(data, false, final);
+                }}
+              />
+            </td>
+          ))}
 
-        {/* 操作栏 */}
-        <td key=":option" align="center">
-          <CaretUpOutlined style={{ display: "block" }} hidden={data.length <= 1} onClick={() => {
-            if (i === 0) {
-              message.warn("已经到顶了");
-            } else {
-              const prev = data[i - 1];
-              data[i - 1] = data[i];
-              data[i] = prev;
-              super.changeValueEx(data, true, true);
-            }
-          }} />
-          <Popconfirm
-            title="确定要删除吗这一项吗？"
-            onConfirm={() => {
-              data.splice(i, 1);
-              super.changeValueEx(data, true, true);
-            }}
-            okText="删除"
-            cancelText="不删">
-            <CloseOutlined style={{ display: "block" }} hidden={data.length == (schema.min ?? 0)} />
-          </Popconfirm>
-          <CaretDownOutlined style={{ display: "block" }} hidden={data.length <= 1} onClick={() => {
-            if (i === data.length - 1) {
-              message.warn("已经到底了");
-            } else {
-              const prev = data[i + 1];
-              data[i + 1] = data[i];
-              data[i] = prev;
-              super.changeValueEx(data, true, true);
-            }
-          }} />
-        </td>
-      </tr>);
+          {/* 操作栏 */}
+          <td key=":option" align="center">
+            <CaretUpOutlined
+              style={{ display: "block" }}
+              hidden={data.length <= 1}
+              onClick={() => {
+                if (i === 0) {
+                  message.warn("已经到顶了");
+                } else {
+                  const prev = data[i - 1];
+                  data[i - 1] = data[i];
+                  data[i] = prev;
+                  super.changeValueEx(data, true, true);
+                }
+              }}
+            />
+            <Popconfirm
+              title="确定要删除吗这一项吗？"
+              onConfirm={() => {
+                data.splice(i, 1);
+                super.changeValueEx(data, true, true);
+              }}
+              okText="删除"
+              cancelText="不删"
+            >
+              <CloseOutlined
+                style={{ display: "block" }}
+                hidden={data.length == (schema.min ?? 0)}
+              />
+            </Popconfirm>
+            <CaretDownOutlined
+              style={{ display: "block" }}
+              hidden={data.length <= 1}
+              onClick={() => {
+                console.log("当前选择数据", data);
+                if (i === data.length - 1) {
+                  message.warn("已经到底了");
+                } else {
+                  const prev = data[i + 1];
+                  data[i + 1] = data[i];
+                  data[i] = prev;
+                  super.changeValueEx(data, true, true);
+                }
+              }}
+            />
+          </td>
+        </tr>
+      );
     }
 
     const isMax = data.length >= (schema.max ?? Number.MAX_VALUE);
+
+    // 处理拖拽后的数据变化
+    const handleDragChange = (newItems: DragItem[]) => {
+      // 根据拖拽后的新顺序，重新排列原始表格数据
+      const newData = newItems.map((item) => {
+        // 从原始数据中找到对应的行数据
+        const originalRow = data.find(
+          (row) => String(row.uniqueId) === item.id
+        );
+        // 正常情况下一定能找到对应的行数据，因为我们是基于原始数据创建的拖拽项
+        return { ...originalRow! }; // 使用 ! 断言，因为我们确信能找到匹配项
+      });
+
+      super.changeValueEx(newData, true, true);
+    };
+
+    const handleDragFail = () => {};
+
     return (
-      <table key={this.props.path} className="AExperience M3_table" style={{ width: "100%" }}><tbody>
-        <tr key=":header">
-          {members.map((f, i) => <th key={f.name + i + ":first"}>{f.required ? <span style={{ color: "red" }}>*</span> : null}{f.label ?? f.name}</th>)}
-          <td key=":操作栏" width="40px" align="center"></td>
-        </tr>
-        {rows}
-        <tr key=":footer">
-          {/* 增加按钮 */}
-          <th key=":add" colSpan={cols}>
-            <Button disabled={isMax} key=":add" onClick={() => {
-              let newItem = assembly.types[schema.arrayMember.type]?.createDefaultValue(assembly, schema.arrayMember)
-              {/* 新增时支持要带入上一项的数据 */}
-              if (schema.arrayMember.copyFields && data.length > 0) {
-                const last = data[data.length - 1]
-                if (last) {
-                  newItem = {}
-                  schema.arrayMember.copyFields.forEach(item => {
-                    newItem[item] = last[item]
-                  })
-                }
-              }
-              data.push(newItem);
-              if (schema.autoValue) {
-                // 自动增加 value 属性
-                data.forEach(element => {
-                  if (!element.value) element.value = uuid()
-                });
-              }
-              console.log('data', data)
-              super.changeValue(data);
-            }}>增加一项</Button>
-            {this.props.extra}
-          </th>
-        </tr>
-      </tbody></table>
-    )
+      <table
+        key={this.props.path}
+        className="AExperience M3_table"
+        style={{ width: "100%" }}
+      >
+        <tbody>
+          <tr key=":header">
+            <th key={"拖拽"}></th>
+            {members.map((f, i) => (
+              <th key={f.name + i + ":first"}>
+                {f.required ? <span style={{ color: "red" }}>*</span> : null}
+                {f.label ?? f.name}
+              </th>
+            ))}
+            <td key=":操作栏" width="40px" align="center"></td>
+          </tr>
+          <EnhancedSortDrag
+            items={data.map((row, index) => {
+              return {
+                id: String(row.uniqueId),
+                cpn: (
+                  <>
+                    {members.map((f, idx) => (
+                      <td key={f.name + idx}>
+                        <MFieldViewer
+                          key={this.state.ctrlVersion + "." + f.name}
+                          parent={schema}
+                          morph={this.props.morph}
+                          schema={f}
+                          database={data}
+                          path={MUtil.jsonPath("[" + index + "]", f.name)}
+                          hideBorder={true}
+                          afterChange={(path, v, final): void => {
+                            super.changeValueEx(data, false, final);
+                          }}
+                        />
+                      </td>
+                    ))}
+
+                    <Popconfirm
+                      title="确定要删除吗这一项吗？"
+                      onConfirm={() => {
+                        data.splice(index, 1);
+                        super.changeValueEx(data, true, true);
+                      }}
+                      okText="删除"
+                      cancelText="不删"
+                    >
+                      <td>
+                        <CloseOutlined
+                          style={{ display: "block" }}
+                          hidden={data.length == (schema.min ?? 0)}
+                        />
+                      </td>
+                    </Popconfirm>
+                  </>
+                ),
+                isChecked: true,
+                label: `${row.name}`,
+                checkedIndex: index,
+              };
+            })}
+            onChange={handleDragChange}
+            enableAnimation={true}
+            isTableRow={true}
+            onDragFail={handleDragFail}
+          />
+          {/* {rows} */}
+          <tr key=":footer">
+            {/* 增加按钮 */}
+            <th key=":add" colSpan={cols}>
+              <Button
+                disabled={isMax}
+                key=":add"
+                onClick={() => {
+                  let newItem = assembly.types[
+                    schema.arrayMember.type
+                  ]?.createDefaultValue(assembly, schema.arrayMember);
+                  {
+                    /* 新增时支持要带入上一项的数据 */
+                  }
+                  if (schema.arrayMember.copyFields && data.length > 0) {
+                    const last = data[data.length - 1];
+                    if (last) {
+                      newItem = {};
+                      schema.arrayMember.copyFields.forEach((item) => {
+                        newItem[item] = last[item];
+                      });
+                    }
+                  }
+                  data.push(newItem);
+                  if (schema.autoValue) {
+                    // 自动增加 value 属性
+                    data.forEach((element) => {
+                      if (!element.value) element.value = uuid();
+                    });
+                  }
+                  console.log("data", data);
+                  super.changeValue(data);
+                }}
+              >
+                增加一项
+              </Button>
+              {this.props.extra}
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    );
   }
 }

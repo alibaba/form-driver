@@ -34,6 +34,7 @@ import { AExperience } from "../ui/editor/complex/AExperience";
 import { ACnAddress } from "../ui/editor/complex/ACnAddress";
 import { AArray } from "../ui/editor/complex/AArray";
 import { ACheckDrag } from "../ui/editor/complex/ACheckDrag";
+import { AWeight } from "../ui/editor/complex/AWeight";
 import { AArrayGrid } from "../ui/editor/complex/AArrayGrid";
 import { ARangePicker } from "../ui/editor/basic/ARangePicker";
 import { AIntDiff } from "../ui/editor/complex/AIntDiff";
@@ -48,6 +49,7 @@ import { A } from "../ui/readable/A";
 import { ADialogForm } from "../ui/editor/complex/ADialogForm";
 import { MVLPairType } from "../types/MVLPairType";
 import { MKvSetType } from "../types/MKvSetType";
+import { MWeightType } from "../types/MWeightType";
 import { AKvSet } from "../ui/editor/basic/AKvSet";
 import { ACascadePicker } from "../ui/editor/basic/ACascadePicker";
 import { MCascadeType } from "../types/MCascadeType";
@@ -74,6 +76,7 @@ export function ensureM3() {
     yearMonth: MDateTimeType,
     yearMonthDay: MDateTimeType,
     set: MSetType,
+    weight: MWeightType,
     array: MArrayType,
     string: MStringType,
     intDiff: MIntDiffType,
@@ -127,6 +130,7 @@ export function ensureM3() {
     ADialogForm: ADialogForm,
     AKvSet: AKvSet,
     ACascadePicker: ACascadePicker,
+    AWeight: AWeight,
   });
 
   assembly.morph = _.merge(assembly.morph, {

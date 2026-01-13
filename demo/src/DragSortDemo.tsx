@@ -3,6 +3,9 @@ import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 
+import EnhancedSortDragDemo from "./EnhancedSortDragDemo";
+import TableDragDemo from "./TableDragDemo";
+
 // 列表项类型定义
 interface Item {
   id: string;
@@ -127,6 +130,9 @@ const DragSortDemo: React.FC = () => {
         使用 @atlaskit/pragmatic-drag-and-drop/element/adapter 实现，无高阶
         React 组件依赖。
       </div>
+
+      <EnhancedSortDragDemo />
+      <TableDragDemo />
     </div>
   );
 };

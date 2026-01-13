@@ -68,14 +68,14 @@ interface State {
  * 一个完整的表单
  */
 export class MViewer extends React.Component<MViewerProp, State> {
-  database: any;
-
+  database: any = {};
   constructor(p: MViewerProp) {
     super(p);
     this.state = {
       forceValid: false,
       ctrlVersion: 1,
     };
+    console.log("执行 constructor");
 
     ensureM3();
 
@@ -95,6 +95,32 @@ export class MViewer extends React.Component<MViewerProp, State> {
     this.recover();
   }
 
+  // ⚠️ 新增：监听 props 变化
+  componentDidUpdate(prevProps: MViewerProp) {
+    console.log("MViewer: componentDidUpdate");
+    // 检查 schema 是否变化
+    if (!_.isEqual(prevProps.schema, this.props.schema)) {
+      console.log("MViewer: schema changed", {
+        prevSchema: prevProps.schema,
+        nextSchema: this.props.schema,
+      });
+
+      // 重新初始化 database
+      this.database = assembly.types[this.props.schema.type]?.standardValue(
+        assembly,
+        this.props.schema,
+        this.props.database,
+        false
+      );
+
+      // 填入默认值
+      MUtil.applyDefaultValue(this.props.schema, this.props.database, "");
+
+      // 触发重新渲染
+      this.setState({ ctrlVersion: this.state.ctrlVersion + 1 });
+    }
+  }
+
   recover() {
     const { ctrlVersion } = this.state;
     const { persistant } = this.props;
@@ -109,11 +135,13 @@ export class MViewer extends React.Component<MViewerProp, State> {
     const props = this.props;
     const database = this.database;
     const { ctrlVersion, forceValid } = this.state;
-
     return (
       <MContext.Provider
         value={{
-          rootProps: props,
+          rootProps: {
+            ...props,
+            database,
+          },
           forceValid,
           setForceValid: (b) => {
             this.setState({ forceValid: true });
@@ -191,10 +219,6 @@ export function SubmitBar(props: {
             ctx.rootProps.schema,
             ctx.rootProps.database
           );
-          // console.log("当前数据格式", {
-          //   schema: ctx.rootProps.schema,
-          //   database: ctx.rootProps.database,
-          // });
           const submit = props.onSubmit ?? ctx.rootProps.onSubmit;
           ctx.setForceValid(true);
           if (r) {

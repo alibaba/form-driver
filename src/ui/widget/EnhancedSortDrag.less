@@ -1,0 +1,142 @@
+// 增强版拖拽组件样式
+.enhanced-sortDrag {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &.direction-horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.enhanced-dragItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+
+  // 水平方向布局
+  &.direction-horizontal {
+    flex: 0 0 auto;
+    min-width: 120px;
+  }
+
+  // 拖拽状态样式
+  &.dragging {
+    opacity: 0.6;
+    transform: scale(0.95);
+    box-shadow: 0 4px 12px rgba(24, 144, 255, 0.2);
+    z-index: 1000;
+
+    .enhanced-dragBody {
+      opacity: 0.7;
+    }
+  }
+
+  // 放置目标状态样式
+  &.dropping {
+    background: #f0f8ff;
+    border-color: #1890ff;
+    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.15);
+    border-style: dashed;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px dashed #1890ff;
+      border-radius: 6px;
+      animation: pulse 1.5s infinite;
+    }
+  }
+
+  // 禁用状态样式
+  &.disabled {
+    background: #f5f5f5;
+    border-color: #e8e8e8;
+
+    .enhanced-dragBody {
+      opacity: 0.5;
+    }
+  }
+
+  // 拖拽句柄样式
+  .enhanced-dragHandle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+
+    &:hover {
+      background: rgba(24, 144, 255, 0.1);
+      border-radius: 4px;
+      transition: all 0.2s ease;
+
+      .anticon {
+        font-size: 16px;
+        color: #666;
+
+        &:hover {
+          color: #1890ff;
+          transform: scale(1.1);
+        }
+      }
+
+      .enhanced-dragBody {
+        flex: 1;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}
+
+// 拖拽动画
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+// 拖拽预览样式
+.drag-preview {
+  background: #ffffff;
+  border: 1px solid #1890ff;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(24, 144, 255, 0.25);
+  transform: rotate(3deg);
+  opacity: 0.9;
+}
+
+// 性能优化：减少不必要的重绘
+.enhanced-sortDrag * {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .enhanced-dragItem {
+    padding: 10px 12px;
+
+    &.direction-horizontal {
+      min-width: 100px;
+    }
+  }
+}
